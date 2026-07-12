@@ -23,6 +23,7 @@ export class InputController {
   private dashDown = false;
   private pausePressed = false;
   private restartPressed = false;
+  private cameraTogglePressed = false;
 
   private readonly onKeyDown = (event: KeyboardEvent) => {
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(event.code)) {
@@ -31,6 +32,7 @@ export class InputController {
     this.keys.add(event.code);
     if (!event.repeat && (event.code === 'Escape' || event.code === 'KeyP')) this.pausePressed = true;
     if (!event.repeat && event.code === 'KeyR') this.restartPressed = true;
+    if (!event.repeat && event.code === 'KeyC') this.cameraTogglePressed = true;
     if (event.code === 'Space' || event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
       this.dashDown = true;
     }
@@ -40,6 +42,7 @@ export class InputController {
     this.keys.clear();
     this.pointer.set(0, 0);
     this.dashDown = false;
+    this.cameraTogglePressed = false;
     this.pointerState.active = false;
     this.pointerState.id = null;
     this.updateKnob();
@@ -142,6 +145,12 @@ export class InputController {
   consumeRestart(): boolean {
     const pressed = this.restartPressed;
     this.restartPressed = false;
+    return pressed;
+  }
+
+  consumeCameraToggle(): boolean {
+    const pressed = this.cameraTogglePressed;
+    this.cameraTogglePressed = false;
     return pressed;
   }
 

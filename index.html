@@ -5,42 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#18314f" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/assets/story-anime/scene-00.webp" as="image" type="image/webp" />
     <title>Bumper Hearts — Pocket Fairground</title>
   </head>
-  <body>
+  <body data-game-state="welcome">
     <main id="app">
-      <canvas id="game-canvas" aria-label="Playable Three.js game canvas"></canvas>
-      <section id="hud" aria-live="polite" aria-label="Ride status">
+      <canvas id="game-canvas" tabindex="-1" aria-label="Playable Three.js game canvas"></canvas>
+      <section id="hud" aria-label="Ride status">
         <div class="score-ticket" aria-label="Joy score">
           <span class="metric-icon" aria-hidden="true">★</span>
-          <span class="metric-copy"><small>Joy</small><strong id="score-value">000000</strong></span>
-          <span class="ticket-goal">/ <span id="target-value">1400</span></span>
+          <span class="metric-copy"><small>Joy · <span id="hud-stage">Stage 01</span></small><strong id="score-value">000000</strong></span>
+          <span class="ticket-goal">/ <span id="target-value">700</span></span>
         </div>
         <div class="ride-clock" aria-label="Ride time remaining">
           <span class="bulb-row" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
           <small>Ride left</small>
-          <strong id="timer-value">01:10</strong>
+          <strong id="timer-value">01:15</strong>
         </div>
         <div class="ride-progress" aria-hidden="true"><span id="progress-fill"></span></div>
         <div id="status-line">Bump rivals <b>•</b> collect memories</div>
         <div class="hud-actions">
+          <button id="camera-button" class="icon-button" type="button" aria-label="Switch to first-person view" aria-pressed="false" title="Change view (C)"><span class="camera-glyph" aria-hidden="true">⌾</span></button>
           <button id="restart-button" class="icon-button" type="button" aria-label="Restart ride" title="Restart (R)">↻</button>
           <button id="pause-button" class="icon-button" type="button" aria-label="Pause ride" title="Pause (P)"><span></span><span></span></button>
         </div>
       </section>
-      <section id="state-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <section id="state-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-copy">
         <div class="modal-scrim"></div>
         <div class="ticket-modal">
-          <span class="modal-kicker">Pocket Fairground</span>
-          <img src="/assets/ui/bumper-hearts-marquee.png" alt="Bumper Hearts" />
-          <h1 id="modal-title">Tiny intermission</h1>
-          <p id="modal-copy">The little lights will wait for you.</p>
-          <div class="modal-score" id="modal-score" aria-live="polite"></div>
-          <div class="modal-actions">
-            <button id="modal-primary" type="button">Keep riding</button>
-            <button id="modal-secondary" type="button">Start fresh</button>
+          <div class="modal-brand">
+            <img src="/assets/ui/bumper-hearts-marquee.png" alt="" />
+            <div>
+              <span class="modal-kicker">Bumper Hearts</span>
+              <span class="modal-context">Pocket Fairground · Evening Session</span>
+            </div>
           </div>
-          <p class="controls-hint"><kbd>WASD</kbd> steer <span>•</span> <kbd>Space</kbd> dash <span>•</span> <kbd>P</kbd> pause</p>
+          <div id="chapter-meta" class="chapter-meta" hidden>
+            <span id="chapter-label">Chapter I · First Ticket</span>
+            <span id="stage-label">Stage 1 of 10</span>
+          </div>
+          <div id="cutscene-frame" class="cutscene-frame" hidden>
+            <img id="cutscene-art" class="cutscene-art" src="/assets/story-anime/scene-00.webp" alt="" aria-hidden="true" />
+            <span class="cutscene-scanlines" aria-hidden="true"></span>
+            <span id="story-location" class="story-location"></span>
+          </div>
+          <h1 id="modal-title">Ten nights at the pavilion</h1>
+          <p id="modal-copy">A patched bumper car, a brilliant lighting designer, and one last summer at the old fairground.</p>
+          <blockquote id="story-quote" hidden>
+            <p id="story-dialogue"></p>
+            <cite id="story-speaker"></cite>
+            <dl class="story-signals">
+              <div><dt>Connection</dt><dd id="connection-status">Unnoticed</dd></div>
+              <div><dt>Pressure</dt><dd id="pressure-status">Quiet</dd></div>
+            </dl>
+          </blockquote>
+          <div class="modal-score" id="modal-score" aria-live="polite">10 stages · One summer story</div>
+          <div class="modal-actions">
+            <button id="modal-primary" type="button">Begin story</button>
+            <button id="modal-secondary" type="button" hidden>New story</button>
+          </div>
+          <p class="controls-hint"><kbd>WASD</kbd> steer <span>·</span> <kbd>Space</kbd> boost <span>·</span> <kbd>C</kbd> view <span>·</span> <kbd>P</kbd> pause</p>
         </div>
       </section>
       <div id="touch-controls" aria-hidden="true">

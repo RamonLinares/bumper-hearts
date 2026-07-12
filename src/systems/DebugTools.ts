@@ -18,6 +18,7 @@ export class DebugTools {
     this.gui.add(tuning, 'speed', 2, 14, 0.1);
     this.gui.add(tuning, 'dashMultiplier', 1, 3, 0.05);
     this.gui.add(tuning, 'acceleration', 4, 22, 0.1);
+    this.gui.add(tuning, 'turnRate', 1, 4, 0.05);
     this.gui.add(tuning, 'cameraLag', 0.02, 0.8, 0.01);
     this.gui.add(tuning, 'maxDpr', 1, 2, 0.25).onChange(onChange);
     this.gui.add(tuning, 'exposure', 0.6, 1.8, 0.01).onChange(onChange);

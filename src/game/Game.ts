@@ -2,20 +2,26 @@ import * as THREE from 'three';
 import { InputController } from '../core/InputController';
 import { Loop } from '../core/Loop';
 import { createRenderer, resizeRenderer } from '../core/Renderer';
+import { assetUrl } from '../core/assetUrl';
 import { Pickup } from '../entities/Pickup';
 import { Player, type ArenaBounds } from '../entities/Player';
 import { Rival } from '../entities/Rival';
 import { AudioSystem } from '../systems/AudioSystem';
-import { CameraRig } from '../systems/CameraRig';
+import { CameraRig, type CameraMode } from '../systems/CameraRig';
 import { CollisionSystem } from '../systems/CollisionSystem';
 import { DebugTools, type DebugTuning } from '../systems/DebugTools';
 import { Hud } from '../systems/Hud';
+import {
+  CAMPAIGN_STAGES,
+  clearCampaignProgress,
+  loadCampaignProgress,
+  saveCampaignProgress,
+  type GameState,
+  type StoryPhase,
+} from './Campaign';
 
 const ARENA: ArenaBounds = { halfWidth: 11, halfDepth: 7 };
-const ROUND_SECONDS = 70;
-const TARGET_SCORE = 1400;
 const FIXED_STEP = 1 / 60;
-type GameState = 'playing' | 'paused' | 'won' | 'lost';
 
 const RIVAL_SPAWNS = [
   new THREE.Vector3(-6.5, 0, -3),
@@ -39,12 +45,15 @@ export class Game {
   private readonly loop = new Loop((delta, elapsed) => this.update(delta, elapsed), () => this.render());
   private readonly pauseButton: HTMLButtonElement;
   private readonly restartButton: HTMLButtonElement;
+  private readonly cameraButton: HTMLButtonElement;
+  private readonly stateOverlay: HTMLElement;
   private readonly modalPrimaryButton: HTMLButtonElement;
   private readonly modalSecondaryButton: HTMLButtonElement;
   private readonly tuning: DebugTuning = {
     speed: 6.6,
     dashMultiplier: 1.5,
     acceleration: 8.5,
+    turnRate: 2.35,
     cameraLag: 0.13,
     exposure: 1.05,
     maxDpr: window.matchMedia('(pointer: coarse)').matches ? 1.5 : 2,
@@ -52,10 +61,17 @@ export class Game {
   private readonly debugTools: DebugTools;
   private readonly impactCooldowns = new Map<number, number>();
   private readonly burstParticles: { mesh: THREE.Mesh; velocity: THREE.Vector3; life: number }[] = [];
+  private readonly cameraForward = new THREE.Vector3();
+  private readonly carForward = new THREE.Vector3();
+  private readonly campaign = loadCampaignProgress();
+  private floorMaterial?: THREE.MeshStandardMaterial;
+  private centerMaterial?: THREE.MeshStandardMaterial;
   private frame = 0;
+  private stageIndex = Math.min(this.campaign.completedStages, CAMPAIGN_STAGES.length - 1);
+  private storyPhase: StoryPhase = 'intro';
   private score = 0;
-  private timeLeft = ROUND_SECONDS;
-  private state: GameState = 'playing';
+  private timeLeft = CAMPAIGN_STAGES[this.stageIndex].seconds;
+  private state: GameState = this.campaign.completedStages >= CAMPAIGN_STAGES.length ? 'campaignComplete' : 'welcome';
   private accumulator = 0;
   private activeHits = 0;
 
@@ -65,31 +81,51 @@ export class Game {
     this.input = new InputController(this.getElement('#touch-stick'), this.getElement('#touch-knob'), this.getElement('#dash-button'));
     this.pauseButton = this.getElement<HTMLButtonElement>('#pause-button');
     this.restartButton = this.getElement<HTMLButtonElement>('#restart-button');
+    this.cameraButton = this.getElement<HTMLButtonElement>('#camera-button');
+    this.stateOverlay = this.getElement('#state-overlay');
     this.modalPrimaryButton = this.getElement<HTMLButtonElement>('#modal-primary');
     this.modalSecondaryButton = this.getElement<HTMLButtonElement>('#modal-secondary');
     this.pauseButton.addEventListener('click', this.togglePause);
-    this.restartButton.addEventListener('click', this.restart);
+    this.restartButton.addEventListener('click', this.restartStage);
+    this.cameraButton.addEventListener('click', this.toggleCamera);
     this.modalPrimaryButton.addEventListener('click', this.handleModalPrimary);
-    this.modalSecondaryButton.addEventListener('click', this.restart);
+    this.modalSecondaryButton.addEventListener('click', this.handleModalSecondary);
+    this.stateOverlay.addEventListener('keydown', this.handleOverlayKeyDown);
     this.debugTools = new DebugTools(this.tuning, () => {
       this.renderer.toneMappingExposure = this.tuning.exposure;
       resizeRenderer(this.renderer, this.camera, this.tuning.maxDpr);
     });
     this.createScene();
-    this.hud.setTarget(TARGET_SCORE);
-    this.cameraRig.snapTo(this.player.group.position);
+    this.applyStagePresentation();
+    this.syncHud();
+    this.modalPrimaryButton.focus({ preventScroll: true });
+    this.cameraRig.snapTo(this.player.group.position, this.player.group.rotation.y);
     resizeRenderer(this.renderer, this.camera, this.tuning.maxDpr);
     this.publishDiagnostics();
     window.render_game_to_text = () => JSON.stringify({
       coordinateSystem: 'arena center origin; +x right, -z forward',
       ...window.__THREE_GAME_DIAGNOSTICS__,
     });
-    window.advanceTime = (milliseconds: number) => {
-      const steps = Math.max(1, Math.round(milliseconds / (FIXED_STEP * 1000)));
-      const elapsed = (ROUND_SECONDS - this.timeLeft);
-      for (let i = 0; i < steps; i += 1) this.update(FIXED_STEP, elapsed + i * FIXED_STEP);
-      this.render();
-    };
+    if (import.meta.env.DEV) {
+      window.advanceTime = (milliseconds: number) => {
+        const steps = Math.max(1, Math.round(milliseconds / (FIXED_STEP * 1000)));
+        const elapsed = this.currentStage.seconds - this.timeLeft;
+        for (let i = 0; i < steps; i += 1) this.update(FIXED_STEP, elapsed + i * FIXED_STEP);
+        this.render();
+      };
+      window.__BUMPER_HEARTS_TEST_HOOKS__ = {
+        completeStage: () => {
+          if (this.state !== 'playing') return;
+          this.score = this.currentStage.targetScore;
+          this.completeStage();
+        },
+        failStage: () => {
+          if (this.state !== 'playing') return;
+          this.timeLeft = 0;
+          this.setState('lost');
+        },
+      };
+    }
   }
 
   start(): void { this.loop.start(); }
@@ -97,9 +133,11 @@ export class Game {
   dispose(): void {
     this.loop.stop();
     this.pauseButton.removeEventListener('click', this.togglePause);
-    this.restartButton.removeEventListener('click', this.restart);
+    this.restartButton.removeEventListener('click', this.restartStage);
+    this.cameraButton.removeEventListener('click', this.toggleCamera);
     this.modalPrimaryButton.removeEventListener('click', this.handleModalPrimary);
-    this.modalSecondaryButton.removeEventListener('click', this.restart);
+    this.modalSecondaryButton.removeEventListener('click', this.handleModalSecondary);
+    this.stateOverlay.removeEventListener('keydown', this.handleOverlayKeyDown);
     this.input.dispose();
     this.audio.dispose();
     this.debugTools.dispose();
@@ -109,72 +147,165 @@ export class Game {
     this.renderer.dispose();
     window.__THREE_GAME_DIAGNOSTICS__ = undefined;
     window.render_game_to_text = undefined;
-    window.advanceTime = undefined;
+    if (import.meta.env.DEV) {
+      window.advanceTime = undefined;
+      window.__BUMPER_HEARTS_TEST_HOOKS__ = undefined;
+    }
   }
 
+  private get currentStage() { return CAMPAIGN_STAGES[this.stageIndex]; }
+
+  private get activeRivals(): Rival[] { return this.rivals.filter((rival) => rival.group.visible); }
+
   private readonly togglePause = () => {
-    if (this.state === 'won' || this.state === 'lost') return;
-    this.state = this.state === 'paused' ? 'playing' : 'paused';
+    if (this.state !== 'playing' && this.state !== 'paused') return;
+    this.setState(this.state === 'paused' ? 'playing' : 'paused');
     this.pauseButton.setAttribute('aria-label', this.state === 'paused' ? 'Resume ride' : 'Pause ride');
   };
 
-  private readonly handleModalPrimary = () => {
-    if (this.state === 'paused') this.togglePause();
-    else if (this.state === 'won' || this.state === 'lost') this.restart();
+  private readonly toggleCamera = () => {
+    if (this.state !== 'playing') return;
+    const nextMode: CameraMode = this.cameraRig.currentMode === 'overhead' ? 'cockpit' : 'overhead';
+    this.cameraRig.setMode(nextMode, this.player.group.position, this.player.group.rotation.y);
+    const cockpit = nextMode === 'cockpit';
+    this.cameraButton.setAttribute('aria-pressed', String(cockpit));
+    this.cameraButton.setAttribute('aria-label', cockpit ? 'Switch to overhead view' : 'Switch to first-person view');
+    this.cameraButton.title = cockpit ? 'Overhead view (C)' : 'First-person view (C)';
   };
 
-  private readonly restart = () => {
+  private readonly handleModalPrimary = () => {
+    if (this.state === 'welcome') this.showStageIntro();
+    else if (this.state === 'story') this.advanceStory();
+    else if (this.state === 'paused') this.togglePause();
+    else if (this.state === 'lost') this.restartStage();
+    else if (this.state === 'campaignComplete') {
+      this.resetCampaign();
+      this.showStageIntro();
+    }
+  };
+
+  private readonly handleModalSecondary = () => {
+    if (this.state === 'welcome') {
+      this.resetCampaign();
+      this.showStageIntro();
+    } else if (this.state === 'paused') this.restartStage();
+  };
+
+  private readonly handleOverlayKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Tab' || this.state === 'playing') return;
+    const buttons = [this.modalPrimaryButton, this.modalSecondaryButton].filter((button) => !button.hidden && !button.disabled);
+    if (buttons.length === 0) return;
+    const activeIndex = buttons.indexOf(document.activeElement as HTMLButtonElement);
+    const nextIndex = event.shiftKey
+      ? (activeIndex <= 0 ? buttons.length - 1 : activeIndex - 1)
+      : (activeIndex >= buttons.length - 1 ? 0 : activeIndex + 1);
+    event.preventDefault();
+    buttons[nextIndex].focus({ preventScroll: true });
+  };
+
+  private showStageIntro(): void {
+    this.storyPhase = 'intro';
+    this.setState('story', true);
+  }
+
+  private advanceStory(): void {
+    if (this.storyPhase === 'intro') {
+      this.restartStage();
+      return;
+    }
+    if (this.stageIndex === CAMPAIGN_STAGES.length - 1) {
+      this.setState('campaignComplete', true);
+      return;
+    }
+    this.stageIndex = Math.min(this.stageIndex + 1, CAMPAIGN_STAGES.length - 1);
+    this.storyPhase = 'intro';
     this.score = 0;
-    this.timeLeft = ROUND_SECONDS;
-    this.state = 'playing';
+    this.timeLeft = this.currentStage.seconds;
+    this.applyStagePresentation();
+    this.setState('story', true);
+  }
+
+  private resetCampaign(): void {
+    this.stageIndex = 0;
+    this.campaign.completedStages = 0;
+    this.campaign.campaignScore = 0;
+    this.storyPhase = 'intro';
+    this.score = 0;
+    this.timeLeft = CAMPAIGN_STAGES[0].seconds;
+    this.accumulator = 0;
+    this.activeHits = 0;
+    this.impactCooldowns.clear();
+    this.clearParticles();
+    clearCampaignProgress();
+    this.applyStagePresentation();
+  }
+
+  private readonly restartStage = () => {
+    this.score = 0;
+    this.timeLeft = this.currentStage.seconds;
     this.accumulator = 0;
     this.activeHits = 0;
     this.impactCooldowns.clear();
     this.player.reset();
-    this.rivals.forEach((rival, index) => rival.reset(RIVAL_SPAWNS[index]));
+    this.rivals.forEach((rival, index) => {
+      const bossScale = this.currentStage.bossRival?.index === index ? this.currentStage.bossRival.scale : 1;
+      rival.configure(this.currentStage.difficulty, index < this.currentStage.rivalCount, bossScale);
+      rival.reset(RIVAL_SPAWNS[index]);
+    });
     this.pickups.forEach((pickup) => {
       pickup.active = true;
       pickup.group.visible = true;
     });
     this.clearParticles();
     this.pauseButton.setAttribute('aria-label', 'Pause ride');
-    this.cameraRig.snapTo(this.player.group.position);
+    this.cameraRig.snapTo(this.player.group.position, this.player.group.rotation.y);
+    this.applyStagePresentation();
+    this.setState('playing', true);
   };
 
   private update(delta: number, elapsed: number): void {
     this.frame += 1;
     resizeRenderer(this.renderer, this.camera, this.tuning.maxDpr);
-    if (this.input.consumeRestart()) this.restart();
+    if (this.input.consumeRestart() && (this.state === 'playing' || this.state === 'paused' || this.state === 'lost')) this.restartStage();
     if (this.input.consumePause()) this.togglePause();
+    if (this.input.consumeCameraToggle()) this.toggleCamera();
 
     if (this.state === 'playing') {
       this.accumulator += Math.min(delta, 0.05);
-      while (this.accumulator >= FIXED_STEP) {
+      while (this.accumulator >= FIXED_STEP && this.state === 'playing') {
         this.simulate(FIXED_STEP, elapsed);
         this.accumulator -= FIXED_STEP;
       }
     }
     this.updateParticles(delta);
     this.pickups.forEach((pickup) => pickup.update(delta, elapsed));
-    this.cameraRig.update(delta, this.player.group.position, this.tuning.cameraLag);
-    this.hud.update(this.score, TARGET_SCORE, this.timeLeft, this.state);
+    this.cameraRig.update(delta, this.player.group.position, this.player.group.rotation.y, this.tuning.cameraLag);
+    this.syncHud();
     this.publishDiagnostics();
   }
 
   private simulate(delta: number, elapsed: number): void {
     this.timeLeft = Math.max(0, this.timeLeft - delta);
-    this.player.update(delta, elapsed, this.input, this.tuning, ARENA);
-    this.rivals.forEach((rival) => rival.update(delta, this.player.group.position, ARENA));
+    this.player.update(
+      delta,
+      elapsed,
+      this.input,
+      this.tuning,
+      this.cameraRig.currentMode === 'cockpit' ? 'vehicle' : 'arena',
+      ARENA,
+    );
+    this.activeRivals.forEach((rival) => rival.update(delta, this.player.group.position, ARENA));
     this.collision.keepInArena(this.player, ARENA);
-    this.rivals.forEach((rival) => this.collision.keepInArena(rival, ARENA));
+    this.activeRivals.forEach((rival) => this.collision.keepInArena(rival, ARENA));
 
     this.activeHits = 0;
-    for (const rival of this.rivals) {
+    for (const rival of this.activeRivals) {
       const strength = this.collision.resolveCars(this.player, rival);
       if (strength > 1.15) this.registerPlayerImpact(rival, strength);
     }
-    for (let i = 0; i < this.rivals.length; i += 1) {
-      for (let j = i + 1; j < this.rivals.length; j += 1) this.collision.resolveCars(this.rivals[i], this.rivals[j], 0.78);
+    const activeRivals = this.activeRivals;
+    for (let i = 0; i < activeRivals.length; i += 1) {
+      for (let j = i + 1; j < activeRivals.length; j += 1) this.collision.resolveCars(activeRivals[i], activeRivals[j], 0.78);
     }
 
     const collected = this.collision.collectPickups(this.player.group.position, this.pickups, this.player.radius);
@@ -189,8 +320,50 @@ export class Game {
       if (next <= 0) this.impactCooldowns.delete(index);
       else this.impactCooldowns.set(index, next);
     }
-    if (this.score >= TARGET_SCORE) this.state = 'won';
-    else if (this.timeLeft <= 0) this.state = 'lost';
+    if (this.score >= this.currentStage.targetScore) this.completeStage();
+    else if (this.timeLeft <= 0) this.setState('lost');
+  }
+
+  private completeStage(): void {
+    this.accumulator = 0;
+    this.campaign.campaignScore += this.score;
+    this.campaign.completedStages = Math.max(this.campaign.completedStages, this.stageIndex + 1);
+    saveCampaignProgress(this.campaign);
+    this.storyPhase = 'outro';
+    this.setState('story', true);
+  }
+
+  private setState(nextState: GameState, force = false): void {
+    if (this.state === nextState && !force) return;
+    this.state = nextState;
+    this.syncHud();
+    if (nextState === 'playing') this.canvas.focus({ preventScroll: true });
+    else this.modalPrimaryButton.focus({ preventScroll: true });
+  }
+
+  private syncHud(): void {
+    this.hud.update({
+      state: this.state,
+      score: this.score,
+      target: this.currentStage.targetScore,
+      timeLeft: this.timeLeft,
+      stage: this.currentStage,
+      stageNumber: this.stageIndex + 1,
+      stageCount: CAMPAIGN_STAGES.length,
+      campaignScore: this.campaign.campaignScore,
+      completedStages: this.campaign.completedStages,
+      storyPhase: this.storyPhase,
+    });
+  }
+
+  private applyStagePresentation(): void {
+    this.rivals.forEach((rival, index) => {
+      const bossScale = this.currentStage.bossRival?.index === index ? this.currentStage.bossRival.scale : 1;
+      rival.configure(this.currentStage.difficulty, index < this.currentStage.rivalCount, bossScale);
+    });
+    this.floorMaterial?.color.set(this.currentStage.theme.floorTint);
+    this.centerMaterial?.color.set(this.currentStage.theme.accent);
+    if (this.scene.fog instanceof THREE.Fog) this.scene.fog.color.set(this.currentStage.theme.fog);
   }
 
   private registerPlayerImpact(rival: Rival, strength: number): void {
@@ -209,7 +382,7 @@ export class Game {
   private createScene(): void {
     this.scene.background = new THREE.Color('#18314f');
     this.scene.fog = new THREE.Fog('#25314a', 25, 52);
-    new THREE.TextureLoader().load('/assets/backgrounds/nostalgic-carnival-diorama.png', (texture) => {
+    new THREE.TextureLoader().load(assetUrl('assets/backgrounds/nostalgic-carnival-diorama.png'), (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.mapping = THREE.EquirectangularReflectionMapping;
       this.scene.background = texture;
@@ -233,9 +406,17 @@ export class Game {
     const arena = new THREE.Group();
     arena.name = 'LayeredPocketArena';
     const floorTexture = this.createFloorTexture();
-    floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-    floorTexture.repeat.set(ARENA.halfWidth / 2, ARENA.halfDepth / 2);
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.halfWidth * 2, ARENA.halfDepth * 2), new THREE.MeshStandardMaterial({ color: '#2b2a36', map: floorTexture, roughness: 0.74, metalness: 0.05 }));
+    floorTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    this.floorMaterial = new THREE.MeshStandardMaterial({
+      color: this.currentStage.theme.floorTint,
+      map: floorTexture,
+      roughness: 0.62,
+      metalness: 0.16,
+    });
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(ARENA.halfWidth * 2, ARENA.halfDepth * 2),
+      this.floorMaterial,
+    );
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     arena.add(floor);
@@ -260,7 +441,8 @@ export class Game {
     heartShape.bezierCurveTo(-1.15, 1.25, -0.2, 1.34, 0, 0.72);
     heartShape.bezierCurveTo(0.2, 1.34, 1.15, 1.25, 1.15, 0.48);
     heartShape.bezierCurveTo(1.15, -0.2, 0.2, -0.75, 0, -1.05);
-    const center = new THREE.Mesh(new THREE.ShapeGeometry(heartShape, 16), new THREE.MeshStandardMaterial({ color: '#f5c45b', roughness: 0.42, metalness: 0.28 }));
+    this.centerMaterial = new THREE.MeshStandardMaterial({ color: this.currentStage.theme.accent, roughness: 0.42, metalness: 0.28 });
+    const center = new THREE.Mesh(new THREE.ShapeGeometry(heartShape, 16), this.centerMaterial);
     center.rotation.x = -Math.PI / 2;
     center.position.y = 0.022;
     center.scale.setScalar(0.8);
@@ -407,30 +589,104 @@ export class Game {
 
   private createFloorTexture(): THREE.CanvasTexture {
     const textureCanvas = document.createElement('canvas');
-    textureCanvas.width = textureCanvas.height = 256;
+    textureCanvas.width = textureCanvas.height = 512;
     const context = textureCanvas.getContext('2d');
     if (!context) throw new Error('Could not create floor texture context.');
-    context.fillStyle = '#302d39';
-    context.fillRect(0, 0, 256, 256);
-    const gradient = context.createRadialGradient(128, 128, 16, 128, 128, 170);
-    gradient.addColorStop(0, 'rgba(255,240,194,.055)');
-    gradient.addColorStop(1, 'rgba(8,10,20,.18)');
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, 256, 256);
-    context.strokeStyle = 'rgba(255,240,199,.07)';
-    context.lineWidth = 1;
-    for (let i = 0; i <= 256; i += 32) {
-      context.beginPath(); context.moveTo(i, 0); context.lineTo(i, 256); context.moveTo(0, i); context.lineTo(256, i); context.stroke();
+
+    // A single authored arena surface: aged graphite enamel over modular steel
+    // plates. Keep the mid-tones visible so shadows add depth instead of
+    // turning the playfield into a black void.
+    context.fillStyle = '#52575a';
+    context.fillRect(0, 0, 512, 512);
+
+    const panelSize = 64;
+    for (let row = 0; row < 8; row += 1) {
+      for (let column = 0; column < 8; column += 1) {
+        const warmPanel = (row + column) % 3 === 0;
+        context.fillStyle = warmPanel
+          ? 'rgba(111, 99, 87, 0.22)'
+          : 'rgba(47, 77, 78, 0.16)';
+        context.fillRect(column * panelSize + 2, row * panelSize + 2, panelSize - 4, panelSize - 4);
+      }
     }
-    context.strokeStyle = 'rgba(8,7,12,.28)';
-    for (let i = 0; i < 9; i += 1) {
-      const x = 20 + ((i * 53) % 220);
-      const y = 24 + ((i * 79) % 210);
-      context.lineWidth = 2 + (i % 2);
+
+    const centerGlow = context.createRadialGradient(256, 236, 24, 256, 256, 350);
+    centerGlow.addColorStop(0, 'rgba(255, 220, 157, 0.18)');
+    centerGlow.addColorStop(0.48, 'rgba(244, 196, 91, 0.045)');
+    centerGlow.addColorStop(1, 'rgba(8, 15, 24, 0.28)');
+    context.fillStyle = centerGlow;
+    context.fillRect(0, 0, 512, 512);
+
+    // Recessed plate seams with a warm worn lip.
+    for (let i = 0; i <= 512; i += panelSize) {
+      context.strokeStyle = 'rgba(15, 24, 29, 0.66)';
+      context.lineWidth = 3;
       context.beginPath();
-      context.ellipse(x, y, 16 + (i % 3) * 7, 5 + (i % 2) * 3, i * 0.62, 0.2, Math.PI * 1.55);
+      context.moveTo(i, 0);
+      context.lineTo(i, 512);
+      context.moveTo(0, i);
+      context.lineTo(512, i);
+      context.stroke();
+      context.strokeStyle = 'rgba(218, 190, 139, 0.16)';
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(i + 2, 0);
+      context.lineTo(i + 2, 512);
+      context.moveTo(0, i + 2);
+      context.lineTo(512, i + 2);
       context.stroke();
     }
+
+    // Rivets reinforce the miniature scale without adding geometry or draw calls.
+    for (let y = panelSize; y < 512; y += panelSize) {
+      for (let x = panelSize; x < 512; x += panelSize) {
+        context.fillStyle = 'rgba(229, 204, 153, 0.42)';
+        context.beginPath();
+        context.arc(x + 5, y + 5, 2.2, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = 'rgba(12, 20, 25, 0.48)';
+        context.beginPath();
+        context.arc(x + 5.8, y + 5.8, 1.1, 0, Math.PI * 2);
+        context.fill();
+      }
+    }
+
+    // Overlapping tyre arcs, softened by years of use.
+    context.lineCap = 'round';
+    for (let i = 0; i < 18; i += 1) {
+      const x = 54 + ((i * 83) % 410);
+      const y = 48 + ((i * 137) % 408);
+      context.strokeStyle = i % 3 === 0 ? 'rgba(18, 20, 22, 0.34)' : 'rgba(29, 31, 32, 0.23)';
+      context.lineWidth = 3 + (i % 3);
+      context.beginPath();
+      context.ellipse(x, y, 42 + (i % 4) * 16, 13 + (i % 3) * 7, i * 0.47, 0.18, Math.PI * (1.18 + (i % 3) * 0.18));
+      context.stroke();
+    }
+
+    // Fine scratches and worn enamel flecks—deterministic, sparse, and stable.
+    for (let i = 0; i < 110; i += 1) {
+      const x = (i * 97 + 23) % 512;
+      const y = (i * 173 + 41) % 512;
+      const length = 3 + (i % 11);
+      context.strokeStyle = i % 4 === 0
+        ? 'rgba(238, 215, 170, 0.18)'
+        : 'rgba(21, 31, 34, 0.2)';
+      context.lineWidth = i % 5 === 0 ? 1.5 : 0.8;
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(x + length, y + ((i % 5) - 2));
+      context.stroke();
+    }
+
+    // Soft oil and rubber haze in a few high-traffic areas.
+    for (const [x, y, radius] of [[126, 346, 52], [392, 162, 44], [332, 386, 60]] as const) {
+      const stain = context.createRadialGradient(x, y, 0, x, y, radius);
+      stain.addColorStop(0, 'rgba(14, 27, 30, 0.2)');
+      stain.addColorStop(1, 'rgba(14, 27, 30, 0)');
+      context.fillStyle = stain;
+      context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+    }
+
     const texture = new THREE.CanvasTexture(textureCanvas);
     texture.colorSpace = THREE.SRGBColorSpace;
     return texture;
@@ -438,18 +694,60 @@ export class Game {
 
   private publishDiagnostics(): void {
     const info = this.renderer.info;
+    this.camera.getWorldDirection(this.cameraForward);
+    this.carForward.set(0, 0, -1).applyAxisAngle(THREE.Object3D.DEFAULT_UP, this.player.group.rotation.y);
     window.__THREE_GAME_DIAGNOSTICS__ = {
       frame: this.frame,
-      elapsed: ROUND_SECONDS - this.timeLeft,
+      elapsed: this.currentStage.seconds - this.timeLeft,
       score: this.score,
-      targetScore: TARGET_SCORE,
-      complete: this.state === 'won',
+      targetScore: this.currentStage.targetScore,
+      complete: this.state === 'campaignComplete',
       state: this.state,
       timeLeft: this.timeLeft,
-      physics: { engine: 'custom-arcade', timestep: FIXED_STEP, bodies: 1 + this.rivals.length, colliders: 1 + this.rivals.length + this.pickups.filter((pickup) => pickup.active).length, activeHits: this.activeHits },
+      campaign: {
+        stageIndex: this.stageIndex,
+        stageNumber: this.stageIndex + 1,
+        stageCount: CAMPAIGN_STAGES.length,
+        stageId: this.currentStage.id,
+        stageTitle: this.currentStage.title,
+        completedStages: this.campaign.completedStages,
+        campaignScore: this.campaign.campaignScore,
+        storyPhase: this.storyPhase,
+        connection: this.currentStage[this.storyPhase].connection,
+        pressure: this.currentStage[this.storyPhase].pressure,
+        rivalCount: this.currentStage.rivalCount,
+        rivalSpeedMultiplier: this.currentStage.difficulty.speedMultiplier,
+        bossRivalIndex: this.currentStage.bossRival?.index ?? null,
+      },
+      physics: { engine: 'custom-arcade', timestep: FIXED_STEP, bodies: 1 + this.activeRivals.length, colliders: 1 + this.activeRivals.length + this.pickups.filter((pickup) => pickup.active).length, activeHits: this.activeHits },
       input: { dash: this.input.isDashHeld() },
-      entities: { rivals: this.rivals.length, pickupsActive: this.pickups.filter((pickup) => pickup.active).length, particles: this.burstParticles.length },
-      player: { position: { x: this.player.group.position.x, y: this.player.group.position.y, z: this.player.group.position.z }, speed: this.player.velocity.length(), velocity: { x: this.player.velocity.x, z: this.player.velocity.z }, yaw: this.player.group.rotation.y },
+      entities: {
+        rivals: this.activeRivals.length,
+        importedCars: this.scene.children.reduce((count, child) => {
+          let imported = 0;
+          child.traverse((descendant) => {
+            if (descendant.name.startsWith('ImportedHeroVisual') || descendant.name.startsWith('ImportedRivalVisual')) imported += 1;
+          });
+          return count + imported;
+        }, 0),
+        pickupsActive: this.pickups.filter((pickup) => pickup.active).length,
+        particles: this.burstParticles.length,
+      },
+      player: {
+        position: { x: this.player.group.position.x, y: this.player.group.position.y, z: this.player.group.position.z },
+        speed: this.player.velocity.length(),
+        velocity: { x: this.player.velocity.x, z: this.player.velocity.z },
+        yaw: this.player.group.rotation.y,
+        controlMode: this.player.controlMode,
+      },
+      camera: {
+        mode: this.cameraRig.currentMode,
+        fov: this.camera.fov,
+        position: { x: this.camera.position.x, y: this.camera.position.y, z: this.camera.position.z },
+        playerVisualVisible: this.player.group.visible,
+        forward: { x: this.cameraForward.x, y: this.cameraForward.y, z: this.cameraForward.z },
+        carForwardAlignment: this.cameraForward.dot(this.carForward),
+      },
       renderer: { calls: info.render.calls, triangles: info.render.triangles, geometries: info.memory.geometries, textures: info.memory.textures },
       canvas: { clientWidth: this.canvas.clientWidth, clientHeight: this.canvas.clientHeight, width: this.canvas.width, height: this.canvas.height, dpr: Math.min(window.devicePixelRatio || 1, this.tuning.maxDpr) },
     };

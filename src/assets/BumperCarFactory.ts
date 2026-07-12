@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 export type BumperCarStyle = 'mint-comet' | 'cherry-rocket' | 'lavender-bug' | 'gold-taxi';
 
+export const HERO_CAR_PAINT = '#0c6f7a';
+
 type CarPalette = {
   body: string;
   secondary: string;
@@ -10,7 +12,7 @@ type CarPalette = {
 };
 
 const PALETTES: Record<BumperCarStyle, CarPalette> = {
-  'mint-comet': { body: '#4e9f9b', secondary: '#fff0c2', light: '#f5c45b', decal: '#c83e4d' },
+  'mint-comet': { body: HERO_CAR_PAINT, secondary: '#e9d9b4', light: '#f5c45b', decal: '#bd8b4a' },
   'cherry-rocket': { body: '#c83e4d', secondary: '#f1a06f', light: '#fff0c2', decal: '#18314f' },
   'lavender-bug': { body: '#9b83c6', secondary: '#f3d8d0', light: '#fff0c2', decal: '#4e315f' },
   'gold-taxi': { body: '#f5c45b', secondary: '#6b4c3b', light: '#fff4cf', decal: '#18314f' },
@@ -68,7 +70,7 @@ export function createBumperCar(style: BumperCarStyle): BumperCarModel {
   const bodyMaterial = new THREE.MeshPhysicalMaterial({ color: palette.body, roughness: 0.32, metalness: 0.08, clearcoat: 0.72, clearcoatRoughness: 0.2 });
   const secondaryMaterial = new THREE.MeshStandardMaterial({ color: palette.secondary, roughness: 0.58, metalness: 0.03 });
   const rubberMaterial = new THREE.MeshStandardMaterial({ color: '#26212a', roughness: 0.94, metalness: 0 });
-  const chromeMaterial = new THREE.MeshStandardMaterial({ color: '#d8cdbb', roughness: 0.24, metalness: 0.82 });
+  const chromeMaterial = new THREE.MeshStandardMaterial({ color: style === 'mint-comet' ? '#bd9457' : '#d8cdbb', roughness: 0.24, metalness: 0.82 });
   const darkMaterial = new THREE.MeshStandardMaterial({ color: '#352c38', roughness: 0.72, metalness: 0.02 });
   const decalMaterial = new THREE.MeshStandardMaterial({ color: palette.decal, roughness: 0.52, polygonOffset: true, polygonOffsetFactor: -2 });
   const lampMaterial = new THREE.MeshStandardMaterial({ color: palette.light, emissive: palette.light, emissiveIntensity: 1.35, roughness: 0.3 });

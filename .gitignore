@@ -3,6 +3,7 @@ dist/
 test-results/
 artifacts/
 .playwright-cli/
+.deploy-git/
 output/
 *.log
 .DS_Store

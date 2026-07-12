@@ -1,13 +1,16 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { createBumperCar } from '../assets/BumperCarFactory';
+import { createBumperCar, HERO_CAR_PAINT } from '../assets/BumperCarFactory';
+import { createImportedBumperCar } from '../assets/ImportedBumperCar';
 import type { InputController } from '../core/InputController';
 
 export type PlayerTuning = {
   speed: number;
   dashMultiplier: number;
   acceleration: number;
+  turnRate: number;
 };
+
+export type PlayerControlMode = 'arena' | 'vehicle';
 
 export type ArenaBounds = {
   halfWidth: number;
@@ -21,53 +24,63 @@ export class Player {
 
   private readonly move = new THREE.Vector2();
   private readonly targetVelocity = new THREE.Vector3();
+  private readonly forward = new THREE.Vector3();
   private readonly model = createBumperCar('mint-comet');
   private readonly importedRoot = new THREE.Group();
+  private importedMaterials: THREE.Material[] = [];
+  private disposed = false;
+  private activeControlMode: PlayerControlMode = 'arena';
 
   constructor() {
     this.group.name = 'MintCometPlayer';
     this.importedRoot.name = 'ImportedHeroWrapper';
     this.group.add(this.model.root, this.importedRoot);
-    new GLTFLoader().load(
-      '/assets/models/bumper-car/7410209e-ca4c-413b-a326-2595ab89551d-pbr_model.model.png',
-      (gltf) => {
-        const visual = gltf.scene;
-        const bounds = new THREE.Box3().setFromObject(visual);
-        const size = bounds.getSize(new THREE.Vector3());
-        const scale = 1.72 / Math.max(size.x, size.z, 0.001);
-        visual.scale.setScalar(scale);
-        visual.updateMatrixWorld(true);
-        const normalizedBounds = new THREE.Box3().setFromObject(visual);
-        const center = normalizedBounds.getCenter(new THREE.Vector3());
-        visual.position.set(-center.x, 0.12 - normalizedBounds.min.y, -center.z);
-        visual.rotation.y = Math.PI;
-        visual.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-            child.name ||= 'importedHeroMesh';
-          }
-        });
-        this.importedRoot.add(visual);
+    void createImportedBumperCar(HERO_CAR_PAINT, 0.96).then(
+      ({ root, materials }) => {
+        if (this.disposed) {
+          materials.forEach((material) => material.dispose());
+          return;
+        }
+        this.importedMaterials = materials;
+        root.name = 'ImportedHeroVisual';
+        this.importedRoot.add(root);
         this.model.root.visible = false;
       },
-      undefined,
       () => {
         this.model.root.visible = true;
       },
     );
   }
 
-  update(delta: number, elapsed: number, input: InputController, tuning: PlayerTuning, _bounds: ArenaBounds): void {
+  get controlMode(): PlayerControlMode { return this.activeControlMode; }
+
+  update(
+    delta: number,
+    elapsed: number,
+    input: InputController,
+    tuning: PlayerTuning,
+    controlMode: PlayerControlMode,
+    _bounds: ArenaBounds,
+  ): void {
     input.readMovement(this.move);
+    this.activeControlMode = controlMode;
     const dash = input.isDashHeld() ? tuning.dashMultiplier : 1;
-    this.targetVelocity.set(this.move.x, 0, this.move.y).multiplyScalar(tuning.speed * dash);
+
+    if (controlMode === 'vehicle') {
+      // POV controls are relative to the car: vertical input is throttle and
+      // horizontal input changes heading. Cars face local -Z.
+      this.group.rotation.y -= this.move.x * tuning.turnRate * delta;
+      this.forward.set(0, 0, -1).applyAxisAngle(THREE.Object3D.DEFAULT_UP, this.group.rotation.y);
+      this.targetVelocity.copy(this.forward).multiplyScalar(-this.move.y * tuning.speed * dash);
+    } else {
+      this.targetVelocity.set(this.move.x, 0, this.move.y).multiplyScalar(tuning.speed * dash);
+    }
 
     const smoothing = 1 - Math.exp(-tuning.acceleration * delta);
     this.velocity.lerp(this.targetVelocity, smoothing);
     this.group.position.addScaledVector(this.velocity, delta);
 
-    if (this.velocity.lengthSq() > 0.001) {
+    if (controlMode === 'arena' && this.velocity.lengthSq() > 0.001) {
       // The authored cars face local -Z. Negating X keeps their noses aligned
       // with lateral motion: right is -PI/2, left is +PI/2.
       this.group.rotation.y = Math.atan2(-this.velocity.x, -this.velocity.z);
@@ -88,18 +101,10 @@ export class Player {
   }
 
   dispose(): void {
+    this.disposed = true;
     this.model.geometries.forEach((geometry) => geometry.dispose());
     this.model.materials.forEach((material) => material.dispose());
-    this.importedRoot.traverse((child) => {
-      if (!(child instanceof THREE.Mesh)) return;
-      child.geometry.dispose();
-      const materials = Array.isArray(child.material) ? child.material : [child.material];
-      materials.forEach((material) => {
-        Object.values(material).forEach((value) => {
-          if (value instanceof THREE.Texture) value.dispose();
-        });
-        material.dispose();
-      });
-    });
+    this.importedMaterials.forEach((material) => material.dispose());
+    this.importedRoot.clear();
   }
 }

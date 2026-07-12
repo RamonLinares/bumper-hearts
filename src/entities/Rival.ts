@@ -1,40 +1,82 @@
 import * as THREE from 'three';
 import { createBumperCar, type BumperCarStyle } from '../assets/BumperCarFactory';
+import { createImportedBumperCar } from '../assets/ImportedBumperCar';
+import type { RivalDifficulty } from '../game/Campaign';
 
 const STYLES: BumperCarStyle[] = ['cherry-rocket', 'lavender-bug', 'gold-taxi', 'cherry-rocket'];
+const RIVAL_IDENTITIES = [
+  { name: 'Teal Comet', tint: '#58b8b1' },
+  { name: 'Lavender Ace', tint: '#a98bd0' },
+  { name: 'Golden Arrow', tint: '#e7ad43' },
+  { name: 'Cherry Sprint', tint: '#d95e68' },
+] as const;
 
 export class Rival {
   readonly group = new THREE.Group();
   readonly velocity = new THREE.Vector3();
-  readonly radius = 0.72;
+  private collisionScale = 1;
   private readonly desired = new THREE.Vector3();
   private readonly model;
+  private readonly importedRoot = new THREE.Group();
+  private importedMaterials: THREE.Material[] = [];
+  private disposed = false;
   private wanderAngle: number;
   private decisionTimer = 0;
+  private aiClock = 0;
+  private difficulty: RivalDifficulty = {
+    speedMultiplier: 1,
+    chaseRadius: 7.5,
+    chaseChance: 0.6,
+    steeringResponse: 2.4,
+    decisionScale: 1,
+  };
 
   constructor(readonly index: number, position: THREE.Vector3) {
     this.wanderAngle = index * 1.7;
     this.group.position.copy(position);
     this.model = createBumperCar(STYLES[index % STYLES.length]);
-    this.group.name = `Rival-${STYLES[index % STYLES.length]}-${index}`;
-    this.group.add(this.model.root);
+    const identity = RIVAL_IDENTITIES[index % RIVAL_IDENTITIES.length];
+    this.group.name = `Rival-${identity.name.replace(/\s+/g, '-')}-${index}`;
+    this.importedRoot.name = `ImportedRivalWrapper-${index}`;
+    this.group.add(this.model.root, this.importedRoot);
+    void createImportedBumperCar(identity.tint, 0.78).then(
+      ({ root, materials }) => {
+        if (this.disposed) {
+          materials.forEach((material) => material.dispose());
+          return;
+        }
+        this.importedMaterials = materials;
+        root.name = `ImportedRivalVisual-${identity.name.replace(/\s+/g, '-')}`;
+        this.importedRoot.add(root);
+        this.model.root.visible = false;
+      },
+      () => {
+        this.model.root.visible = true;
+      },
+    );
   }
 
+  get radius(): number { return 0.72 * this.collisionScale; }
+
   update(delta: number, playerPosition: THREE.Vector3, arena: { halfWidth: number; halfDepth: number }): void {
+    if (!this.group.visible) return;
+    this.aiClock += delta;
     this.decisionTimer -= delta;
     if (this.decisionTimer <= 0) {
-      this.decisionTimer = 0.65 + ((this.index * 0.37 + performance.now() * 0.0001) % 0.85);
+      this.decisionTimer = (0.65 + ((this.index * 0.37 + this.aiClock * 0.11) % 0.85)) * this.difficulty.decisionScale;
       const toPlayerX = playerPosition.x - this.group.position.x;
       const toPlayerZ = playerPosition.z - this.group.position.z;
-      const chase = toPlayerX * toPlayerX + toPlayerZ * toPlayerZ < 55 && (this.index + Math.floor(performance.now() / 2000)) % 3 !== 0;
+      const chaseRoll = ((this.index * 37 + Math.floor(this.aiClock * 10) * 17) % 100) / 100;
+      const chase = toPlayerX * toPlayerX + toPlayerZ * toPlayerZ < this.difficulty.chaseRadius ** 2
+        && chaseRoll < this.difficulty.chaseChance;
       if (chase) this.wanderAngle = Math.atan2(toPlayerX, toPlayerZ);
       else this.wanderAngle += 0.8 + this.index * 0.21;
     }
     if (Math.abs(this.group.position.x) > arena.halfWidth - 2) this.wanderAngle = this.group.position.x > 0 ? -Math.PI / 2 : Math.PI / 2;
     if (Math.abs(this.group.position.z) > arena.halfDepth - 2) this.wanderAngle = this.group.position.z > 0 ? Math.PI : 0;
-    const speed = 3.25 + this.index * 0.24;
+    const speed = (3.25 + this.index * 0.24) * this.difficulty.speedMultiplier;
     this.desired.set(Math.sin(this.wanderAngle) * speed, 0, Math.cos(this.wanderAngle) * speed);
-    this.velocity.lerp(this.desired, 1 - Math.exp(-2.4 * delta));
+    this.velocity.lerp(this.desired, 1 - Math.exp(-this.difficulty.steeringResponse * delta));
     this.group.position.addScaledVector(this.velocity, delta);
     if (this.velocity.lengthSq() > 0.02) this.group.rotation.y = Math.atan2(-this.velocity.x, -this.velocity.z);
     this.model.antenna.rotation.z = Math.sin(performance.now() * 0.006 + this.index) * 0.1;
@@ -44,10 +86,22 @@ export class Rival {
     this.group.position.copy(position);
     this.velocity.set(0, 0, 0);
     this.decisionTimer = 0;
+    this.aiClock = 0;
+    this.wanderAngle = this.index * 1.7;
+  }
+
+  configure(difficulty: RivalDifficulty, active: boolean, scale = 1): void {
+    this.difficulty = difficulty;
+    this.collisionScale = scale;
+    this.group.scale.setScalar(scale);
+    this.group.visible = active;
   }
 
   dispose(): void {
+    this.disposed = true;
     this.model.geometries.forEach((geometry) => geometry.dispose());
     this.model.materials.forEach((material) => material.dispose());
+    this.importedMaterials.forEach((material) => material.dispose());
+    this.importedRoot.clear();
   }
 }
