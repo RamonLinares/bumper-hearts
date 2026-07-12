@@ -87,3 +87,8 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 
 - Inverted left/right steering while reversing in vehicle/POV controls so the pressed direction matches the rearward arc on screen. The inversion also persists while coasting backward, then returns to normal for forward motion or a stationary car.
 - Extended the POV controls regression to cover reverse-right and reverse-left independently while preserving all forward steering expectations.
+
+## Survival damage rebalance
+
+- Reduced player return damage from car-to-car impacts by roughly one-third and lowered the maximum single-hit loss from 24 to 16 integrity. Boosting now reduces return damage slightly more, keeping aggressive attacks viable while preserving reciprocal collision risk.
+- Added a deterministic impact regression proving a representative hard hit damages both cars while leaving the player above 92 integrity.

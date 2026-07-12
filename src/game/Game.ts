@@ -168,6 +168,11 @@ export class Game {
           if (this.state !== 'playing') return;
           this.playerHealth = Math.max(0, this.playerHealth - Math.max(0, amount));
         },
+        impactPlayer: (strength: number) => {
+          if (this.state !== 'playing') return;
+          this.impactCooldowns.delete(this.rivals[0].index);
+          this.registerPlayerImpact(this.rivals[0], Math.max(1.16, strength));
+        },
         damageRival: (index: number, amount: number) => {
           if (this.state !== 'playing') return;
           const rival = this.rivals[index];
@@ -602,7 +607,10 @@ export class Game {
     const hitPower = Math.max(0, strength - 0.8);
     const outgoingMultiplier = (this.boosting ? 1.45 : 1) * (this.damageBoostTime > 0 ? 1.85 : 1);
     const rivalDamage = Math.min(34, (3.5 + hitPower * 3.7) * outgoingMultiplier);
-    const incomingDamage = Math.min(24, (2.2 + hitPower * (1.8 + this.stageIndex * 0.08)) * (this.boosting ? 0.72 : 1));
+    // The player should still respect collisions, but attacking must remain a
+    // viable strategy. Rivals take the brunt of a committed hit; return damage
+    // is intentionally about one-third lighter than the original tuning.
+    const incomingDamage = Math.min(16, (1.4 + hitPower * (1.15 + this.stageIndex * 0.05)) * (this.boosting ? 0.68 : 1));
     const eliminated = rival.takeDamage(rivalDamage);
     this.playerHealth = Math.max(0, this.playerHealth - incomingDamage);
     this.score = this.eliminations;

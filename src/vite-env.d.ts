@@ -96,6 +96,7 @@ interface Window {
     completeStage: () => void;
     failStage: () => void;
     damagePlayer: (amount: number) => void;
+    impactPlayer: (strength: number) => void;
     damageRival: (index: number, amount: number) => void;
     collectPowerUp: (type: 'repair' | 'overdrive' | 'shock') => void;
   };

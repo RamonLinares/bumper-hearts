@@ -221,6 +221,16 @@ test('survival combat supports damage, recovery, overdrive, shock and knockouts'
   expect(cleared?.combat.eliminations).toBe(2);
 });
 
+test('attacking a rival returns moderate rather than punishing damage', async ({ page }) => {
+  await page.goto('/');
+  await startRide(page);
+  await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.impactPlayer(6));
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.playerHealth ?? 0)).toBeGreaterThan(92);
+  const combat = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat);
+  expect(combat?.playerHealth ?? 100).toBeLessThan(100);
+  expect(combat?.rivalHealth[0]?.health ?? 62).toBeLessThan(62);
+});
+
 test('power-ups arrive one at a time at randomized safe locations', async ({ page }) => {
   await page.goto('/');
   await startRide(page);
