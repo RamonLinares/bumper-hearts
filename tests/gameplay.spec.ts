@@ -146,6 +146,67 @@ test('first-person controls are relative to the car heading', async ({ page }) =
   await page.keyboard.up('ArrowDown');
 });
 
+test('survival combat supports damage, recovery, overdrive, shock and knockouts', async ({ page }) => {
+  await page.goto('/');
+  await startRide(page);
+
+  const initial = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat);
+  expect(initial).toMatchObject({ playerHealth: 100, rivalsRemaining: 2, eliminations: 0 });
+
+  await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.damagePlayer(45));
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.playerHealth)).toBe(55);
+  await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.collectPowerUp('repair'));
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.playerHealth)).toBe(87);
+
+  await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.collectPowerUp('overdrive'));
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.damageBoostTime ?? 0)).toBeGreaterThan(7);
+
+  const beforeShock = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.rivalHealth.map((rival) => rival.health) ?? []);
+  await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.collectPowerUp('shock'));
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.rivalHealth[0]?.health ?? Infinity))
+    .toBeLessThan(beforeShock[0]);
+
+  await page.evaluate(() => {
+    window.__BUMPER_HEARTS_TEST_HOOKS__?.damageRival(0, 999);
+    window.__BUMPER_HEARTS_TEST_HOOKS__?.damageRival(1, 999);
+  });
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('story');
+  const cleared = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);
+  expect(cleared?.combat.rivalsRemaining).toBe(0);
+  expect(cleared?.combat.eliminations).toBe(2);
+});
+
+test('boost is faster, consumes charge, and recovers when released', async ({ page }) => {
+  await page.goto('/');
+  await startRide(page);
+  await page.keyboard.down('KeyW');
+  await page.keyboard.down('Space');
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.speed ?? 0)).toBeGreaterThan(10);
+  const charged = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.boostCharge ?? 100);
+  expect(charged).toBeLessThan(100);
+  await page.keyboard.up('Space');
+  await page.keyboard.up('KeyW');
+  await page.waitForTimeout(350);
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.combat.boostCharge ?? 0)).toBeGreaterThan(charged);
+});
+
+test('effects and music can be muted independently', async ({ page }) => {
+  await page.goto('/');
+  await startRide(page);
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.loadedAssets)).toBe(18);
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.musicPlaying)).toBe(true);
+
+  await page.getByRole('button', { name: 'Mute effects' }).click();
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.effectsMuted)).toBe(true);
+  expect(await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.musicMuted)).toBe(false);
+  expect(await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.musicPlaying)).toBe(true);
+
+  await page.getByRole('button', { name: 'Mute music' }).click();
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.musicMuted)).toBe(true);
+  expect(await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.effectsMuted)).toBe(true);
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.audio.musicPlaying)).toBe(false);
+});
+
 test('stage clear advances the story and loss retries the same chapter', async ({ page }) => {
   await page.goto('/');
   await startRide(page);

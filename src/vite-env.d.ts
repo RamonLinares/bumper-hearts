@@ -29,16 +29,27 @@ interface ThreeGameDiagnostics {
   world: { floorPattern: string; floorSource: 'authored-texture'; dressing: string; props: number; meshes: number };
   audio: {
     unlocked: boolean;
-    muted: boolean;
+    effectsMuted: boolean;
+    musicMuted: boolean;
     contextState: AudioContextState | 'unavailable';
     ambiencePlaying: boolean;
+    musicPlaying: boolean;
     loadedAssets: number;
     manifestAssets: number;
     activeSources: number;
     lastCue: string | null;
   };
   physics: { engine: string; timestep: number; bodies: number; colliders: number; activeHits: number };
-  input: { dash: boolean };
+  input: { dash: boolean; boosting: boolean };
+  combat: {
+    playerHealth: number;
+    playerMaxHealth: number;
+    rivalsRemaining: number;
+    eliminations: number;
+    rivalHealth: { index: number; health: number; maxHealth: number }[];
+    damageBoostTime: number;
+    boostCharge: number;
+  };
   entities: { rivals: number; importedCars: number; pickupsActive: number; importedPickupsReady: number; particles: number };
   player: {
     position: { x: number; y: number; z: number };
@@ -77,5 +88,8 @@ interface Window {
   __BUMPER_HEARTS_TEST_HOOKS__?: {
     completeStage: () => void;
     failStage: () => void;
+    damagePlayer: (amount: number) => void;
+    damageRival: (index: number, amount: number) => void;
+    collectPowerUp: (type: 'repair' | 'overdrive' | 'shock') => void;
   };
 }

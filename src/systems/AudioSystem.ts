@@ -1,4 +1,4 @@
-type AudioGroup = 'ui' | 'sfx' | 'ambience';
+type AudioGroup = 'ui' | 'sfx' | 'ambience' | 'music';
 
 type AudioAsset = {
   id: string;
@@ -11,9 +11,11 @@ type Manifest = { assets: AudioAsset[] };
 
 export type AudioDiagnostics = {
   unlocked: boolean;
-  muted: boolean;
+  effectsMuted: boolean;
+  musicMuted: boolean;
   contextState: AudioContextState | 'unavailable';
   ambiencePlaying: boolean;
+  musicPlaying: boolean;
   loadedAssets: number;
   manifestAssets: number;
   activeSources: number;
@@ -25,6 +27,7 @@ const GROUP_LEVELS: Record<AudioGroup, number> = {
   ui: 0.55,
   sfx: 0.72,
   ambience: 0.24,
+  music: 0.34,
 };
 
 export class AudioSystem {
@@ -36,10 +39,12 @@ export class AudioSystem {
   private readonly activeSources = new Set<AudioBufferSourceNode>();
   private readonly lastPlayed = new Map<string, number>();
   private ambienceSource: AudioBufferSourceNode | null = null;
+  private musicSource: AudioBufferSourceNode | null = null;
   private unlockPromise: Promise<void> | null = null;
   private unlocked = false;
   private disposed = false;
-  private muted = this.readMutedPreference();
+  private effectsMuted = this.readPreference('bumper-hearts-fx-muted');
+  private musicMuted = this.readPreference('bumper-hearts-music-muted');
   private lastCue: string | null = null;
   private impactVariant = 0;
   private pickupVariant = 0;
@@ -56,8 +61,8 @@ export class AudioSystem {
     document.addEventListener('visibilitychange', this.handleVisibility);
   }
 
-  private readMutedPreference(): boolean {
-    try { return localStorage.getItem('bumper-hearts-muted') === 'true'; }
+  private readPreference(key: string): boolean {
+    try { return localStorage.getItem(key) === 'true'; }
     catch { return false; }
   }
 
@@ -77,12 +82,14 @@ export class AudioSystem {
     try {
       this.context = new AudioContextClass();
       this.masterGain = this.context.createGain();
-      this.masterGain.gain.value = this.muted ? 0 : 1;
+      this.masterGain.gain.value = 1;
       this.masterGain.connect(this.context.destination);
 
       (Object.keys(GROUP_LEVELS) as AudioGroup[]).forEach((group) => {
         const gain = this.context!.createGain();
         gain.gain.value = GROUP_LEVELS[group];
+        if (group === 'music' && this.musicMuted) gain.gain.value = 0;
+        if (group !== 'music' && this.effectsMuted) gain.gain.value = 0;
         gain.connect(this.masterGain!);
         this.groupGains.set(group, gain);
       });
@@ -93,6 +100,7 @@ export class AudioSystem {
       window.removeEventListener('keydown', this.unlockFromGesture);
       await this.loadAssets();
       this.startAmbience();
+      this.startMusic();
     } catch (error) {
       console.warn('Audio is unavailable; continuing silently.', error);
     }
@@ -147,8 +155,20 @@ export class AudioSystem {
   }
 
   private startAmbience(): void {
-    if (this.ambienceSource || this.muted) return;
+    if (this.ambienceSource || this.effectsMuted) return;
     this.ambienceSource = this.play('fairground-loop', 1);
+  }
+
+  private startMusic(): void {
+    if (this.musicSource || this.musicMuted) return;
+    this.musicSource = this.play('crash-for-you', 1);
+  }
+
+  private stopMusic(): void {
+    if (!this.musicSource) return;
+    this.musicSource.stop();
+    this.activeSources.delete(this.musicSource);
+    this.musicSource = null;
   }
 
   private stopAmbience(): void {
@@ -169,6 +189,11 @@ export class AudioSystem {
   }
 
   boost(): void { this.play('boost', 0.9, 180); }
+  heavyImpact(): void { this.play('heavy-impact', 0.95, 90); }
+  repairPowerUp(): void { this.play('repair-powerup', 0.9, 180); }
+  overdrivePowerUp(): void { this.play('overdrive-powerup', 0.92, 180); }
+  shockBomb(): void { this.play('shock-bomb', 1, 300); }
+  carEliminated(): void { this.play('car-eliminated', 0.9, 260); }
   confirm(): void { this.play('ui-confirm', 0.8, 80); }
   error(): void { this.play('ui-error', 0.8, 160); }
   pauseCue(): void { this.play('ui-pause', 0.75, 120); }
@@ -182,32 +207,49 @@ export class AudioSystem {
     else if (this.unlocked) {
       await this.context.resume();
       this.startAmbience();
+      this.startMusic();
     }
   }
 
-  setMuted(muted: boolean): void {
-    this.muted = muted;
-    try { localStorage.setItem('bumper-hearts-muted', String(muted)); } catch { /* Private contexts may reject storage. */ }
-    if (this.masterGain && this.context) {
-      this.masterGain.gain.setTargetAtTime(muted ? 0 : 1, this.context.currentTime, 0.02);
+  setEffectsMuted(muted: boolean): void {
+    this.effectsMuted = muted;
+    try { localStorage.setItem('bumper-hearts-fx-muted', String(muted)); } catch { /* Storage may be unavailable. */ }
+    for (const group of ['ui', 'sfx', 'ambience'] as const) {
+      const gain = this.groupGains.get(group);
+      if (gain && this.context) gain.gain.setTargetAtTime(muted ? 0 : GROUP_LEVELS[group], this.context.currentTime, 0.02);
     }
-    if (muted) this.stopAmbience();
-    else this.startAmbience();
+    if (muted) this.stopAmbience(); else this.startAmbience();
   }
 
-  toggleMuted(): boolean {
-    this.setMuted(!this.muted);
-    return this.muted;
+  toggleEffectsMuted(): boolean {
+    this.setEffectsMuted(!this.effectsMuted);
+    return this.effectsMuted;
   }
 
-  isMuted(): boolean { return this.muted; }
+  setMusicMuted(muted: boolean): void {
+    this.musicMuted = muted;
+    try { localStorage.setItem('bumper-hearts-music-muted', String(muted)); } catch { /* Storage may be unavailable. */ }
+    const gain = this.groupGains.get('music');
+    if (gain && this.context) gain.gain.setTargetAtTime(muted ? 0 : GROUP_LEVELS.music, this.context.currentTime, 0.02);
+    if (muted) this.stopMusic(); else this.startMusic();
+  }
+
+  toggleMusicMuted(): boolean {
+    this.setMusicMuted(!this.musicMuted);
+    return this.musicMuted;
+  }
+
+  areEffectsMuted(): boolean { return this.effectsMuted; }
+  isMusicMuted(): boolean { return this.musicMuted; }
 
   get diagnostics(): AudioDiagnostics {
     return {
       unlocked: this.unlocked,
-      muted: this.muted,
+      effectsMuted: this.effectsMuted,
+      musicMuted: this.musicMuted,
       contextState: this.context?.state ?? 'unavailable',
-      ambiencePlaying: Boolean(this.ambienceSource) && !this.muted,
+      ambiencePlaying: Boolean(this.ambienceSource) && !this.effectsMuted,
+      musicPlaying: Boolean(this.musicSource) && !this.musicMuted,
       loadedAssets: this.buffers.size,
       manifestAssets: this.assets.size,
       activeSources: this.activeSources.size,
@@ -230,6 +272,7 @@ export class AudioSystem {
     this.activeSources.forEach((source) => source.stop());
     this.activeSources.clear();
     this.ambienceSource = null;
+    this.musicSource = null;
     void this.context?.close();
     this.context = null;
   }

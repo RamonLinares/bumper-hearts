@@ -104,7 +104,7 @@ export const CAMPAIGN_STAGES: readonly CampaignStage[] = [
     theme: { accent: '#e96b62', floorTint: '#ffe7dc', fog: '#4b3039', floorPattern: 'cafe-checker', secondary: '#6a3d4a', lightColor: '#ffd8b1', dressing: 'cafe-date' },
     collectibles: { kind: 'cafe-token', name: 'Café tokens', color: '#e96b62', positions: [[-8,-4],[-2,-4],[4,-4],[8,-2],[5,0],[8,3],[2,4.5],[-5,3.5]] },
     intro: { headline: 'Wrong place, right ticket', narration: 'Eli arrives with a replacement fuse during Maya and Rex’s expensive-looking date. Rex buys him a ticket to make him look foolish.', speaker: 'Rex', dialogue: 'One round. Let’s see what the little science project can do.', connection: 'Amused', pressure: 'Rising' },
-    outro: { headline: 'The better rescue', narration: 'Eli abandons an easy pickup to bump a stranded driver free. Maya laughs with him while Rex waits to be noticed.', speaker: 'Maya', dialogue: 'You know that cost you the perfect run, right? Good choice.', connection: 'Amused', pressure: 'Rising' },
+    outro: { headline: 'The better rescue', narration: 'Eli abandons an easy attack to bump a stranded driver free. Maya laughs with him while Rex waits to be noticed.', speaker: 'Maya', dialogue: 'You know that could have cost you the round, right? Good choice.', connection: 'Amused', pressure: 'Rising' },
   },
   {
     id: 'golden-boy', chapter: 'Chapter V', title: 'The Golden Boy', location: 'Sunday, 9:30 PM · Sponsor’s Cup',

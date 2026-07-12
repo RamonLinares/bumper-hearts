@@ -23,6 +23,11 @@ export class Rival {
   private wanderAngle: number;
   private decisionTimer = 0;
   private aiClock = 0;
+  private readonly healthBar = new THREE.Group();
+  private readonly healthFill = new THREE.Sprite(new THREE.SpriteMaterial({ color: '#65d4ca', depthTest: false }));
+  health = 100;
+  maxHealth = 100;
+  eliminated = false;
   private difficulty: RivalDifficulty = {
     speedMultiplier: 1,
     chaseRadius: 7.5,
@@ -37,8 +42,14 @@ export class Rival {
     this.model = createBumperCar(STYLES[index % STYLES.length]);
     const identity = RIVAL_IDENTITIES[index % RIVAL_IDENTITIES.length];
     this.group.name = `Rival-${identity.name.replace(/\s+/g, '-')}-${index}`;
+    const healthBack = new THREE.Sprite(new THREE.SpriteMaterial({ color: '#101d30', opacity: 0.82, transparent: true, depthTest: false }));
+    healthBack.scale.set(1.35, 0.14, 1);
+    this.healthFill.scale.set(1.25, 0.085, 1);
+    this.healthFill.position.z = 0.01;
+    this.healthBar.position.y = 1.48;
+    this.healthBar.add(healthBack, this.healthFill);
     this.importedRoot.name = `ImportedRivalWrapper-${index}`;
-    this.group.add(this.model.root, this.importedRoot);
+    this.group.add(this.model.root, this.importedRoot, this.healthBar);
     void createImportedBumperCar(identity.tint, 0.78).then(
       ({ root, materials }) => {
         if (this.disposed) {
@@ -57,6 +68,23 @@ export class Rival {
   }
 
   get radius(): number { return 0.72 * this.collisionScale; }
+
+  takeDamage(amount: number): boolean {
+    if (this.eliminated) return false;
+    this.health = Math.max(0, this.health - Math.max(0, amount));
+    this.syncHealthBar();
+    if (this.health > 0) return false;
+    this.eliminated = true;
+    this.group.visible = false;
+    this.velocity.set(0, 0, 0);
+    return true;
+  }
+
+  heal(amount: number): void {
+    if (this.eliminated) return;
+    this.health = Math.min(this.maxHealth, this.health + amount);
+    this.syncHealthBar();
+  }
 
   update(delta: number, playerPosition: THREE.Vector3, arena: { halfWidth: number; halfDepth: number }): void {
     if (!this.group.visible) return;
@@ -88,6 +116,9 @@ export class Rival {
     this.decisionTimer = 0;
     this.aiClock = 0;
     this.wanderAngle = this.index * 1.7;
+    this.eliminated = false;
+    this.health = this.maxHealth;
+    this.syncHealthBar();
   }
 
   configure(difficulty: RivalDifficulty, active: boolean, scale = 1): void {
@@ -97,11 +128,29 @@ export class Rival {
     this.group.visible = active;
   }
 
+  configureCombat(maxHealth: number): void {
+    this.maxHealth = Math.max(1, maxHealth);
+    this.health = this.maxHealth;
+    this.eliminated = false;
+    this.syncHealthBar();
+  }
+
+  private syncHealthBar(): void {
+    const ratio = THREE.MathUtils.clamp(this.health / this.maxHealth, 0, 1);
+    this.healthFill.scale.x = 1.25 * ratio;
+    this.healthFill.position.x = -0.625 * (1 - ratio);
+    const material = this.healthFill.material as THREE.SpriteMaterial;
+    material.color.set(ratio > 0.55 ? '#65d4ca' : ratio > 0.25 ? '#f5c45b' : '#e65e72');
+  }
+
   dispose(): void {
     this.disposed = true;
     this.model.geometries.forEach((geometry) => geometry.dispose());
     this.model.materials.forEach((material) => material.dispose());
     this.importedMaterials.forEach((material) => material.dispose());
+    this.healthBar.traverse((object) => {
+      if (object instanceof THREE.Sprite) object.material.dispose();
+    });
     this.importedRoot.clear();
   }
 }

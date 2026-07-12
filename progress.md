@@ -53,3 +53,11 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 - Replaced the ten procedural collectible factories with ten downloaded Tripo H3 PBR GLBs, cached per collectible kind and cloned for the eight runtime instances. Flat badge/card models are normalized and presentation-tilted for overhead readability.
 - Added asset provenance and face limits in `public/assets/models/collectibles/manifest.json`; runtime diagnostics now distinguish authored floor textures and report all imported pickups ready.
 - Scripted all-stage browser traversal confirmed 8/8 imported pickups in every chapter, no console errors, and a measured worst sampled scene of 79 calls / ~204k triangles / 123 geometries / 37 resident textures after traversing all ten cached model families.
+
+## Last-car-standing combat and music pass
+
+- Replaced point collection with survival combat: every car has integrity, rival health bars, reciprocal collision damage, eliminations, and stage completion only when no rival remains.
+- Added repair, eight-second damage overdrive, and radial electric-bomb power-ups using the existing Tripo collectible family. Added impact rings, larger debris bursts, camera impulses, knockout feedback, and a faster charge-limited boost.
+- Generated five new ElevenLabs effects for heavy impacts, repair, overdrive, shock bombs, and eliminations. Converted the user-provided song into a clean looping runtime MP3 and added independent persistent FX and music mute controls (`M` and `N`).
+- Custom arcade physics remains fixed at 1/60 second with simple circular colliders, deterministic arena bounds, and authored impulse/damage response; this keeps the miniature bumper-car feel controllable without introducing a heavyweight solver.
+- Campaign/stage verification, TypeScript, production build, and the full Playwright matrix pass: 22/22 across desktop Chrome and mobile Safari. Active screenshots show no UI overlap or page/console errors. Sampled Stage 1 measured 75 draw calls / 189,195 triangles / 85 geometries / 19 textures on desktop and 36 / 117,433 / 57 / 18 on mobile at DPR 1.5.

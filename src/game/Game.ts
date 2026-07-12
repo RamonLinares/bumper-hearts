@@ -4,7 +4,7 @@ import { Loop } from '../core/Loop';
 import { createRenderer, resizeRenderer } from '../core/Renderer';
 import { assetUrl } from '../core/assetUrl';
 import { createStageFloorTexture } from '../assets/StageFloorTexture';
-import { Pickup } from '../entities/Pickup';
+import { Pickup, type PowerUpType } from '../entities/Pickup';
 import { Player, type ArenaBounds } from '../entities/Player';
 import { Rival } from '../entities/Rival';
 import { AudioSystem } from '../systems/AudioSystem';
@@ -32,6 +32,12 @@ const RIVAL_SPAWNS = [
   new THREE.Vector3(5.5, 0, 3.6),
 ];
 
+const POWER_UPS: readonly { type: PowerUpType; kind: 'fuse' | 'trophy-star' | 'storm-lantern'; color: string }[] = [
+  { type: 'repair', kind: 'fuse', color: '#61e3a3' },
+  { type: 'overdrive', kind: 'trophy-star', color: '#ffad42' },
+  { type: 'shock', kind: 'storm-lantern', color: '#6fcfff' },
+];
+
 export class Game {
   private readonly renderer: THREE.WebGLRenderer;
   private readonly scene = new THREE.Scene();
@@ -48,14 +54,15 @@ export class Game {
   private readonly pauseButton: HTMLButtonElement;
   private readonly restartButton: HTMLButtonElement;
   private readonly cameraButton: HTMLButtonElement;
-  private readonly soundButton: HTMLButtonElement;
+  private readonly fxButton: HTMLButtonElement;
+  private readonly musicButton: HTMLButtonElement;
   private readonly stateOverlay: HTMLElement;
   private readonly modalPrimaryButton: HTMLButtonElement;
   private readonly modalSecondaryButton: HTMLButtonElement;
   private readonly tuning: DebugTuning = {
-    speed: 6.6,
-    dashMultiplier: 1.5,
-    acceleration: 8.5,
+    speed: 7.1,
+    dashMultiplier: 2.05,
+    acceleration: 10.5,
     turnRate: 2.35,
     cameraLag: 0.13,
     exposure: 1.05,
@@ -63,7 +70,9 @@ export class Game {
   };
   private readonly debugTools: DebugTools;
   private readonly impactCooldowns = new Map<number, number>();
+  private readonly rivalImpactCooldowns = new Map<string, number>();
   private readonly burstParticles: { mesh: THREE.Mesh; velocity: THREE.Vector3; life: number }[] = [];
+  private readonly impactRings: { mesh: THREE.Mesh; life: number; maxLife: number }[] = [];
   private readonly cameraForward = new THREE.Vector3();
   private readonly carForward = new THREE.Vector3();
   private readonly campaign = loadCampaignProgress();
@@ -82,6 +91,12 @@ export class Game {
   private accumulator = 0;
   private activeHits = 0;
   private wasDashing = false;
+  private playerHealth = 100;
+  private readonly playerMaxHealth = 100;
+  private damageBoostTime = 0;
+  private boostCharge = 100;
+  private boosting = false;
+  private eliminations = 0;
   private presentedStageId: string | null = null;
 
   constructor(private readonly canvas: HTMLCanvasElement) {
@@ -91,14 +106,16 @@ export class Game {
     this.pauseButton = this.getElement<HTMLButtonElement>('#pause-button');
     this.restartButton = this.getElement<HTMLButtonElement>('#restart-button');
     this.cameraButton = this.getElement<HTMLButtonElement>('#camera-button');
-    this.soundButton = this.getElement<HTMLButtonElement>('#sound-button');
+    this.fxButton = this.getElement<HTMLButtonElement>('#fx-button');
+    this.musicButton = this.getElement<HTMLButtonElement>('#music-button');
     this.stateOverlay = this.getElement('#state-overlay');
     this.modalPrimaryButton = this.getElement<HTMLButtonElement>('#modal-primary');
     this.modalSecondaryButton = this.getElement<HTMLButtonElement>('#modal-secondary');
     this.pauseButton.addEventListener('click', this.togglePause);
     this.restartButton.addEventListener('click', this.restartStage);
     this.cameraButton.addEventListener('click', this.toggleCamera);
-    this.soundButton.addEventListener('click', this.toggleSound);
+    this.fxButton.addEventListener('click', this.toggleEffects);
+    this.musicButton.addEventListener('click', this.toggleMusic);
     this.modalPrimaryButton.addEventListener('click', this.handleModalPrimary);
     this.modalSecondaryButton.addEventListener('click', this.handleModalSecondary);
     this.stateOverlay.addEventListener('keydown', this.handleOverlayKeyDown);
@@ -108,7 +125,7 @@ export class Game {
       resizeRenderer(this.renderer, this.camera, this.tuning.maxDpr);
     });
     this.createScene();
-    this.syncSoundButton();
+    this.syncAudioButtons();
     this.applyStagePresentation();
     this.syncHud();
     this.modalPrimaryButton.focus({ preventScroll: true });
@@ -129,13 +146,31 @@ export class Game {
       window.__BUMPER_HEARTS_TEST_HOOKS__ = {
         completeStage: () => {
           if (this.state !== 'playing') return;
-          this.score = this.currentStage.targetScore;
+          this.rivals.forEach((rival) => {
+            if (rival.group.visible) rival.takeDamage(rival.health);
+          });
+          this.eliminations = this.currentStage.rivalCount;
           this.completeStage();
         },
         failStage: () => {
           if (this.state !== 'playing') return;
-          this.timeLeft = 0;
+          this.playerHealth = 0;
           this.failStage();
+        },
+        damagePlayer: (amount: number) => {
+          if (this.state !== 'playing') return;
+          this.playerHealth = Math.max(0, this.playerHealth - Math.max(0, amount));
+        },
+        damageRival: (index: number, amount: number) => {
+          if (this.state !== 'playing') return;
+          const rival = this.rivals[index];
+          if (!rival?.group.visible) return;
+          const point = rival.group.position.clone();
+          if (rival.takeDamage(amount)) this.eliminateRival(rival, point);
+        },
+        collectPowerUp: (type: PowerUpType) => {
+          if (this.state !== 'playing') return;
+          this.applyPowerUp(type, this.player.group.position.clone());
         },
       };
     }
@@ -148,7 +183,8 @@ export class Game {
     this.pauseButton.removeEventListener('click', this.togglePause);
     this.restartButton.removeEventListener('click', this.restartStage);
     this.cameraButton.removeEventListener('click', this.toggleCamera);
-    this.soundButton.removeEventListener('click', this.toggleSound);
+    this.fxButton.removeEventListener('click', this.toggleEffects);
+    this.musicButton.removeEventListener('click', this.toggleMusic);
     this.modalPrimaryButton.removeEventListener('click', this.handleModalPrimary);
     this.modalSecondaryButton.removeEventListener('click', this.handleModalSecondary);
     this.stateOverlay.removeEventListener('keydown', this.handleOverlayKeyDown);
@@ -187,23 +223,35 @@ export class Game {
     this.pauseButton.setAttribute('aria-label', this.state === 'paused' ? 'Resume ride' : 'Pause ride');
   };
 
-  private readonly toggleSound = () => {
-    const muted = this.audio.toggleMuted();
-    this.syncSoundButton();
+  private readonly toggleEffects = () => {
+    const muted = this.audio.toggleEffectsMuted();
+    this.syncAudioButtons();
     if (!muted) void this.audio.unlock().then(() => this.audio.confirm());
   };
 
-  private readonly handleGlobalAudioKey = (event: KeyboardEvent) => {
-    if (event.code !== 'KeyM' || event.repeat) return;
-    this.toggleSound();
+  private readonly toggleMusic = () => {
+    this.audio.toggleMusicMuted();
+    this.syncAudioButtons();
+    void this.audio.unlock();
   };
 
-  private syncSoundButton(): void {
-    const muted = this.audio.isMuted();
-    this.soundButton.setAttribute('aria-pressed', String(muted));
-    this.soundButton.setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound');
-    this.soundButton.title = muted ? 'Unmute sound (M)' : 'Mute sound (M)';
-    this.soundButton.querySelector('.sound-glyph')!.textContent = muted ? '♪̸' : '♪';
+  private readonly handleGlobalAudioKey = (event: KeyboardEvent) => {
+    if (event.repeat) return;
+    if (event.code === 'KeyM') this.toggleEffects();
+    else if (event.code === 'KeyN') this.toggleMusic();
+  };
+
+  private syncAudioButtons(): void {
+    const effectsMuted = this.audio.areEffectsMuted();
+    const musicMuted = this.audio.isMusicMuted();
+    this.fxButton.setAttribute('aria-pressed', String(effectsMuted));
+    this.fxButton.setAttribute('aria-label', effectsMuted ? 'Unmute effects' : 'Mute effects');
+    this.fxButton.title = effectsMuted ? 'Unmute effects (M)' : 'Mute effects (M)';
+    this.fxButton.querySelector('.sound-glyph')!.textContent = effectsMuted ? 'FX̸' : 'FX';
+    this.musicButton.setAttribute('aria-pressed', String(musicMuted));
+    this.musicButton.setAttribute('aria-label', musicMuted ? 'Unmute music' : 'Mute music');
+    this.musicButton.title = musicMuted ? 'Unmute music (N)' : 'Mute music (N)';
+    this.musicButton.querySelector('.sound-glyph')!.textContent = musicMuted ? '♫̸' : '♫';
   }
 
   private readonly toggleCamera = () => {
@@ -280,6 +328,7 @@ export class Game {
     this.accumulator = 0;
     this.activeHits = 0;
     this.impactCooldowns.clear();
+    this.rivalImpactCooldowns.clear();
     this.clearParticles();
     clearCampaignProgress();
     this.applyStagePresentation();
@@ -287,20 +336,29 @@ export class Game {
 
   private readonly restartStage = () => {
     this.score = 0;
+    this.eliminations = 0;
+    this.playerHealth = this.playerMaxHealth;
+    this.damageBoostTime = 0;
+    this.boostCharge = 100;
+    this.boosting = false;
     this.timeLeft = this.currentStage.seconds;
     this.accumulator = 0;
     this.activeHits = 0;
     this.wasDashing = false;
     this.impactCooldowns.clear();
+    this.rivalImpactCooldowns.clear();
     this.player.reset();
     this.rivals.forEach((rival, index) => {
       const bossScale = this.currentStage.bossRival?.index === index ? this.currentStage.bossRival.scale : 1;
+      const bossHealth = this.currentStage.bossRival?.index === index ? 1.35 : 1;
+      rival.configureCombat((62 + this.stageIndex * 7) * bossHealth);
       rival.configure(this.currentStage.difficulty, index < this.currentStage.rivalCount, bossScale);
       rival.reset(RIVAL_SPAWNS[index]);
     });
-    this.pickups.forEach((pickup) => {
-      pickup.active = true;
-      pickup.group.visible = true;
+    this.pickups.forEach((pickup, index) => {
+      const config = POWER_UPS[index % POWER_UPS.length];
+      const [x, z] = this.currentStage.collectibles.positions[index];
+      pickup.reconfigure(config.kind, config.color, new THREE.Vector3(x, 0.8, z), config.type);
     });
     this.clearParticles();
     this.pauseButton.setAttribute('aria-label', 'Pause ride');
@@ -336,18 +394,37 @@ export class Game {
 
   private simulate(delta: number, elapsed: number): void {
     this.timeLeft = Math.max(0, this.timeLeft - delta);
+    this.damageBoostTime = Math.max(0, this.damageBoostTime - delta);
+    const wantsBoost = this.input.isDashHeld();
+    this.boosting = wantsBoost && this.boostCharge > 0.5;
+    this.boostCharge = THREE.MathUtils.clamp(
+      this.boostCharge + (this.boosting ? -46 : 18) * delta,
+      0,
+      100,
+    );
     this.player.update(
       delta,
       elapsed,
       this.input,
       this.tuning,
       this.cameraRig.currentMode === 'cockpit' ? 'vehicle' : 'arena',
+      this.boosting,
       ARENA,
     );
-    const dashing = this.input.isDashHeld();
+    const dashing = this.boosting;
     if (dashing && !this.wasDashing) this.audio.boost();
     this.wasDashing = dashing;
-    this.activeRivals.forEach((rival) => rival.update(delta, this.player.group.position, ARENA));
+    const rivalsBeforeStep = this.activeRivals;
+    rivalsBeforeStep.forEach((rival) => {
+      let target = this.player.group.position;
+      let bestDistance = rival.group.position.distanceToSquared(target);
+      for (const other of rivalsBeforeStep) {
+        if (other === rival) continue;
+        const distance = rival.group.position.distanceToSquared(other.group.position);
+        if (distance < bestDistance) { bestDistance = distance; target = other.group.position; }
+      }
+      rival.update(delta, target, ARENA);
+    });
     this.collision.keepInArena(this.player, ARENA);
     this.activeRivals.forEach((rival) => this.collision.keepInArena(rival, ARENA));
 
@@ -358,23 +435,26 @@ export class Game {
     }
     const activeRivals = this.activeRivals;
     for (let i = 0; i < activeRivals.length; i += 1) {
-      for (let j = i + 1; j < activeRivals.length; j += 1) this.collision.resolveCars(activeRivals[i], activeRivals[j], 0.78);
+      for (let j = i + 1; j < activeRivals.length; j += 1) {
+        const strength = this.collision.resolveCars(activeRivals[i], activeRivals[j], 0.78);
+        if (strength > 1.4) this.registerRivalImpact(activeRivals[i], activeRivals[j], strength);
+      }
     }
 
     const collected = this.collision.collectPickups(this.player.group.position, this.pickups, this.player.radius);
-    for (const pickup of collected) {
-      this.score += 125;
-      this.audio.pickup(pickup.index);
-      this.hud.flashPickup();
-      this.spawnBurst(pickup.group.position, '#ffd86b');
-    }
+    for (const pickup of collected) this.applyPowerUp(pickup.powerUpType, pickup.group.position);
     for (const [index, cooldown] of this.impactCooldowns) {
       const next = cooldown - delta;
       if (next <= 0) this.impactCooldowns.delete(index);
       else this.impactCooldowns.set(index, next);
     }
-    if (this.score >= this.currentStage.targetScore) this.completeStage();
-    else if (this.timeLeft <= 0) this.failStage();
+    for (const [pair, cooldown] of this.rivalImpactCooldowns) {
+      const next = cooldown - delta;
+      if (next <= 0) this.rivalImpactCooldowns.delete(pair);
+      else this.rivalImpactCooldowns.set(pair, next);
+    }
+    if (this.activeRivals.length === 0) this.completeStage();
+    else if (this.playerHealth <= 0 || this.timeLeft <= 0) this.failStage();
   }
 
   private failStage(): void {
@@ -413,6 +493,12 @@ export class Game {
       campaignScore: this.campaign.campaignScore,
       completedStages: this.campaign.completedStages,
       storyPhase: this.storyPhase,
+      playerHealth: this.playerHealth,
+      playerMaxHealth: this.playerMaxHealth,
+      rivalsRemaining: this.activeRivals.length,
+      eliminations: this.eliminations,
+      boostCharge: this.boostCharge,
+      damageBoostTime: this.damageBoostTime,
     });
   }
 
@@ -441,23 +527,78 @@ export class Game {
     this.keyLight?.position.set(Math.cos(angle) * 8, 11, Math.sin(angle) * 8);
 
     this.currentStage.collectibles.positions.forEach(([x, z], index) => {
-      this.pickups[index]?.reconfigure(
-        this.currentStage.collectibles.kind,
-        this.currentStage.collectibles.color,
-        new THREE.Vector3(x, 0.8, z),
-      );
+      const config = POWER_UPS[index % POWER_UPS.length];
+      this.pickups[index]?.reconfigure(config.kind, config.color, new THREE.Vector3(x, 0.8, z), config.type);
     });
   }
 
   private registerPlayerImpact(rival: Rival, strength: number): void {
     if (this.impactCooldowns.has(rival.index)) return;
-    this.impactCooldowns.set(rival.index, 0.42);
+    this.impactCooldowns.set(rival.index, 0.34);
     this.activeHits += 1;
-    this.score += Math.round(35 + Math.min(strength, 10) * 13);
-    this.audio.impact(strength);
+    const hitPower = Math.max(0, strength - 0.8);
+    const outgoingMultiplier = (this.boosting ? 1.45 : 1) * (this.damageBoostTime > 0 ? 1.85 : 1);
+    const rivalDamage = Math.min(34, (3.5 + hitPower * 3.7) * outgoingMultiplier);
+    const incomingDamage = Math.min(24, (2.2 + hitPower * (1.8 + this.stageIndex * 0.08)) * (this.boosting ? 0.72 : 1));
+    const eliminated = rival.takeDamage(rivalDamage);
+    this.playerHealth = Math.max(0, this.playerHealth - incomingDamage);
+    this.score = this.eliminations;
+    if (strength > 5.2 || this.boosting) this.audio.heavyImpact();
+    else this.audio.impact(strength);
     this.hud.flashImpact();
     const point = this.player.group.position.clone().lerp(rival.group.position, 0.5);
-    this.spawnBurst(point, '#fff3c4');
+    this.spawnImpact(point, this.damageBoostTime > 0 ? '#ffad42' : '#fff3c4', Math.min(2.2, 0.8 + strength * 0.16));
+    this.cameraRig.impulse(Math.min(0.56, 0.12 + strength * 0.045));
+    if (eliminated) this.eliminateRival(rival, point);
+    if (this.playerHealth <= 0) this.spawnImpact(this.player.group.position, '#e65e72', 2.5);
+  }
+
+  private registerRivalImpact(a: Rival, b: Rival, strength: number): void {
+    const key = `${Math.min(a.index, b.index)}:${Math.max(a.index, b.index)}`;
+    if (this.rivalImpactCooldowns.has(key)) return;
+    this.rivalImpactCooldowns.set(key, 0.38);
+    const damage = Math.min(20, 2 + Math.max(0, strength - 1) * 2.15);
+    const point = a.group.position.clone().lerp(b.group.position, 0.5);
+    const aEliminated = a.takeDamage(damage);
+    const bEliminated = b.takeDamage(damage);
+    this.audio.impact(strength * 0.72);
+    this.spawnImpact(point, '#9dd9ff', Math.min(1.4, 0.55 + strength * 0.1));
+    if (aEliminated) this.eliminateRival(a, point);
+    if (bEliminated) this.eliminateRival(b, point);
+  }
+
+  private eliminateRival(rival: Rival, position: THREE.Vector3): void {
+    this.eliminations += 1;
+    this.score = this.eliminations;
+    this.audio.carEliminated();
+    this.spawnImpact(position, '#ffcf66', 2.6);
+    this.cameraRig.impulse(0.38);
+    rival.group.visible = false;
+  }
+
+  private applyPowerUp(type: PowerUpType, position: THREE.Vector3): void {
+    if (type === 'repair') {
+      this.playerHealth = Math.min(this.playerMaxHealth, this.playerHealth + 32);
+      this.audio.repairPowerUp();
+      this.spawnImpact(position, '#61e3a3', 1.45);
+    } else if (type === 'overdrive') {
+      this.damageBoostTime = Math.max(this.damageBoostTime, 8);
+      this.audio.overdrivePowerUp();
+      this.spawnImpact(position, '#ffad42', 1.7);
+    } else {
+      this.audio.shockBomb();
+      this.spawnShockWave(this.player.group.position, '#72cfff', 7.5);
+      for (const rival of [...this.activeRivals]) {
+        const distance = rival.group.position.distanceTo(this.player.group.position);
+        if (distance > 7.5) continue;
+        const point = rival.group.position.clone();
+        const eliminated = rival.takeDamage(26 + this.stageIndex * 1.5);
+        this.spawnImpact(point, '#a5e8ff', 1.7);
+        if (eliminated) this.eliminateRival(rival, point);
+      }
+      this.cameraRig.impulse(0.45);
+    }
+    this.hud.flashPickup();
   }
 
   private render(): void { this.renderer.render(this.scene, this.camera); }
@@ -596,18 +737,20 @@ export class Game {
 
   private createPickups(): void {
     this.currentStage.collectibles.positions.forEach(([x, z], index) => {
+      const config = POWER_UPS[index % POWER_UPS.length];
       const pickup = new Pickup(
         index,
         new THREE.Vector3(x, 0.8, z),
-        this.currentStage.collectibles.kind,
-        this.currentStage.collectibles.color,
+        config.kind,
+        config.color,
+        config.type,
       );
       this.pickups.push(pickup);
       this.scene.add(pickup.group);
     });
   }
 
-  private spawnBurst(position: THREE.Vector3, color: string): void {
+  private spawnImpact(position: THREE.Vector3, color: string, intensity = 1): void {
     const shape = new THREE.Shape();
     for (let i = 0; i < 10; i += 1) {
       const radius = i % 2 === 0 ? 0.095 : 0.04;
@@ -618,16 +761,35 @@ export class Game {
       else shape.lineTo(x, y);
     }
     shape.closePath();
-    const geometry = new THREE.ShapeGeometry(shape);
-    const material = new THREE.MeshBasicMaterial({ color });
-    for (let i = 0; i < 8; i += 1) {
-      const mesh = new THREE.Mesh(geometry, material);
+    const count = Math.round(8 + intensity * 6);
+    for (let i = 0; i < count; i += 1) {
+      const mesh = new THREE.Mesh(
+        new THREE.ShapeGeometry(shape),
+        new THREE.MeshBasicMaterial({ color, transparent: true }),
+      );
       mesh.position.copy(position).add(new THREE.Vector3(0, 0.42, 0));
-      const angle = i / 8 * Math.PI * 2;
+      const angle = i / count * Math.PI * 2;
       mesh.rotation.set(Math.PI / 2, angle, angle * 0.5);
-      this.burstParticles.push({ mesh, velocity: new THREE.Vector3(Math.cos(angle) * 2.6, 1.8 + (i % 2), Math.sin(angle) * 2.6), life: 0.45 });
+      this.burstParticles.push({
+        mesh,
+        velocity: new THREE.Vector3(Math.cos(angle) * (2.6 + intensity * 1.8), 1.8 + (i % 3) * 0.65 + intensity, Math.sin(angle) * (2.6 + intensity * 1.8)),
+        life: 0.38 + intensity * 0.16,
+      });
       this.scene.add(mesh);
     }
+    this.spawnShockWave(position, color, 1.3 + intensity * 0.9);
+  }
+
+  private spawnShockWave(position: THREE.Vector3, color: string, size: number): void {
+    const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9, depthWrite: false, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.72, 0.88, 56), material);
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.copy(position);
+    ring.position.y = 0.14;
+    ring.scale.setScalar(0.35);
+    ring.userData.targetScale = size;
+    this.impactRings.push({ mesh: ring, life: 0.52, maxLife: 0.52 });
+    this.scene.add(ring);
   }
 
   private updateParticles(delta: number): void {
@@ -637,11 +799,26 @@ export class Game {
       particle.velocity.y -= delta * 6;
       particle.mesh.position.addScaledVector(particle.velocity, delta);
       particle.mesh.scale.setScalar(Math.max(0.01, particle.life * 2));
+      (particle.mesh.material as THREE.MeshBasicMaterial).opacity = Math.min(1, particle.life * 2.5);
       if (particle.life <= 0) {
         this.scene.remove(particle.mesh);
         particle.mesh.geometry.dispose();
         (particle.mesh.material as THREE.Material).dispose();
         this.burstParticles.splice(i, 1);
+      }
+    }
+    for (let i = this.impactRings.length - 1; i >= 0; i -= 1) {
+      const ring = this.impactRings[i];
+      ring.life -= delta;
+      const progress = 1 - ring.life / ring.maxLife;
+      const targetScale = Number(ring.mesh.userData.targetScale) || 2;
+      ring.mesh.scale.setScalar(THREE.MathUtils.lerp(0.35, targetScale, 1 - (1 - progress) ** 3));
+      (ring.mesh.material as THREE.MeshBasicMaterial).opacity = Math.max(0, ring.life / ring.maxLife);
+      if (ring.life <= 0) {
+        this.scene.remove(ring.mesh);
+        ring.mesh.geometry.dispose();
+        (ring.mesh.material as THREE.Material).dispose();
+        this.impactRings.splice(i, 1);
       }
     }
   }
@@ -653,6 +830,12 @@ export class Game {
       (particle.mesh.material as THREE.Material).dispose();
     });
     this.burstParticles.length = 0;
+    this.impactRings.forEach((ring) => {
+      this.scene.remove(ring.mesh);
+      ring.mesh.geometry.dispose();
+      (ring.mesh.material as THREE.Material).dispose();
+    });
+    this.impactRings.length = 0;
   }
 
   private publishDiagnostics(): void {
@@ -694,7 +877,16 @@ export class Game {
       },
       audio: this.audio.diagnostics,
       physics: { engine: 'custom-arcade', timestep: FIXED_STEP, bodies: 1 + this.activeRivals.length, colliders: 1 + this.activeRivals.length + this.pickups.filter((pickup) => pickup.active).length, activeHits: this.activeHits },
-      input: { dash: this.input.isDashHeld() },
+      input: { dash: this.input.isDashHeld(), boosting: this.boosting },
+      combat: {
+        playerHealth: this.playerHealth,
+        playerMaxHealth: this.playerMaxHealth,
+        rivalsRemaining: this.activeRivals.length,
+        eliminations: this.eliminations,
+        rivalHealth: this.rivals.filter((rival) => !rival.eliminated && rival.group.visible).map((rival) => ({ index: rival.index, health: rival.health, maxHealth: rival.maxHealth })),
+        damageBoostTime: this.damageBoostTime,
+        boostCharge: this.boostCharge,
+      },
       entities: {
         rivals: this.activeRivals.length,
         importedCars: this.scene.children.reduce((count, child) => {

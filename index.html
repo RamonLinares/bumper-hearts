@@ -12,10 +12,10 @@
     <main id="app">
       <canvas id="game-canvas" tabindex="-1" aria-label="Playable Three.js game canvas"></canvas>
       <section id="hud" aria-label="Ride status">
-        <div class="score-ticket" aria-label="Joy score">
-          <span class="metric-icon" aria-hidden="true">★</span>
-          <span class="metric-copy"><small>Joy · <span id="hud-stage">Stage 01</span></small><strong id="score-value">000000</strong></span>
-          <span class="ticket-goal">/ <span id="target-value">700</span></span>
+        <div class="score-ticket" aria-label="Car integrity">
+          <span class="metric-icon" aria-hidden="true">◆</span>
+          <span class="metric-copy"><small>Integrity · <span id="hud-stage">Stage 01</span></small><strong id="score-value">100%</strong></span>
+          <span class="ticket-goal">/ <span id="target-value">MAX</span></span>
         </div>
         <div class="ride-clock" aria-label="Ride time remaining">
           <span class="bulb-row" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
@@ -23,10 +23,11 @@
           <strong id="timer-value">01:15</strong>
         </div>
         <div class="ride-progress" aria-hidden="true"><span id="progress-fill"></span></div>
-        <div id="status-line">Bump rivals <b>•</b> collect memories</div>
+        <div id="status-line"><span id="objective-line">Last car standing</span><small id="combat-status">2 rivals · Boost 100%</small></div>
         <div class="hud-actions">
           <button id="camera-button" class="icon-button" type="button" aria-label="Switch to first-person view" aria-pressed="false" title="Change view (C)"><span class="camera-glyph" aria-hidden="true">⌾</span></button>
-          <button id="sound-button" class="icon-button" type="button" aria-label="Mute sound" aria-pressed="false" title="Mute sound (M)"><span class="sound-glyph" aria-hidden="true">♪</span></button>
+          <button id="fx-button" class="icon-button" type="button" aria-label="Mute effects" aria-pressed="false" title="Mute effects (M)"><span class="sound-glyph" aria-hidden="true">FX</span></button>
+          <button id="music-button" class="icon-button" type="button" aria-label="Mute music" aria-pressed="false" title="Mute music (N)"><span class="sound-glyph" aria-hidden="true">♫</span></button>
           <button id="restart-button" class="icon-button" type="button" aria-label="Restart ride" title="Restart (R)">↻</button>
           <button id="pause-button" class="icon-button" type="button" aria-label="Pause ride" title="Pause (P)"><span></span><span></span></button>
         </div>
@@ -65,7 +66,7 @@
             <button id="modal-primary" type="button">Begin story</button>
             <button id="modal-secondary" type="button" hidden>New story</button>
           </div>
-          <p class="controls-hint"><kbd>WASD</kbd> steer <span>·</span> <kbd>Space</kbd> boost <span>·</span> <kbd>C</kbd> view <span>·</span> <kbd>M</kbd> sound <span>·</span> <kbd>P</kbd> pause</p>
+          <p class="controls-hint"><kbd>WASD</kbd> steer <span>·</span> <kbd>Space</kbd> boost <span>·</span> <kbd>C</kbd> view <span>·</span> <kbd>M</kbd> FX <span>·</span> <kbd>N</kbd> music <span>·</span> <kbd>P</kbd> pause</p>
         </div>
       </section>
       <div id="touch-controls" aria-hidden="true">

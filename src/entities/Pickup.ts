@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { createImportedCollectible } from '../assets/ImportedCollectible';
 import type { CollectibleKind } from '../game/Campaign';
 
+export type PowerUpType = 'repair' | 'overdrive' | 'shock';
+
 const TILTED_KINDS = new Set<CollectibleKind>([
   'ticket', 'cafe-token', 'trophy-star', 'evidence-card', 'love-letter', 'marquee-heart',
 ]);
@@ -20,22 +22,24 @@ export class Pickup {
   private kind: CollectibleKind = 'ticket';
   private requestVersion = 0;
   private importedReady = false;
+  powerUpType: PowerUpType = 'repair';
 
-  constructor(readonly index: number, position: THREE.Vector3, kind: CollectibleKind = 'ticket', color = '#f5c45b') {
+  constructor(readonly index: number, position: THREE.Vector3, kind: CollectibleKind = 'ticket', color = '#f5c45b', powerUpType: PowerUpType = 'repair') {
     this.visual.name = 'ImportedCollectibleVisual';
     this.halo.name = 'pickupHalo';
     this.halo.position.z = -0.08;
     this.group.add(this.visual, this.halo);
-    this.reconfigure(kind, color, position);
+    this.reconfigure(kind, color, position, powerUpType);
   }
 
-  reconfigure(kind: CollectibleKind, color: string, position?: THREE.Vector3): void {
+  reconfigure(kind: CollectibleKind, color: string, position?: THREE.Vector3, powerUpType: PowerUpType = this.powerUpType): void {
     const version = ++this.requestVersion;
     this.kind = kind;
+    this.powerUpType = powerUpType;
     this.active = true;
     this.importedReady = false;
     this.group.visible = true;
-    this.group.name = `${kind}-${this.index}`;
+    this.group.name = `${powerUpType}-${kind}-${this.index}`;
     if (position) this.group.position.copy(position);
     this.haloMaterial.color.set(color);
     this.visual.clear();

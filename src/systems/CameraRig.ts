@@ -9,6 +9,7 @@ export class CameraRig {
   private readonly localLook = new THREE.Vector3();
   private readonly yawRotation = new THREE.Quaternion();
   private mode: CameraMode = 'overhead';
+  private shake = 0;
 
   constructor(
     private readonly camera: THREE.PerspectiveCamera,
@@ -16,6 +17,8 @@ export class CameraRig {
   ) {}
 
   get currentMode(): CameraMode { return this.mode; }
+
+  impulse(amount: number): void { this.shake = Math.min(0.7, this.shake + Math.max(0, amount)); }
 
   setMode(mode: CameraMode, target: THREE.Vector3, yaw: number): void {
     this.mode = mode;
@@ -35,6 +38,13 @@ export class CameraRig {
     const effectiveLag = this.mode === 'cockpit' ? Math.min(lag, 0.055) : lag;
     const factor = 1 - Math.exp(-delta / Math.max(0.001, effectiveLag));
     this.camera.position.lerp(this.desiredPosition, factor);
+    if (this.shake > 0.002 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const time = performance.now() * 0.035;
+      this.camera.position.x += Math.sin(time * 1.7) * this.shake;
+      this.camera.position.y += Math.cos(time * 1.3) * this.shake * 0.45;
+      this.camera.position.z += Math.sin(time * 2.1) * this.shake * 0.6;
+      this.shake *= Math.exp(-delta * 12);
+    } else this.shake = 0;
     this.camera.fov = THREE.MathUtils.lerp(this.camera.fov, this.mode === 'cockpit' ? 64 : 48, factor);
     this.camera.updateProjectionMatrix();
     this.camera.lookAt(this.lookTarget);

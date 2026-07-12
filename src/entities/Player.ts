@@ -60,11 +60,12 @@ export class Player {
     input: InputController,
     tuning: PlayerTuning,
     controlMode: PlayerControlMode,
+    boosting: boolean,
     _bounds: ArenaBounds,
   ): void {
     input.readMovement(this.move);
     this.activeControlMode = controlMode;
-    const dash = input.isDashHeld() ? tuning.dashMultiplier : 1;
+    const dash = boosting ? tuning.dashMultiplier : 1;
 
     if (controlMode === 'vehicle') {
       // POV controls are relative to the car: vertical input is throttle and
@@ -88,7 +89,7 @@ export class Player {
 
     this.group.position.y = 0.06 + Math.sin(elapsed * 9) * Math.min(this.velocity.length() / 40, 0.08);
     this.model.antenna.rotation.z = Math.sin(elapsed * 9) * Math.min(0.12, this.velocity.length() * 0.012);
-    const glow = input.isDashHeld() ? 2.35 : 1.35;
+    const glow = boosting ? 3.1 : 1.35;
     this.model.lamps.forEach((lamp) => {
       (lamp.material as THREE.MeshStandardMaterial).emissiveIntensity = glow;
     });

@@ -18,6 +18,12 @@ export type HudViewModel = {
   campaignScore: number;
   completedStages: number;
   storyPhase: StoryPhase;
+  playerHealth: number;
+  playerMaxHealth: number;
+  rivalsRemaining: number;
+  eliminations: number;
+  boostCharge: number;
+  damageBoostTime: number;
 };
 
 export class Hud {
@@ -29,6 +35,8 @@ export class Hud {
   private readonly timerValue = this.getElement('#timer-value');
   private readonly stageValue = this.getElement('#hud-stage');
   private readonly statusLine = this.getElement('#status-line');
+  private readonly objectiveLine = this.getElement('#objective-line');
+  private readonly combatStatus = this.getElement('#combat-status');
   private readonly progressFill = this.getElement('#progress-fill');
   private readonly chapterMeta = this.getElement('#chapter-meta');
   private readonly chapterLabel = this.getElement('#chapter-label');
@@ -48,26 +56,36 @@ export class Hud {
   private readonly modalSecondary = this.getElement<HTMLButtonElement>('#modal-secondary');
 
   update(view: HudViewModel): void {
-    const { state, score, target, timeLeft, stage, stageNumber, stageCount } = view;
-    this.scoreValue.textContent = String(score).padStart(6, '0');
-    this.targetValue.textContent = String(target);
+    const { state, timeLeft, stage, stageNumber, stageCount } = view;
+    this.scoreValue.textContent = `${Math.ceil(view.playerHealth)}%`;
+    this.targetValue.textContent = 'MAX';
     this.stageValue.textContent = `Stage ${String(stageNumber).padStart(2, '0')}`;
     const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
     const seconds = Math.ceil(timeLeft % 60).toString().padStart(2, '0');
     this.timerValue.textContent = `${minutes}:${seconds}`;
-    this.progressFill.style.setProperty('--progress', `${Math.min(100, score / target * 100)}%`);
+    this.progressFill.style.setProperty('--progress', `${Math.min(100, view.playerHealth / view.playerMaxHealth * 100)}%`);
+    this.progressFill.style.setProperty('--health', `${view.playerHealth / view.playerMaxHealth}`);
+    this.progressFill.style.background = view.playerHealth > 55
+      ? 'linear-gradient(90deg, #4e9f9b, #65d4ca)'
+      : view.playerHealth > 25
+        ? 'linear-gradient(90deg, #e7ad43, #f5c45b)'
+        : 'linear-gradient(90deg, #a82f43, #e65e72)';
     document.body.dataset.gameState = state;
     document.body.style.setProperty('--stage-accent', stage.theme.accent);
 
     const statusCopy: Record<GameState, string> = {
       welcome: 'Ten nights. One unforgettable summer.',
       story: `${stage.chapter} · ${stage.title}`,
-      playing: `Bump rivals • collect memories • ${stage.title}`,
+      playing: `Last car standing • ${stage.title}`,
       paused: `Stage ${stageNumber} paused`,
       lost: 'Continue? The story is not over.',
       campaignComplete: 'The marquee shines again',
     };
-    this.statusLine.textContent = statusCopy[state];
+    if (state === 'playing') {
+      if (!this.objectiveLine.isConnected) this.statusLine.replaceChildren(this.objectiveLine, this.combatStatus);
+      this.objectiveLine.textContent = 'Last car standing';
+      this.combatStatus.textContent = `${view.rivalsRemaining} rival${view.rivalsRemaining === 1 ? '' : 's'} · Boost ${Math.round(view.boostCharge)}%${view.damageBoostTime > 0 ? ` · Overdrive ${view.damageBoostTime.toFixed(1)}s` : ''}`;
+    } else this.statusLine.textContent = statusCopy[state];
 
     const overlayOpen = state !== 'playing';
     this.overlay.setAttribute('aria-hidden', String(!overlayOpen));
@@ -107,10 +125,10 @@ export class Hud {
       this.connectionStatus.textContent = beat.connection;
       this.pressureStatus.textContent = beat.pressure;
       this.modalScore.textContent = epilogue
-        ? `All ${stageCount} stages clear  ·  Campaign ${view.campaignScore.toLocaleString('en-US')} joy`
+        ? `All ${stageCount} stages survived  ·  ${view.campaignScore.toLocaleString('en-US')} total knockouts`
         : view.storyPhase === 'intro'
-        ? `Mission · Collect glowing memories and bump rivals · Reach ${stage.targetScore.toLocaleString('en-US')} Joy in ${stage.seconds} seconds${stage.bossRival ? ' · Rex joins the ride' : ''}`
-        : `Stage clear  ·  ${score.toLocaleString('en-US')} joy  ·  Campaign ${view.campaignScore.toLocaleString('en-US')}`;
+        ? `Mission · Be the last car running · Survive ${stage.seconds} seconds${stage.bossRival ? ' · Rex joins the arena' : ''} · Green repairs · Gold overdrive · Blue shock bomb`
+        : `Stage survived  ·  ${view.eliminations} knockouts  ·  ${Math.ceil(view.playerHealth)}% integrity remaining`;
       this.modalPrimary.textContent = epilogue
         ? 'Play the story again'
         : view.storyPhase === 'intro'
@@ -131,21 +149,21 @@ export class Hud {
         : 'A patched bumper car, a brilliant lighting designer, and one last summer at the old fairground.';
       this.modalScore.textContent = hasProgress
         ? `${view.completedStages} of ${stageCount} stages cleared  ·  ${view.campaignScore.toLocaleString('en-US')} total joy`
-        : `${stageCount} stages  ·  One summer story  ·  Progress saved for this session`;
+        : `${stageCount} survival stages  ·  One summer story  ·  Progress saved for this session`;
       this.modalPrimary.textContent = hasProgress ? 'Continue story' : 'Begin story';
       this.modalSecondary.hidden = !hasProgress;
       this.modalSecondary.textContent = 'Restart from stage 1';
     } else if (state === 'paused') {
       this.modalTitle.textContent = 'Ride paused';
       this.modalCopy.textContent = `${stage.chapter}: ${stage.title} will wait.`;
-      this.modalScore.textContent = `Current score  ${String(score).padStart(6, '0')}  ·  Target ${target.toLocaleString('en-US')}`;
+      this.modalScore.textContent = `Integrity ${Math.ceil(view.playerHealth)}%  ·  ${view.rivalsRemaining} rivals remain  ·  Boost ${Math.round(view.boostCharge)}%`;
       this.modalPrimary.textContent = 'Resume';
       this.modalSecondary.hidden = false;
       this.modalSecondary.textContent = 'Restart stage';
     } else if (state === 'lost') {
       this.modalTitle.textContent = 'Continue?';
-      this.modalCopy.textContent = 'The story is not over. Tune the car, read the lights, and try this chapter again.';
-      this.modalScore.textContent = `Stage ${stageNumber}  ·  ${score.toLocaleString('en-US')} / ${target.toLocaleString('en-US')} joy`;
+      this.modalCopy.textContent = 'Your car is out of the arena. Use angled hits, save boost for committed attacks, and fight for the repair pickups.';
+      this.modalScore.textContent = `Stage ${stageNumber}  ·  ${view.eliminations} knockouts  ·  ${view.rivalsRemaining} rivals survived`;
       this.modalPrimary.textContent = 'Retry stage';
     }
   }
