@@ -3,6 +3,7 @@ import { InputController } from '../core/InputController';
 import { Loop } from '../core/Loop';
 import { createRenderer, resizeRenderer } from '../core/Renderer';
 import { assetUrl } from '../core/assetUrl';
+import { createStageFloorTexture } from '../assets/StageFloorTexture';
 import { Pickup } from '../entities/Pickup';
 import { Player, type ArenaBounds } from '../entities/Player';
 import { Rival } from '../entities/Rival';
@@ -11,6 +12,7 @@ import { CameraRig, type CameraMode } from '../systems/CameraRig';
 import { CollisionSystem } from '../systems/CollisionSystem';
 import { DebugTools, type DebugTuning } from '../systems/DebugTools';
 import { Hud } from '../systems/Hud';
+import { StageDressing } from '../systems/StageDressing';
 import {
   CAMPAIGN_STAGES,
   clearCampaignProgress,
@@ -46,6 +48,7 @@ export class Game {
   private readonly pauseButton: HTMLButtonElement;
   private readonly restartButton: HTMLButtonElement;
   private readonly cameraButton: HTMLButtonElement;
+  private readonly soundButton: HTMLButtonElement;
   private readonly stateOverlay: HTMLElement;
   private readonly modalPrimaryButton: HTMLButtonElement;
   private readonly modalSecondaryButton: HTMLButtonElement;
@@ -65,7 +68,12 @@ export class Game {
   private readonly carForward = new THREE.Vector3();
   private readonly campaign = loadCampaignProgress();
   private floorMaterial?: THREE.MeshStandardMaterial;
+  private floorTexture?: THREE.CanvasTexture;
   private centerMaterial?: THREE.MeshStandardMaterial;
+  private stageDressing?: StageDressing;
+  private keyLight?: THREE.DirectionalLight;
+  private fillLight?: THREE.DirectionalLight;
+  private rimLight?: THREE.PointLight;
   private frame = 0;
   private stageIndex = Math.min(this.campaign.completedStages, CAMPAIGN_STAGES.length - 1);
   private storyPhase: StoryPhase = 'intro';
@@ -74,6 +82,8 @@ export class Game {
   private state: GameState = this.campaign.completedStages >= CAMPAIGN_STAGES.length ? 'campaignComplete' : 'welcome';
   private accumulator = 0;
   private activeHits = 0;
+  private wasDashing = false;
+  private presentedStageId: string | null = null;
 
   constructor(private readonly canvas: HTMLCanvasElement) {
     this.renderer = createRenderer(canvas);
@@ -82,20 +92,24 @@ export class Game {
     this.pauseButton = this.getElement<HTMLButtonElement>('#pause-button');
     this.restartButton = this.getElement<HTMLButtonElement>('#restart-button');
     this.cameraButton = this.getElement<HTMLButtonElement>('#camera-button');
+    this.soundButton = this.getElement<HTMLButtonElement>('#sound-button');
     this.stateOverlay = this.getElement('#state-overlay');
     this.modalPrimaryButton = this.getElement<HTMLButtonElement>('#modal-primary');
     this.modalSecondaryButton = this.getElement<HTMLButtonElement>('#modal-secondary');
     this.pauseButton.addEventListener('click', this.togglePause);
     this.restartButton.addEventListener('click', this.restartStage);
     this.cameraButton.addEventListener('click', this.toggleCamera);
+    this.soundButton.addEventListener('click', this.toggleSound);
     this.modalPrimaryButton.addEventListener('click', this.handleModalPrimary);
     this.modalSecondaryButton.addEventListener('click', this.handleModalSecondary);
     this.stateOverlay.addEventListener('keydown', this.handleOverlayKeyDown);
+    window.addEventListener('keydown', this.handleGlobalAudioKey);
     this.debugTools = new DebugTools(this.tuning, () => {
       this.renderer.toneMappingExposure = this.tuning.exposure;
       resizeRenderer(this.renderer, this.camera, this.tuning.maxDpr);
     });
     this.createScene();
+    this.syncSoundButton();
     this.applyStagePresentation();
     this.syncHud();
     this.modalPrimaryButton.focus({ preventScroll: true });
@@ -122,7 +136,7 @@ export class Game {
         failStage: () => {
           if (this.state !== 'playing') return;
           this.timeLeft = 0;
-          this.setState('lost');
+          this.failStage();
         },
       };
     }
@@ -135,11 +149,15 @@ export class Game {
     this.pauseButton.removeEventListener('click', this.togglePause);
     this.restartButton.removeEventListener('click', this.restartStage);
     this.cameraButton.removeEventListener('click', this.toggleCamera);
+    this.soundButton.removeEventListener('click', this.toggleSound);
     this.modalPrimaryButton.removeEventListener('click', this.handleModalPrimary);
     this.modalSecondaryButton.removeEventListener('click', this.handleModalSecondary);
     this.stateOverlay.removeEventListener('keydown', this.handleOverlayKeyDown);
+    window.removeEventListener('keydown', this.handleGlobalAudioKey);
     this.input.dispose();
     this.audio.dispose();
+    this.stageDressing?.dispose();
+    this.floorTexture?.dispose();
     this.debugTools.dispose();
     this.pickups.forEach((pickup) => pickup.dispose());
     this.rivals.forEach((rival) => rival.dispose());
@@ -159,9 +177,35 @@ export class Game {
 
   private readonly togglePause = () => {
     if (this.state !== 'playing' && this.state !== 'paused') return;
-    this.setState(this.state === 'paused' ? 'playing' : 'paused');
+    const pausing = this.state === 'playing';
+    if (pausing) {
+      this.audio.pauseCue();
+      window.setTimeout(() => void this.audio.setPaused(true), 120);
+    } else {
+      void this.audio.setPaused(false);
+    }
+    this.setState(pausing ? 'paused' : 'playing');
     this.pauseButton.setAttribute('aria-label', this.state === 'paused' ? 'Resume ride' : 'Pause ride');
   };
+
+  private readonly toggleSound = () => {
+    const muted = this.audio.toggleMuted();
+    this.syncSoundButton();
+    if (!muted) void this.audio.unlock().then(() => this.audio.confirm());
+  };
+
+  private readonly handleGlobalAudioKey = (event: KeyboardEvent) => {
+    if (event.code !== 'KeyM' || event.repeat) return;
+    this.toggleSound();
+  };
+
+  private syncSoundButton(): void {
+    const muted = this.audio.isMuted();
+    this.soundButton.setAttribute('aria-pressed', String(muted));
+    this.soundButton.setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound');
+    this.soundButton.title = muted ? 'Unmute sound (M)' : 'Mute sound (M)';
+    this.soundButton.querySelector('.sound-glyph')!.textContent = muted ? '♪̸' : '♪';
+  }
 
   private readonly toggleCamera = () => {
     if (this.state !== 'playing') return;
@@ -182,6 +226,7 @@ export class Game {
       this.resetCampaign();
       this.showStageIntro();
     }
+    void this.audio.unlock().then(() => this.audio.confirm());
   };
 
   private readonly handleModalSecondary = () => {
@@ -189,6 +234,7 @@ export class Game {
       this.resetCampaign();
       this.showStageIntro();
     } else if (this.state === 'paused') this.restartStage();
+    void this.audio.unlock().then(() => this.audio.confirm());
   };
 
   private readonly handleOverlayKeyDown = (event: KeyboardEvent) => {
@@ -245,6 +291,7 @@ export class Game {
     this.timeLeft = this.currentStage.seconds;
     this.accumulator = 0;
     this.activeHits = 0;
+    this.wasDashing = false;
     this.impactCooldowns.clear();
     this.player.reset();
     this.rivals.forEach((rival, index) => {
@@ -261,6 +308,9 @@ export class Game {
     this.cameraRig.snapTo(this.player.group.position, this.player.group.rotation.y);
     this.applyStagePresentation();
     this.setState('playing', true);
+    void this.audio.setPaused(false).then(() => {
+      if (this.currentStage.bossRival) this.audio.bossCue();
+    });
   };
 
   private update(delta: number, elapsed: number): void {
@@ -279,6 +329,7 @@ export class Game {
     }
     this.updateParticles(delta);
     this.pickups.forEach((pickup) => pickup.update(delta, elapsed));
+    this.stageDressing?.update(delta, elapsed);
     this.cameraRig.update(delta, this.player.group.position, this.player.group.rotation.y, this.tuning.cameraLag);
     this.syncHud();
     this.publishDiagnostics();
@@ -294,6 +345,9 @@ export class Game {
       this.cameraRig.currentMode === 'cockpit' ? 'vehicle' : 'arena',
       ARENA,
     );
+    const dashing = this.input.isDashHeld();
+    if (dashing && !this.wasDashing) this.audio.boost();
+    this.wasDashing = dashing;
     this.activeRivals.forEach((rival) => rival.update(delta, this.player.group.position, ARENA));
     this.collision.keepInArena(this.player, ARENA);
     this.activeRivals.forEach((rival) => this.collision.keepInArena(rival, ARENA));
@@ -321,7 +375,13 @@ export class Game {
       else this.impactCooldowns.set(index, next);
     }
     if (this.score >= this.currentStage.targetScore) this.completeStage();
-    else if (this.timeLeft <= 0) this.setState('lost');
+    else if (this.timeLeft <= 0) this.failStage();
+  }
+
+  private failStage(): void {
+    if (this.state !== 'playing') return;
+    this.audio.stageFail();
+    this.setState('lost');
   }
 
   private completeStage(): void {
@@ -329,6 +389,7 @@ export class Game {
     this.campaign.campaignScore += this.score;
     this.campaign.completedStages = Math.max(this.campaign.completedStages, this.stageIndex + 1);
     saveCampaignProgress(this.campaign);
+    this.audio.stageClear();
     this.storyPhase = 'outro';
     this.setState('story', true);
   }
@@ -361,9 +422,33 @@ export class Game {
       const bossScale = this.currentStage.bossRival?.index === index ? this.currentStage.bossRival.scale : 1;
       rival.configure(this.currentStage.difficulty, index < this.currentStage.rivalCount, bossScale);
     });
-    this.floorMaterial?.color.set(this.currentStage.theme.floorTint);
+    if (this.presentedStageId === this.currentStage.id) return;
+    this.presentedStageId = this.currentStage.id;
+    if (this.floorMaterial) {
+      const nextFloorTexture = createStageFloorTexture(this.currentStage);
+      nextFloorTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+      this.floorTexture?.dispose();
+      this.floorTexture = nextFloorTexture;
+      this.floorMaterial.map = nextFloorTexture;
+      this.floorMaterial.color.set(this.currentStage.theme.floorTint);
+      this.floorMaterial.needsUpdate = true;
+    }
     this.centerMaterial?.color.set(this.currentStage.theme.accent);
     if (this.scene.fog instanceof THREE.Fog) this.scene.fog.color.set(this.currentStage.theme.fog);
+    this.stageDressing?.configure(this.currentStage);
+    this.keyLight?.color.set(this.currentStage.theme.lightColor);
+    this.fillLight?.color.set(this.currentStage.theme.accent);
+    this.rimLight?.color.set(this.currentStage.theme.secondary);
+    const angle = (this.stageIndex / CAMPAIGN_STAGES.length) * Math.PI * 2;
+    this.keyLight?.position.set(Math.cos(angle) * 8, 11, Math.sin(angle) * 8);
+
+    this.currentStage.collectibles.positions.forEach(([x, z], index) => {
+      this.pickups[index]?.reconfigure(
+        this.currentStage.collectibles.kind,
+        this.currentStage.collectibles.color,
+        new THREE.Vector3(x, 0.8, z),
+      );
+    });
   }
 
   private registerPlayerImpact(rival: Rival, strength: number): void {
@@ -388,16 +473,17 @@ export class Game {
       this.scene.background = texture;
     });
     this.scene.add(new THREE.HemisphereLight('#fff0c2', '#252038', 1.75));
-    const sun = new THREE.DirectionalLight('#ffd9a0', 2.55);
-    sun.position.set(-6, 11, 7);
-    sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
-    Object.assign(sun.shadow.camera, { near: 0.5, far: 35, left: -15, right: 15, top: 12, bottom: -12 });
-    const coolFill = new THREE.DirectionalLight('#8fb9d8', 0.82);
-    coolFill.position.set(8, 8, -10);
-    const rim = new THREE.PointLight('#fff0c2', 18, 28, 2);
-    rim.position.set(0, 5.8, -9);
-    this.scene.add(sun, coolFill, rim, this.createArena(), this.createPavilion(), this.player.group);
+    this.keyLight = new THREE.DirectionalLight('#ffd9a0', 2.55);
+    this.keyLight.position.set(-6, 11, 7);
+    this.keyLight.castShadow = true;
+    this.keyLight.shadow.mapSize.set(2048, 2048);
+    Object.assign(this.keyLight.shadow.camera, { near: 0.5, far: 35, left: -15, right: 15, top: 12, bottom: -12 });
+    this.fillLight = new THREE.DirectionalLight('#8fb9d8', 0.82);
+    this.fillLight.position.set(8, 8, -10);
+    this.rimLight = new THREE.PointLight('#fff0c2', 18, 28, 2);
+    this.rimLight.position.set(0, 5.8, -9);
+    this.stageDressing = new StageDressing(this.currentStage);
+    this.scene.add(this.keyLight, this.fillLight, this.rimLight, this.createArena(), this.createPavilion(), this.stageDressing.group, this.player.group);
     this.rivals.forEach((rival) => this.scene.add(rival.group));
     this.createPickups();
   }
@@ -405,11 +491,11 @@ export class Game {
   private createArena(): THREE.Group {
     const arena = new THREE.Group();
     arena.name = 'LayeredPocketArena';
-    const floorTexture = this.createFloorTexture();
-    floorTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    this.floorTexture = createStageFloorTexture(this.currentStage);
+    this.floorTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
     this.floorMaterial = new THREE.MeshStandardMaterial({
       color: this.currentStage.theme.floorTint,
-      map: floorTexture,
+      map: this.floorTexture,
       roughness: 0.62,
       metalness: 0.16,
     });
@@ -531,9 +617,13 @@ export class Game {
   }
 
   private createPickups(): void {
-    const positions = [[-8, -4], [-3, -5], [3, -4.8], [8, -3], [-7.5, 3.5], [-1.5, 4.7], [4.5, 3.8], [8.2, 1.4]];
-    positions.forEach(([x, z], index) => {
-      const pickup = new Pickup(index, new THREE.Vector3(x, 0.8, z));
+    this.currentStage.collectibles.positions.forEach(([x, z], index) => {
+      const pickup = new Pickup(
+        index,
+        new THREE.Vector3(x, 0.8, z),
+        this.currentStage.collectibles.kind,
+        this.currentStage.collectibles.color,
+      );
       this.pickups.push(pickup);
       this.scene.add(pickup.group);
     });
@@ -587,111 +677,6 @@ export class Game {
     this.burstParticles.length = 0;
   }
 
-  private createFloorTexture(): THREE.CanvasTexture {
-    const textureCanvas = document.createElement('canvas');
-    textureCanvas.width = textureCanvas.height = 512;
-    const context = textureCanvas.getContext('2d');
-    if (!context) throw new Error('Could not create floor texture context.');
-
-    // A single authored arena surface: aged graphite enamel over modular steel
-    // plates. Keep the mid-tones visible so shadows add depth instead of
-    // turning the playfield into a black void.
-    context.fillStyle = '#52575a';
-    context.fillRect(0, 0, 512, 512);
-
-    const panelSize = 64;
-    for (let row = 0; row < 8; row += 1) {
-      for (let column = 0; column < 8; column += 1) {
-        const warmPanel = (row + column) % 3 === 0;
-        context.fillStyle = warmPanel
-          ? 'rgba(111, 99, 87, 0.22)'
-          : 'rgba(47, 77, 78, 0.16)';
-        context.fillRect(column * panelSize + 2, row * panelSize + 2, panelSize - 4, panelSize - 4);
-      }
-    }
-
-    const centerGlow = context.createRadialGradient(256, 236, 24, 256, 256, 350);
-    centerGlow.addColorStop(0, 'rgba(255, 220, 157, 0.18)');
-    centerGlow.addColorStop(0.48, 'rgba(244, 196, 91, 0.045)');
-    centerGlow.addColorStop(1, 'rgba(8, 15, 24, 0.28)');
-    context.fillStyle = centerGlow;
-    context.fillRect(0, 0, 512, 512);
-
-    // Recessed plate seams with a warm worn lip.
-    for (let i = 0; i <= 512; i += panelSize) {
-      context.strokeStyle = 'rgba(15, 24, 29, 0.66)';
-      context.lineWidth = 3;
-      context.beginPath();
-      context.moveTo(i, 0);
-      context.lineTo(i, 512);
-      context.moveTo(0, i);
-      context.lineTo(512, i);
-      context.stroke();
-      context.strokeStyle = 'rgba(218, 190, 139, 0.16)';
-      context.lineWidth = 1;
-      context.beginPath();
-      context.moveTo(i + 2, 0);
-      context.lineTo(i + 2, 512);
-      context.moveTo(0, i + 2);
-      context.lineTo(512, i + 2);
-      context.stroke();
-    }
-
-    // Rivets reinforce the miniature scale without adding geometry or draw calls.
-    for (let y = panelSize; y < 512; y += panelSize) {
-      for (let x = panelSize; x < 512; x += panelSize) {
-        context.fillStyle = 'rgba(229, 204, 153, 0.42)';
-        context.beginPath();
-        context.arc(x + 5, y + 5, 2.2, 0, Math.PI * 2);
-        context.fill();
-        context.fillStyle = 'rgba(12, 20, 25, 0.48)';
-        context.beginPath();
-        context.arc(x + 5.8, y + 5.8, 1.1, 0, Math.PI * 2);
-        context.fill();
-      }
-    }
-
-    // Overlapping tyre arcs, softened by years of use.
-    context.lineCap = 'round';
-    for (let i = 0; i < 18; i += 1) {
-      const x = 54 + ((i * 83) % 410);
-      const y = 48 + ((i * 137) % 408);
-      context.strokeStyle = i % 3 === 0 ? 'rgba(18, 20, 22, 0.34)' : 'rgba(29, 31, 32, 0.23)';
-      context.lineWidth = 3 + (i % 3);
-      context.beginPath();
-      context.ellipse(x, y, 42 + (i % 4) * 16, 13 + (i % 3) * 7, i * 0.47, 0.18, Math.PI * (1.18 + (i % 3) * 0.18));
-      context.stroke();
-    }
-
-    // Fine scratches and worn enamel flecks—deterministic, sparse, and stable.
-    for (let i = 0; i < 110; i += 1) {
-      const x = (i * 97 + 23) % 512;
-      const y = (i * 173 + 41) % 512;
-      const length = 3 + (i % 11);
-      context.strokeStyle = i % 4 === 0
-        ? 'rgba(238, 215, 170, 0.18)'
-        : 'rgba(21, 31, 34, 0.2)';
-      context.lineWidth = i % 5 === 0 ? 1.5 : 0.8;
-      context.beginPath();
-      context.moveTo(x, y);
-      context.lineTo(x + length, y + ((i % 5) - 2));
-      context.stroke();
-    }
-
-    // Soft oil and rubber haze in a few high-traffic areas.
-    for (const [x, y, radius] of [[126, 346, 52], [392, 162, 44], [332, 386, 60]] as const) {
-      const stain = context.createRadialGradient(x, y, 0, x, y, radius);
-      stain.addColorStop(0, 'rgba(14, 27, 30, 0.2)');
-      stain.addColorStop(1, 'rgba(14, 27, 30, 0)');
-      context.fillStyle = stain;
-      context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
-    }
-
-    const texture = new THREE.CanvasTexture(textureCanvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-  }
-
   private publishDiagnostics(): void {
     const info = this.renderer.info;
     this.camera.getWorldDirection(this.cameraForward);
@@ -718,7 +703,17 @@ export class Game {
         rivalCount: this.currentStage.rivalCount,
         rivalSpeedMultiplier: this.currentStage.difficulty.speedMultiplier,
         bossRivalIndex: this.currentStage.bossRival?.index ?? null,
+        collectibleKind: this.currentStage.collectibles.kind,
+        collectibleName: this.currentStage.collectibles.name,
+        pickupLayoutSignature: this.currentStage.collectibles.positions.map(([x, z]) => `${x},${z}`).join('|'),
       },
+      world: {
+        floorPattern: this.currentStage.theme.floorPattern,
+        dressing: this.currentStage.theme.dressing,
+        props: this.stageDressing?.diagnostics.props ?? 0,
+        meshes: this.stageDressing?.diagnostics.meshes ?? 0,
+      },
+      audio: this.audio.diagnostics,
       physics: { engine: 'custom-arcade', timestep: FIXED_STEP, bodies: 1 + this.activeRivals.length, colliders: 1 + this.activeRivals.length + this.pickups.filter((pickup) => pickup.active).length, activeHits: this.activeHits },
       input: { dash: this.input.isDashHeld() },
       entities: {

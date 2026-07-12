@@ -39,3 +39,10 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 - Added environment-aware Vite base-path support and centralized runtime public-asset URL resolution for project Pages hosting.
 - Added `.github/workflows/deploy-pages.yml` to build with Node 22, upload `dist/client`, provide an SPA fallback, and deploy through GitHub Pages.
 - Verified the production build under `GITHUB_REPOSITORY=RamonLinares/bumper-hearts`; HTML, generated chunks, story art, background, and imported 3D model resolve below `/bumper-hearts/`.
+
+## ElevenLabs audio and ten-stage art pass
+
+- Generated and integrated twelve ElevenLabs-produced MP3 assets: fairground ambience, UI cues, two pickup variants, two bumper impacts, boost, boss entrance, stage clear, and stage fail. Audio unlocks on the first gesture, supports mute persistence and visibility/pause handling, and fails silently if Web Audio is unavailable.
+- Gave every campaign stage its own procedural floor motif, palette, lighting, outside-rail prop kit, collectible model, and safe eight-item layout. A dedicated verifier confirms all ten floors, dressings, collectible kinds, and layouts are unique and playable.
+- Fixed the radio-stage empty-group console warning and avoided rebuilding unchanged stage art on restart.
+- Production build, TypeScript, campaign verification, stage-variety verification, and a scripted browser traversal through Stage 7 pass with all 12 audio assets decoded, ambience playing, and zero console errors. Stage 1 and Stage 7 screenshots were visually inspected.

@@ -92,7 +92,7 @@ export class Hud {
       this.cutsceneArt.src = assetUrl(cutscene.image);
       this.cutsceneFrame.dataset.sequence = String(cutscene.sequence);
       this.storyLocation.textContent = epilogue ? 'Festival Night · Grand Marquee' : stage.location;
-      if (sequenceChanged && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (sequenceChanged && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && this.cutsceneArt.animate) {
         this.cutsceneArt.animate(
           [{ opacity: 0, transform: 'scale(1.025)' }, { opacity: 1, transform: 'scale(1)' }],
           { duration: 420, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },

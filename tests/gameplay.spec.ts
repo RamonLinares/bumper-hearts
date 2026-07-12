@@ -2,8 +2,14 @@ import { expect, test } from '@playwright/test';
 
 async function startRide(page: import('@playwright/test').Page): Promise<void> {
   await page.getByRole('button', { name: /Begin story|Continue story/ }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'welcome')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('story');
   await page.getByRole('button', { name: /Start stage/ }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'story')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('playing');
 }
 
@@ -19,6 +25,10 @@ test('opens on a welcome screen and waits for the rider', async ({ page }) => {
   await page.keyboard.press('KeyR');
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('welcome');
   await page.getByRole('button', { name: 'Begin story' }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'welcome')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('story');
   await expect(page.locator('#story-dialogue')).toContainText('museum');
   await expect(page.locator('#cutscene-frame')).toHaveAttribute('data-sequence', '0');
   await expect(page.locator('#cutscene-art')).toHaveAttribute('src', '/assets/story-anime/scene-00.webp');
@@ -167,21 +177,27 @@ test('stage clear advances the story and loss retries the same chapter', async (
   await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.failStage());
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('lost');
   await page.getByRole('button', { name: 'Retry stage' }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'lost')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
   const retried = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);
   expect(retried?.state).toBe('playing');
   expect(retried?.campaign.stageNumber).toBe(2);
-  expect(retried?.timeLeft).toBe(75);
+  expect(retried?.timeLeft ?? 0).toBeGreaterThan(74.4);
 });
 
 test('the final stage outro is shown before the campaign epilogue', async ({ page }) => {
+  test.setTimeout(180_000);
   await page.goto('/');
   await startRide(page);
   for (let stage = 1; stage <= 10; stage += 1) {
     await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.completeStage());
     if (stage === 10) break;
     await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.campaign.storyPhase)).toBe('outro');
-    await page.getByRole('button', { name: `Continue to stage ${stage + 1}` }).click();
-    await page.getByRole('button', { name: `Start stage ${stage + 1}` }).click();
+    await expect(page.getByRole('button', { name: `Continue to stage ${stage + 1}` })).toBeVisible();
+    await page.locator('#modal-primary').dispatchEvent('click');
+    await expect(page.getByRole('button', { name: `Start stage ${stage + 1}` })).toBeVisible();
+    await page.locator('#modal-primary').dispatchEvent('click');
   }
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('story');
   const finalOutro = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);

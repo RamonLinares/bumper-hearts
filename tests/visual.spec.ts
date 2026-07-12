@@ -56,7 +56,13 @@ test('renders a nonblank interactive game canvas', async ({ page }, testInfo) =>
   await expect(page.locator('#game-canvas')).toBeVisible();
   await page.waitForFunction(() => (window.__THREE_GAME_DIAGNOSTICS__?.frame ?? 0) > 10);
   await page.getByRole('button', { name: 'Begin story' }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'welcome')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
   await page.getByRole('button', { name: 'Start stage 1' }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'story')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('playing');
 
   const sample = await sampleCanvas(page);

@@ -9,6 +9,7 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "playwright test",
     "verify:campaign": "node --experimental-strip-types scripts/verify-campaign.mjs",
+    "verify:stages": "node --experimental-strip-types scripts/verify-stage-variety.mjs",
     "verify:release": "npm run build && node scripts/verify-release.mjs",
     "verify:visual": "playwright test tests/visual.spec.ts",
     "inspect:canvas": "node scripts/inspect-threejs-canvas.mjs"

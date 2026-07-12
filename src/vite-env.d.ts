@@ -22,6 +22,20 @@ interface ThreeGameDiagnostics {
     rivalCount: number;
     rivalSpeedMultiplier: number;
     bossRivalIndex: number | null;
+    collectibleKind: string;
+    collectibleName: string;
+    pickupLayoutSignature: string;
+  };
+  world: { floorPattern: string; dressing: string; props: number; meshes: number };
+  audio: {
+    unlocked: boolean;
+    muted: boolean;
+    contextState: AudioContextState | 'unavailable';
+    ambiencePlaying: boolean;
+    loadedAssets: number;
+    manifestAssets: number;
+    activeSources: number;
+    lastCue: string | null;
   };
   physics: { engine: string; timestep: number; bodies: number; colliders: number; activeHits: number };
   input: { dash: boolean };
