@@ -50,8 +50,6 @@ export class Hud {
   private readonly storyQuote = this.getElement('#story-quote');
   private readonly storyDialogue = this.getElement('#story-dialogue');
   private readonly storySpeaker = this.getElement('#story-speaker');
-  private readonly connectionStatus = this.getElement('#connection-status');
-  private readonly pressureStatus = this.getElement('#pressure-status');
   private readonly modalPrimary = this.getElement<HTMLButtonElement>('#modal-primary');
   private readonly modalSecondary = this.getElement<HTMLButtonElement>('#modal-secondary');
 
@@ -115,8 +113,6 @@ export class Hud {
       this.modalCopy.textContent = beat.narration;
       this.storyDialogue.textContent = `“${beat.dialogue}”`;
       this.storySpeaker.textContent = beat.speaker;
-      this.connectionStatus.textContent = beat.connection;
-      this.pressureStatus.textContent = beat.pressure;
       this.modalScore.textContent = epilogue
         ? `All ${stageCount} stages survived  ·  ${view.campaignScore.toLocaleString('en-US')} total knockouts`
         : view.storyPhase === 'intro'

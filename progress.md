@@ -73,3 +73,7 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 - Story artwork now enters a loading state before its `src` changes, making the previous frame immediately transparent. The new frame is revealed and animated only after its load/decode completes; failed images also release the loading state safely.
 - Added a browser regression test that deliberately delays the next stage-outro image and proves the old image remains at zero opacity throughout the delay, then confirms the new frame appears.
 - TypeScript, the focused transition test, and the required web-game action loop pass; the active gameplay screenshot and diagnostics contain no new console errors.
+
+## Story-dialog cleanup
+
+- Removed the Connection and Pressure signal cards from all story dialogs, along with their HUD bindings and reserved styling, leaving the illustrated scene, narrative, dialogue, speaker, mission summary, and action as the clear hierarchy.
