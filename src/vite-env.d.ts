@@ -51,6 +51,13 @@ interface ThreeGameDiagnostics {
     boostCharge: number;
   };
   entities: { rivals: number; importedCars: number; pickupsActive: number; importedPickupsReady: number; particles: number };
+  powerUp: {
+    active: boolean;
+    type: 'repair' | 'overdrive' | 'shock' | null;
+    spawnIn: number;
+    expiresIn: number;
+    position: { x: number; z: number } | null;
+  };
   player: {
     position: { x: number; y: number; z: number };
     speed: number;

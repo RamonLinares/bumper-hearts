@@ -66,6 +66,11 @@ export class Pickup {
 
   collect(): void { this.active = false; this.group.visible = false; }
 
+  deactivate(): void {
+    this.active = false;
+    this.group.visible = false;
+  }
+
   get isImportedReady(): boolean { return this.importedReady; }
 
   dispose(): void {

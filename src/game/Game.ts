@@ -37,6 +37,9 @@ const POWER_UPS: readonly { type: PowerUpType; kind: 'fuse' | 'trophy-star' | 's
   { type: 'overdrive', kind: 'trophy-star', color: '#ffad42' },
   { type: 'shock', kind: 'storm-lantern', color: '#6fcfff' },
 ];
+const POWER_UP_INITIAL_DELAY = { min: 3.5, max: 6 };
+const POWER_UP_RESPAWN_DELAY = { min: 5, max: 9 };
+const POWER_UP_LIFETIME = 10;
 
 export class Game {
   private readonly renderer: THREE.WebGLRenderer;
@@ -97,6 +100,10 @@ export class Game {
   private boostCharge = 100;
   private boosting = false;
   private eliminations = 0;
+  private powerUpSpawnTimer = 0;
+  private powerUpLifetime = 0;
+  private activePowerUpIndex: number | null = null;
+  private nextPowerUpSlot = 0;
   private presentedStageId: string | null = null;
 
   constructor(private readonly canvas: HTMLCanvasElement) {
@@ -170,6 +177,12 @@ export class Game {
         },
         collectPowerUp: (type: PowerUpType) => {
           if (this.state !== 'playing') return;
+          if (this.activePowerUpIndex !== null) {
+            this.pickups[this.activePowerUpIndex]?.deactivate();
+            this.activePowerUpIndex = null;
+            this.powerUpLifetime = 0;
+            this.schedulePowerUp(POWER_UP_RESPAWN_DELAY.min, POWER_UP_RESPAWN_DELAY.max);
+          }
           this.applyPowerUp(type, this.player.group.position.clone());
         },
       };
@@ -355,11 +368,11 @@ export class Game {
       rival.configure(this.currentStage.difficulty, index < this.currentStage.rivalCount, bossScale);
       rival.reset(RIVAL_SPAWNS[index]);
     });
-    this.pickups.forEach((pickup, index) => {
-      const config = POWER_UPS[index % POWER_UPS.length];
-      const [x, z] = this.currentStage.collectibles.positions[index];
-      pickup.reconfigure(config.kind, config.color, new THREE.Vector3(x, 0.8, z), config.type);
-    });
+    this.pickups.forEach((pickup) => pickup.deactivate());
+    this.activePowerUpIndex = null;
+    this.powerUpLifetime = 0;
+    this.nextPowerUpSlot = 0;
+    this.schedulePowerUp(POWER_UP_INITIAL_DELAY.min, POWER_UP_INITIAL_DELAY.max);
     this.clearParticles();
     this.pauseButton.setAttribute('aria-label', 'Pause ride');
     this.cameraRig.snapTo(this.player.group.position, this.player.group.rotation.y);
@@ -395,6 +408,7 @@ export class Game {
   private simulate(delta: number, elapsed: number): void {
     this.timeLeft = Math.max(0, this.timeLeft - delta);
     this.damageBoostTime = Math.max(0, this.damageBoostTime - delta);
+    this.updatePowerUpSpawner(delta);
     const wantsBoost = this.input.isDashHeld();
     this.boosting = wantsBoost && this.boostCharge > 0.5;
     this.boostCharge = THREE.MathUtils.clamp(
@@ -442,7 +456,12 @@ export class Game {
     }
 
     const collected = this.collision.collectPickups(this.player.group.position, this.pickups, this.player.radius);
-    for (const pickup of collected) this.applyPowerUp(pickup.powerUpType, pickup.group.position);
+    for (const pickup of collected) {
+      this.applyPowerUp(pickup.powerUpType, pickup.group.position);
+      this.activePowerUpIndex = null;
+      this.powerUpLifetime = 0;
+      this.schedulePowerUp(POWER_UP_RESPAWN_DELAY.min, POWER_UP_RESPAWN_DELAY.max);
+    }
     for (const [index, cooldown] of this.impactCooldowns) {
       const next = cooldown - delta;
       if (next <= 0) this.impactCooldowns.delete(index);
@@ -461,6 +480,50 @@ export class Game {
     if (this.state !== 'playing') return;
     this.audio.stageFail();
     this.setState('lost');
+  }
+
+  private schedulePowerUp(minDelay: number, maxDelay: number): void {
+    this.powerUpSpawnTimer = THREE.MathUtils.lerp(minDelay, maxDelay, Math.random());
+  }
+
+  private updatePowerUpSpawner(delta: number): void {
+    if (this.activePowerUpIndex !== null) {
+      this.powerUpLifetime -= delta;
+      if (this.powerUpLifetime <= 0) {
+        this.pickups[this.activePowerUpIndex]?.deactivate();
+        this.activePowerUpIndex = null;
+        this.powerUpLifetime = 0;
+        this.schedulePowerUp(POWER_UP_RESPAWN_DELAY.min, POWER_UP_RESPAWN_DELAY.max);
+      }
+      return;
+    }
+    this.powerUpSpawnTimer -= delta;
+    if (this.powerUpSpawnTimer <= 0) this.spawnPowerUp();
+  }
+
+  private spawnPowerUp(): void {
+    const pickupIndex = this.nextPowerUpSlot++ % this.pickups.length;
+    const pickup = this.pickups[pickupIndex];
+    const config = POWER_UPS[Math.floor(Math.random() * POWER_UPS.length)];
+    const position = this.findPowerUpPosition();
+    pickup.reconfigure(config.kind, config.color, position, config.type);
+    this.activePowerUpIndex = pickupIndex;
+    this.powerUpLifetime = POWER_UP_LIFETIME;
+    this.powerUpSpawnTimer = 0;
+  }
+
+  private findPowerUpPosition(): THREE.Vector3 {
+    const position = new THREE.Vector3();
+    const cars = [this.player, ...this.activeRivals];
+    for (let attempt = 0; attempt < 16; attempt += 1) {
+      position.set(
+        THREE.MathUtils.lerp(-ARENA.halfWidth + 2, ARENA.halfWidth - 2, Math.random()),
+        0.8,
+        THREE.MathUtils.lerp(-ARENA.halfDepth + 2, ARENA.halfDepth - 2, Math.random()),
+      );
+      if (cars.every((car) => car.group.position.distanceToSquared(position) > 7.5)) return position;
+    }
+    return position;
   }
 
   private completeStage(): void {
@@ -745,6 +808,7 @@ export class Game {
         config.color,
         config.type,
       );
+      pickup.deactivate();
       this.pickups.push(pickup);
       this.scene.add(pickup.group);
     });
@@ -899,6 +963,16 @@ export class Game {
         pickupsActive: this.pickups.filter((pickup) => pickup.active).length,
         importedPickupsReady: this.pickups.filter((pickup) => pickup.isImportedReady).length,
         particles: this.burstParticles.length,
+      },
+      powerUp: {
+        active: this.activePowerUpIndex !== null,
+        type: this.activePowerUpIndex === null ? null : this.pickups[this.activePowerUpIndex]?.powerUpType ?? null,
+        spawnIn: this.activePowerUpIndex === null ? Math.max(0, this.powerUpSpawnTimer) : 0,
+        expiresIn: this.activePowerUpIndex === null ? 0 : Math.max(0, this.powerUpLifetime),
+        position: this.activePowerUpIndex === null ? null : {
+          x: this.pickups[this.activePowerUpIndex].group.position.x,
+          z: this.pickups[this.activePowerUpIndex].group.position.z,
+        },
       },
       player: {
         position: { x: this.player.group.position.x, y: this.player.group.position.y, z: this.player.group.position.z },

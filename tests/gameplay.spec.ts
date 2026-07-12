@@ -36,6 +36,9 @@ test('opens on a welcome screen and waits for the rider', async ({ page }) => {
   await page.keyboard.press('KeyR');
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('story');
   await page.getByRole('button', { name: 'Start stage 1' }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'story')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('playing');
   await expect(page.locator('#game-canvas')).toBeFocused();
 });
@@ -174,6 +177,32 @@ test('survival combat supports damage, recovery, overdrive, shock and knockouts'
   const cleared = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);
   expect(cleared?.combat.rivalsRemaining).toBe(0);
   expect(cleared?.combat.eliminations).toBe(2);
+});
+
+test('power-ups arrive one at a time at randomized safe locations', async ({ page }) => {
+  await page.goto('/');
+  await startRide(page);
+  const initial = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);
+  expect(initial?.powerUp.active).toBe(false);
+  expect(initial?.entities.pickupsActive).toBe(0);
+  expect(initial?.powerUp.spawnIn ?? 0).toBeGreaterThan(3);
+
+  await page.evaluate(() => window.advanceTime?.(6_200));
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.powerUp.active)).toBe(true);
+  const spawned = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);
+  expect(spawned?.entities.pickupsActive).toBe(1);
+  expect(spawned?.powerUp.position).not.toBeNull();
+  expect(Math.abs(spawned?.powerUp.position?.x ?? 99)).toBeLessThan(9.6);
+  expect(Math.abs(spawned?.powerUp.position?.z ?? 99)).toBeLessThan(4.8);
+  expect(spawned?.powerUp.expiresIn ?? 0).toBeGreaterThan(3);
+
+  await page.evaluate((type) => {
+    if (type) window.__BUMPER_HEARTS_TEST_HOOKS__?.collectPowerUp(type);
+  }, spawned?.powerUp.type);
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.powerUp.active)).toBe(false);
+  const waiting = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);
+  expect(waiting?.entities.pickupsActive).toBe(0);
+  expect(waiting?.powerUp.spawnIn ?? 0).toBeGreaterThan(4.5);
 });
 
 test('boost is faster, consumes charge, and recovers when released', async ({ page }) => {

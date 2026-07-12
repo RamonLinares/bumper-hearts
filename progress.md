@@ -61,3 +61,9 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 - Generated five new ElevenLabs effects for heavy impacts, repair, overdrive, shock bombs, and eliminations. Converted the user-provided song into a clean looping runtime MP3 and added independent persistent FX and music mute controls (`M` and `N`).
 - Custom arcade physics remains fixed at 1/60 second with simple circular colliders, deterministic arena bounds, and authored impulse/damage response; this keeps the miniature bumper-car feel controllable without introducing a heavyweight solver.
 - Campaign/stage verification, TypeScript, production build, and the full Playwright matrix pass: 22/22 across desktop Chrome and mobile Safari. Active screenshots show no UI overlap or page/console errors. Sampled Stage 1 measured 75 draw calls / 189,195 triangles / 85 geometries / 19 textures on desktop and 36 / 117,433 / 57 / 18 on mobile at DPR 1.5.
+
+## Timed power-up spawner
+
+- Removed all power-ups from the opening layout. Each round now waits 3.5–6 seconds, spawns exactly one random power-up at a safe random arena position, keeps it available for ten seconds, and schedules the next one 5–9 seconds after collection or expiry.
+- Added concise diagnostics for active type, position, spawn countdown, and expiry countdown. Deterministic Playwright coverage verifies zero initial pickups, a single later spawn inside safe bounds, and rescheduling after collection.
+- The required web-game client and an active-spawn screenshot confirm the empty opening arena and a clearly visible single Tripo repair power-up, with no console errors.
