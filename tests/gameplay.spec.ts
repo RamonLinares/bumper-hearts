@@ -103,7 +103,7 @@ test('camera switches between overhead and first-person views', async ({ page })
   expect(cockpit?.camera.fov ?? 0).toBeGreaterThan(63);
   expect(cockpit?.camera.playerVisualVisible).toBe(true);
   expect(cockpit?.camera.carForwardAlignment ?? 0).toBeGreaterThan(0.98);
-  expect((cockpit?.camera.position.y ?? 0) - (cockpit?.player.position.y ?? 0)).toBeGreaterThan(1.5);
+  expect((cockpit?.camera.position.y ?? 0) - (cockpit?.player.position.y ?? 0)).toBeGreaterThan(1.25);
   await expect(page.getByRole('button', { name: 'Switch to overhead view' })).toHaveAttribute('aria-pressed', 'true');
 
   await page.keyboard.press('KeyR');
@@ -147,6 +147,34 @@ test('first-person controls are relative to the car heading', async ({ page }) =
   await page.keyboard.down('ArrowDown');
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.velocity.z ?? 0)).toBeGreaterThan(1);
   await page.keyboard.up('ArrowDown');
+});
+
+test('first-person camera stays rigidly attached to the moving car', async ({ page }) => {
+  await page.goto('/');
+  await startRide(page);
+  await page.keyboard.press('KeyC');
+  await page.keyboard.down('KeyD');
+  await page.keyboard.down('KeyW');
+  await page.waitForTimeout(550);
+  await page.keyboard.up('KeyD');
+  await page.keyboard.up('KeyW');
+
+  const localOffset = await page.evaluate(() => {
+    const diagnostics = window.__THREE_GAME_DIAGNOSTICS__;
+    if (!diagnostics) return null;
+    const dx = diagnostics.camera.position.x - diagnostics.player.position.x;
+    const dy = diagnostics.camera.position.y - diagnostics.player.position.y;
+    const dz = diagnostics.camera.position.z - diagnostics.player.position.z;
+    const yaw = diagnostics.player.yaw;
+    return {
+      x: dx * Math.cos(yaw) - dz * Math.sin(yaw),
+      y: dy,
+      z: dx * Math.sin(yaw) + dz * Math.cos(yaw),
+    };
+  });
+  expect(localOffset?.x ?? 1).toBeCloseTo(-0.38, 2);
+  expect(localOffset?.y ?? 0).toBeCloseTo(1.34, 2);
+  expect(localOffset?.z ?? 0).toBeCloseTo(0.92, 2);
 });
 
 test('survival combat supports damage, recovery, overdrive, shock and knockouts', async ({ page }) => {

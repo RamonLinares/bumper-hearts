@@ -77,3 +77,8 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 ## Story-dialog cleanup
 
 - Removed the Connection and Pressure signal cards from all story dialogs, along with their HUD bindings and reserved styling, leaving the illustrated scene, narrative, dialogue, speaker, mission summary, and action as the clear hierarchy.
+
+## First-person vibration fix
+
+- Removed positional follow-lag from cockpit mode. The first-person camera is now rigidly attached to the car's current pose while overhead mode retains its cinematic smoothing, preventing the nearby hood/body from sliding against the camera on fixed physics steps.
+- Added a moving-and-turning regression check that transforms the camera offset back into car-local space and verifies the cockpit mount remains exact. The mount was moved slightly lower and farther back so the player's own car stays visible without reintroducing follow-lag.

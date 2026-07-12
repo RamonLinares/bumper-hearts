@@ -35,9 +35,13 @@ export class CameraRig {
 
   update(delta: number, target: THREE.Vector3, yaw: number, lag: number): void {
     this.calculatePose(target, yaw);
-    const effectiveLag = this.mode === 'cockpit' ? Math.min(lag, 0.055) : lag;
-    const factor = 1 - Math.exp(-delta / Math.max(0.001, effectiveLag));
-    this.camera.position.lerp(this.desiredPosition, factor);
+    const factor = 1 - Math.exp(-delta / Math.max(0.001, lag));
+    // In cockpit view the player's car occupies the foreground. Any camera
+    // lag makes that nearby body slide against the view on every physics step,
+    // which reads as vibration. Lock the camera to the car pose; retain lag
+    // only for the detached overhead camera.
+    if (this.mode === 'cockpit') this.camera.position.copy(this.desiredPosition);
+    else this.camera.position.lerp(this.desiredPosition, factor);
     if (this.shake > 0.002 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const time = performance.now() * 0.035;
       this.camera.position.x += Math.sin(time * 1.7) * this.shake;
@@ -61,8 +65,8 @@ export class CameraRig {
     // The imported car is about 1.33 units tall and faces local -Z. Place the
     // camera just above and behind its cockpit so the hood remains visible
     // without putting the near plane inside the bodywork.
-    this.localOffset.set(0, 1.58, 0.48).applyQuaternion(this.yawRotation);
-    this.localLook.set(0, 0.72, -8).applyQuaternion(this.yawRotation);
+    this.localOffset.set(-0.38, 1.34, 0.92).applyQuaternion(this.yawRotation);
+    this.localLook.set(-0.15, 0.5, -8).applyQuaternion(this.yawRotation);
     this.desiredPosition.copy(target).add(this.localOffset);
     this.lookTarget.copy(target).add(this.localLook);
   }
