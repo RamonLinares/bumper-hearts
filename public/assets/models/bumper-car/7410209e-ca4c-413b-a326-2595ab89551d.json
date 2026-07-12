@@ -1,0 +1,40 @@
+{
+  "task_id": "7410209e-ca4c-413b-a326-2595ab89551d",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single game-ready miniature vintage bumper car, cute rounded 1950s fairground vehicle, glossy cherry red and warm cream painted body, continuous black padded rubber bumper ring, small tucked wheels, caramel quilted bench seat, chrome steering wheel, brass trim, rear vertical power pickup pole, subtle heart and star painted accents, gentle well-loved edge wear, charming toy diorama proportions, highly detailed PBR materials, clean readable silhouette, centered ground pivot, isolated complete object, no driver, no text",
+    "negative_prompt": "person, rider, background, platform, multiple cars, letters, watermark, broken parts, modern race car",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "export_uv": true,
+    "face_limit": 40000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7410209e-ca4c-413b-a326-2595ab89551d/tripo_pbr_model_7410209e-ca4c-413b-a326-2595ab89551d.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzQxMDIwOWUtY2E0Yy00MTNiLWEzMjYtMjU5NWFiODk1NTFkL3RyaXBvX3Bicl9tb2RlbF83NDEwMjA5ZS1jYTRjLTQxM2ItYTMyNi0yNTk1YWI4OTU1MWQuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=UCKvAzLU-dzz4ObozUyIdIrCVHTbkMlzC4KtYRhIPA49AUct0TbjexMXMVOLiJJs85hpyZoq-vmkeovNpy7Lx~5PDYPdJDIa5yHcijW5MXkAKGSv8lhHolVoTfOSOC254h4K5T4dO21lcX1p~M1XQxivT0y0BZWy5A9mCaEByn-xNcNoW22QM6ZIDl6PuKlotlI2EU2C~9gIPX~lFDgWAaSjABkvueWHXVu5q70ln2lC6~d~slL9QH8Ysd8rpszCmpHS8CP3YS5tmyiE6zGjv6FacBwqQ4~sP2tIePJ1neqLuR1fd2O1D3w9gf~ww7-GttIL9gJus9foFEwpZk-PgA__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7410209e-ca4c-413b-a326-2595ab89551d/text2image_7410209e-ca4c-413b-a326-2595ab89551d.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzQxMDIwOWUtY2E0Yy00MTNiLWEzMjYtMjU5NWFiODk1NTFkL3RleHQyaW1hZ2VfNzQxMDIwOWUtY2E0Yy00MTNiLWEzMjYtMjU5NWFiODk1NTFkLmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=D5MT4wVUuFpDz6Qox8nb876k0IjoaLyxyqr~uQeIegu0d2~NrhCVwBim-kA9~sPcZ8b4Ec359V3gVcjp0J5BNaez03uWqe8sBbjbQNMY4Jx3JVEDH7lfU7dfHRaw9Dxurqi9KaXiKbS35l1ihnrcLX4hS9YQJ1OkD-MAMaKorwNA8CpfjFfajpqt4lKeR~AdG~~B-4CPmC6VdjChOTbkT~dcFVxriD5---zzhJuKoiHdM18Y3qSZUylBaOXk6d2Hj1UVtmVB8XR4qqSMwIKDOw0yqypAXQmpxZMirNA0Z14OGMDHYTK4e0UG6Xos2wVuEZ1AJXBe3Q3rDY7uij1YlA__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7410209e-ca4c-413b-a326-2595ab89551d/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzQxMDIwOWUtY2E0Yy00MTNiLWEzMjYtMjU5NWFiODk1NTFkL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=asvKZFTI~E9aEMEz7firhFUGDLmQa6zNJFG4LDshszho-vRQld7BNnPGyqfAq~DZ0g7p872mZfuUkrsBL7wtfycbzuM1IL-Ld-KsFtubxM4HuQF9Vb7EdUr1lbF2fPcq3cmgSOBxzpkaisI0wgurKIljrz7LZHnBH7MlYCNP2tYGzpsxl3ornC~ZoP50UEN68MsUQF2ZQGq6YFqE2hQUuFn7q7xg6xh77qsCAg63zN1S78mXRBNtmdeQqSonpttU20-3ACjwMyctgus6ecY9d9cUywWOmLtGvYCm0hEmrCVOU9SDsfnvsv37Ex3h8Ioo092qOfFbD9u6bP1diFwC9Q__"
+  },
+  "progress": 100,
+  "create_time": 1783842830,
+  "consumed_credit": 50,
+  "prompt": "single game-ready miniature vintage bumper car, cute rounded 1950s fairground vehicle, glossy cherry red and warm cream painted body, continuous black padded rubber bumper ring, small tucked wheels, caramel quilted bench seat, chrome steering wheel, brass trim, rear vertical power pickup pole, subtle heart and star painted accents, gentle well-loved edge wear, charming toy diorama proportions, highly detailed PBR materials, clean readable silhouette, centered ground pivot, isolated complete object, no driver, no text",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7410209e-ca4c-413b-a326-2595ab89551d/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzQxMDIwOWUtY2E0Yy00MTNiLWEzMjYtMjU5NWFiODk1NTFkL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=asvKZFTI~E9aEMEz7firhFUGDLmQa6zNJFG4LDshszho-vRQld7BNnPGyqfAq~DZ0g7p872mZfuUkrsBL7wtfycbzuM1IL-Ld-KsFtubxM4HuQF9Vb7EdUr1lbF2fPcq3cmgSOBxzpkaisI0wgurKIljrz7LZHnBH7MlYCNP2tYGzpsxl3ornC~ZoP50UEN68MsUQF2ZQGq6YFqE2hQUuFn7q7xg6xh77qsCAg63zN1S78mXRBNtmdeQqSonpttU20-3ACjwMyctgus6ecY9d9cUywWOmLtGvYCm0hEmrCVOU9SDsfnvsv37Ex3h8Ioo092qOfFbD9u6bP1diFwC9Q__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7410209e-ca4c-413b-a326-2595ab89551d/tripo_pbr_model_7410209e-ca4c-413b-a326-2595ab89551d.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzQxMDIwOWUtY2E0Yy00MTNiLWEzMjYtMjU5NWFiODk1NTFkL3RyaXBvX3Bicl9tb2RlbF83NDEwMjA5ZS1jYTRjLTQxM2ItYTMyNi0yNTk1YWI4OTU1MWQuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=UCKvAzLU-dzz4ObozUyIdIrCVHTbkMlzC4KtYRhIPA49AUct0TbjexMXMVOLiJJs85hpyZoq-vmkeovNpy7Lx~5PDYPdJDIa5yHcijW5MXkAKGSv8lhHolVoTfOSOC254h4K5T4dO21lcX1p~M1XQxivT0y0BZWy5A9mCaEByn-xNcNoW22QM6ZIDl6PuKlotlI2EU2C~9gIPX~lFDgWAaSjABkvueWHXVu5q70ln2lC6~d~slL9QH8Ysd8rpszCmpHS8CP3YS5tmyiE6zGjv6FacBwqQ4~sP2tIePJ1neqLuR1fd2O1D3w9gf~ww7-GttIL9gJus9foFEwpZk-PgA__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7410209e-ca4c-413b-a326-2595ab89551d/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzQxMDIwOWUtY2E0Yy00MTNiLWEzMjYtMjU5NWFiODk1NTFkL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=asvKZFTI~E9aEMEz7firhFUGDLmQa6zNJFG4LDshszho-vRQld7BNnPGyqfAq~DZ0g7p872mZfuUkrsBL7wtfycbzuM1IL-Ld-KsFtubxM4HuQF9Vb7EdUr1lbF2fPcq3cmgSOBxzpkaisI0wgurKIljrz7LZHnBH7MlYCNP2tYGzpsxl3ornC~ZoP50UEN68MsUQF2ZQGq6YFqE2hQUuFn7q7xg6xh77qsCAg63zN1S78mXRBNtmdeQqSonpttU20-3ACjwMyctgus6ecY9d9cUywWOmLtGvYCm0hEmrCVOU9SDsfnvsv37Ex3h8Ioo092qOfFbD9u6bP1diFwC9Q__"
+    }
+  }
+}

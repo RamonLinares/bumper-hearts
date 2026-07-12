@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#18314f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Bumper Hearts — Pocket Fairground</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game-canvas" aria-label="Playable Three.js game canvas"></canvas>
+      <section id="hud" aria-live="polite" aria-label="Ride status">
+        <div class="score-ticket" aria-label="Joy score">
+          <span class="metric-icon" aria-hidden="true">★</span>
+          <span class="metric-copy"><small>Joy</small><strong id="score-value">000000</strong></span>
+          <span class="ticket-goal">/ <span id="target-value">1400</span></span>
+        </div>
+        <div class="ride-clock" aria-label="Ride time remaining">
+          <span class="bulb-row" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          <small>Ride left</small>
+          <strong id="timer-value">01:10</strong>
+        </div>
+        <div class="ride-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+        <div id="status-line">Bump rivals <b>•</b> collect memories</div>
+        <div class="hud-actions">
+          <button id="restart-button" class="icon-button" type="button" aria-label="Restart ride" title="Restart (R)">↻</button>
+          <button id="pause-button" class="icon-button" type="button" aria-label="Pause ride" title="Pause (P)"><span></span><span></span></button>
+        </div>
+      </section>
+      <section id="state-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-scrim"></div>
+        <div class="ticket-modal">
+          <span class="modal-kicker">Pocket Fairground</span>
+          <img src="/assets/ui/bumper-hearts-marquee.png" alt="Bumper Hearts" />
+          <h1 id="modal-title">Tiny intermission</h1>
+          <p id="modal-copy">The little lights will wait for you.</p>
+          <div class="modal-score" id="modal-score" aria-live="polite"></div>
+          <div class="modal-actions">
+            <button id="modal-primary" type="button">Keep riding</button>
+            <button id="modal-secondary" type="button">Start fresh</button>
+          </div>
+          <p class="controls-hint"><kbd>WASD</kbd> steer <span>•</span> <kbd>Space</kbd> dash <span>•</span> <kbd>P</kbd> pause</p>
+        </div>
+      </section>
+      <div id="touch-controls" aria-hidden="true">
+        <div id="touch-stick" aria-label="Steering pad">
+          <span class="touch-label">Steer</span>
+          <div id="touch-knob"></div>
+        </div>
+        <button id="dash-button" type="button"><span aria-hidden="true">✦</span> Bump!</button>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
