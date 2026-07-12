@@ -12,6 +12,7 @@ export default defineConfig({
     strictPort: true,
   },
   build: {
+    outDir: 'dist/client',
     sourcemap: true,
     chunkSizeWarningLimit: 900,
   },
