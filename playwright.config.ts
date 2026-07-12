@@ -2,7 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 30_000,
+  // WebGL software rendering is resource-heavy in CI; serialize projects so
+  // canvas screenshots and input tests do not starve one another.
+  workers: 1,
+  timeout: 60_000,
   expect: {
     timeout: 5_000,
   },
