@@ -82,3 +82,8 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 
 - Removed positional follow-lag from cockpit mode. The first-person camera is now rigidly attached to the car's current pose while overhead mode retains its cinematic smoothing, preventing the nearby hood/body from sliding against the camera on fixed physics steps.
 - Added a moving-and-turning regression check that transforms the camera offset back into car-local space and verifies the cockpit mount remains exact. The mount was moved slightly lower and farther back so the player's own car stays visible without reintroducing follow-lag.
+
+## Reverse POV steering
+
+- Inverted left/right steering while reversing in vehicle/POV controls so the pressed direction matches the rearward arc on screen. The inversion also persists while coasting backward, then returns to normal for forward motion or a stationary car.
+- Extended the POV controls regression to cover reverse-right and reverse-left independently while preserving all forward steering expectations.

@@ -147,6 +147,20 @@ test('first-person controls are relative to the car heading', async ({ page }) =
   await page.keyboard.down('ArrowDown');
   await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.velocity.z ?? 0)).toBeGreaterThan(1);
   await page.keyboard.up('ArrowDown');
+
+  await page.keyboard.press('KeyR');
+  await page.keyboard.down('KeyS');
+  await page.keyboard.down('KeyD');
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.yaw ?? 0)).toBeGreaterThan(0.4);
+  await page.keyboard.up('KeyD');
+  await page.keyboard.up('KeyS');
+
+  await page.keyboard.press('KeyR');
+  await page.keyboard.down('ArrowDown');
+  await page.keyboard.down('ArrowLeft');
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.yaw ?? 0)).toBeLessThan(-0.4);
+  await page.keyboard.up('ArrowLeft');
+  await page.keyboard.up('ArrowDown');
 });
 
 test('first-person camera stays rigidly attached to the moving car', async ({ page }) => {

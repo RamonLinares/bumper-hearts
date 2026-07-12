@@ -69,10 +69,16 @@ export class Player {
 
     if (controlMode === 'vehicle') {
       // POV controls are relative to the car: vertical input is throttle and
-      // horizontal input changes heading. Cars face local -Z.
-      this.group.rotation.y -= this.move.x * tuning.turnRate * delta;
+      // horizontal input changes heading. Reverse steering is inverted so the
+      // direction pressed matches the direction the reversing car arcs.
+      // Cars face local -Z.
       this.forward.set(0, 0, -1).applyAxisAngle(THREE.Object3D.DEFAULT_UP, this.group.rotation.y);
-      this.targetVelocity.copy(this.forward).multiplyScalar(-this.move.y * tuning.speed * dash);
+      const throttle = -this.move.y;
+      const coastingBackward = Math.abs(throttle) < 0.05 && this.velocity.dot(this.forward) < -0.15;
+      const steeringDirection = throttle < -0.05 || coastingBackward ? -1 : 1;
+      this.group.rotation.y -= this.move.x * tuning.turnRate * delta * steeringDirection;
+      this.forward.set(0, 0, -1).applyAxisAngle(THREE.Object3D.DEFAULT_UP, this.group.rotation.y);
+      this.targetVelocity.copy(this.forward).multiplyScalar(throttle * tuning.speed * dash);
     } else {
       this.targetVelocity.set(this.move.x, 0, this.move.y).multiplyScalar(tuning.speed * dash);
     }
