@@ -15,6 +15,7 @@ interface ThreeGameDiagnostics {
     position: { x: number; y: number; z: number };
     speed: number;
     velocity: { x: number; z: number };
+    yaw: number;
   };
   renderer: {
     calls: number;

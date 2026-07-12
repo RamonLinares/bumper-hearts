@@ -36,7 +36,7 @@ export class Rival {
     this.desired.set(Math.sin(this.wanderAngle) * speed, 0, Math.cos(this.wanderAngle) * speed);
     this.velocity.lerp(this.desired, 1 - Math.exp(-2.4 * delta));
     this.group.position.addScaledVector(this.velocity, delta);
-    if (this.velocity.lengthSq() > 0.02) this.group.rotation.y = Math.atan2(this.velocity.x, -this.velocity.z);
+    if (this.velocity.lengthSq() > 0.02) this.group.rotation.y = Math.atan2(-this.velocity.x, -this.velocity.z);
     this.model.antenna.rotation.z = Math.sin(performance.now() * 0.006 + this.index) * 0.1;
   }
 

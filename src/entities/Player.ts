@@ -68,7 +68,9 @@ export class Player {
     this.group.position.addScaledVector(this.velocity, delta);
 
     if (this.velocity.lengthSq() > 0.001) {
-      this.group.rotation.y = Math.atan2(this.velocity.x, -this.velocity.z);
+      // The authored cars face local -Z. Negating X keeps their noses aligned
+      // with lateral motion: right is -PI/2, left is +PI/2.
+      this.group.rotation.y = Math.atan2(-this.velocity.x, -this.velocity.z);
     }
 
     this.group.position.y = 0.06 + Math.sin(elapsed * 9) * Math.min(this.velocity.length() / 40, 0.08);

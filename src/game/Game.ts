@@ -449,7 +449,7 @@ export class Game {
       physics: { engine: 'custom-arcade', timestep: FIXED_STEP, bodies: 1 + this.rivals.length, colliders: 1 + this.rivals.length + this.pickups.filter((pickup) => pickup.active).length, activeHits: this.activeHits },
       input: { dash: this.input.isDashHeld() },
       entities: { rivals: this.rivals.length, pickupsActive: this.pickups.filter((pickup) => pickup.active).length, particles: this.burstParticles.length },
-      player: { position: { x: this.player.group.position.x, y: this.player.group.position.y, z: this.player.group.position.z }, speed: this.player.velocity.length(), velocity: { x: this.player.velocity.x, z: this.player.velocity.z } },
+      player: { position: { x: this.player.group.position.x, y: this.player.group.position.y, z: this.player.group.position.z }, speed: this.player.velocity.length(), velocity: { x: this.player.velocity.x, z: this.player.velocity.z }, yaw: this.player.group.rotation.y },
       renderer: { calls: info.render.calls, triangles: info.render.triangles, geometries: info.memory.geometries, textures: info.memory.textures },
       canvas: { clientWidth: this.canvas.clientWidth, clientHeight: this.canvas.clientHeight, width: this.canvas.width, height: this.canvas.height, dpr: Math.min(window.devicePixelRatio || 1, this.tuning.maxDpr) },
     };

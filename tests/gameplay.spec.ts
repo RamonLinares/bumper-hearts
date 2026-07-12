@@ -23,3 +23,20 @@ test('pause freezes the round clock and restart resets the run', async ({ page }
   expect(reset?.physics.engine).toBe('custom-arcade');
   expect(reset?.entities.rivals).toBe(4);
 });
+
+test('car nose follows left and right steering instead of reversing', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForFunction(() => (window.__THREE_GAME_DIAGNOSTICS__?.frame ?? 0) > 10);
+
+  await page.keyboard.down('ArrowRight');
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.velocity.x ?? 0)).toBeGreaterThan(1);
+  await page.keyboard.up('ArrowRight');
+  const rightYaw = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.yaw ?? 0);
+  expect(rightYaw).toBeLessThan(-0.4);
+
+  await page.keyboard.down('ArrowLeft');
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.velocity.x ?? 0)).toBeLessThan(-1);
+  await page.keyboard.up('ArrowLeft');
+  const leftYaw = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.player.yaw ?? 0);
+  expect(leftYaw).toBeGreaterThan(0.4);
+});
