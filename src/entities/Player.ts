@@ -29,7 +29,7 @@ export class Player {
     this.importedRoot.name = 'ImportedHeroWrapper';
     this.group.add(this.model.root, this.importedRoot);
     new GLTFLoader().load(
-      '/assets/models/bumper-car/7410209e-ca4c-413b-a326-2595ab89551d-pbr_model.bin',
+      '/assets/models/bumper-car/7410209e-ca4c-413b-a326-2595ab89551d-pbr_model.model.png',
       (gltf) => {
         const visual = gltf.scene;
         const bounds = new THREE.Box3().setFromObject(visual);
