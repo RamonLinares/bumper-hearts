@@ -1,0 +1,41 @@
+{
+  "task_id": "e7113225-08fc-4bca-a26e-1c8acb4c9e64",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single sealed love letter collectible, folded warm ivory envelope with layered paper flap, deep teal wax seal stamped with a tiny star, narrow coral ribbon tied around one corner, no writing and no heart symbol, premium miniature nostalgic prop, strong overhead silhouette, PBR paper wax and fabric, centered at origin, isolated single object, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/e7113225-08fc-4bca-a26e-1c8acb4c9e64/tripo_pbr_model_e7113225-08fc-4bca-a26e-1c8acb4c9e64.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZTcxMTMyMjUtMDhmYy00YmNhLWEyNmUtMWM4YWNiNGM5ZTY0L3RyaXBvX3Bicl9tb2RlbF9lNzExMzIyNS0wOGZjLTRiY2EtYTI2ZS0xYzhhY2I0YzllNjQuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=Q1lEXj3YzcYWEECo5K8bRNl9a3JjKjd-QckMN4BXRzRddm9yJnYPRqQ2ipSsC4Pf1XA0fZiWCystDWlIZSBonP5dAcsfSV0AyAuCnmEEP~id7dtI1vuuAVcyNNF9jRTOYc7HAj5uIF3LyyGlgO-F9aue4KflTaKbn-MONKwP1UkiWPuDZ80uBw~cT6hW1fYwBUBIMUc8Xl2BOnENalI1g-sNV5dOSShAKRtIiqdpYiSWjtJaNFN~CK4-7hSidcgCEtzDsv~AlVt7LMpt8XF~rFTvKL59RTYu~PIoDSyvsSBVOp7XfwRkmmr6xiM-2DI-FgVhfnjqGLCB2Bi4zszuRA__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/e7113225-08fc-4bca-a26e-1c8acb4c9e64/text2image_e7113225-08fc-4bca-a26e-1c8acb4c9e64.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZTcxMTMyMjUtMDhmYy00YmNhLWEyNmUtMWM4YWNiNGM5ZTY0L3RleHQyaW1hZ2VfZTcxMTMyMjUtMDhmYy00YmNhLWEyNmUtMWM4YWNiNGM5ZTY0LmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=rV-bIa46zWR0WtqM7sm8gehK9UxFgiRZYYwN1WnYubxjgEp-rKe2hEKybWmkibCtVYiEb0KJ7P9tMc7kPgDu9IxozGPAKkYKdgOGhy5ETn4D-gCdkF~YOqpWgjN0YhLQ6OGJ04HP8yoeeozLQALjmiJt5tFGjFpL7w8kcwJaDa7ivuSTWOdVjrhSsSGCrg0LK82drUnYrwx030xSghQa76fruT4UPpSrrA62Y5vwS95cxDok-QM~IeWS8GNGOkr-yJKl5NFdY3kJq0~raXtN-uyAd6OjUaW1P8WJ8jyBrUOhmuZ1T1JNGlqgL~~Fvbg5YrjiHZlzBiyCV2~zm641~g__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/e7113225-08fc-4bca-a26e-1c8acb4c9e64/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZTcxMTMyMjUtMDhmYy00YmNhLWEyNmUtMWM4YWNiNGM5ZTY0L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=PcWxiPeLTOJvO4Q2mzzlOlvuzdq6h3Ktg7CgL5PVIz1RaqE9TmNmOLE1cKOsHBWr1Q92JD9ZFt2VRK8Vk1X0UlrwKGrEk5Gjpe6zBnUdV2-daFYGup2Dig5mZpINKHZgM8HhzVlvbO6j~0nm~UM0nyN3QXTCbBGTOglTcQlwO5x4Z04z9uUjc-1aQ-NxvUsyM~N0c9FBKm5DEJrCblzP-hb3WiTcnDwJPLEHxrSFsUEsQwARwcfSGahhJrmPf5pR1xZeEXOL3a-Kd4g6LVl-9gmFf0NFxgZmSYCUAsdBuHyka-vnj4QifVeVzo4EGPzrSU7Sv69fBWirgq8RhKo35w__"
+  },
+  "progress": 100,
+  "create_time": 1783857868,
+  "consumed_credit": 60,
+  "prompt": "single sealed love letter collectible, folded warm ivory envelope with layered paper flap, deep teal wax seal stamped with a tiny star, narrow coral ribbon tied around one corner, no writing and no heart symbol, premium miniature nostalgic prop, strong overhead silhouette, PBR paper wax and fabric, centered at origin, isolated single object, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/e7113225-08fc-4bca-a26e-1c8acb4c9e64/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZTcxMTMyMjUtMDhmYy00YmNhLWEyNmUtMWM4YWNiNGM5ZTY0L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=PcWxiPeLTOJvO4Q2mzzlOlvuzdq6h3Ktg7CgL5PVIz1RaqE9TmNmOLE1cKOsHBWr1Q92JD9ZFt2VRK8Vk1X0UlrwKGrEk5Gjpe6zBnUdV2-daFYGup2Dig5mZpINKHZgM8HhzVlvbO6j~0nm~UM0nyN3QXTCbBGTOglTcQlwO5x4Z04z9uUjc-1aQ-NxvUsyM~N0c9FBKm5DEJrCblzP-hb3WiTcnDwJPLEHxrSFsUEsQwARwcfSGahhJrmPf5pR1xZeEXOL3a-Kd4g6LVl-9gmFf0NFxgZmSYCUAsdBuHyka-vnj4QifVeVzo4EGPzrSU7Sv69fBWirgq8RhKo35w__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/e7113225-08fc-4bca-a26e-1c8acb4c9e64/tripo_pbr_model_e7113225-08fc-4bca-a26e-1c8acb4c9e64.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZTcxMTMyMjUtMDhmYy00YmNhLWEyNmUtMWM4YWNiNGM5ZTY0L3RyaXBvX3Bicl9tb2RlbF9lNzExMzIyNS0wOGZjLTRiY2EtYTI2ZS0xYzhhY2I0YzllNjQuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=Q1lEXj3YzcYWEECo5K8bRNl9a3JjKjd-QckMN4BXRzRddm9yJnYPRqQ2ipSsC4Pf1XA0fZiWCystDWlIZSBonP5dAcsfSV0AyAuCnmEEP~id7dtI1vuuAVcyNNF9jRTOYc7HAj5uIF3LyyGlgO-F9aue4KflTaKbn-MONKwP1UkiWPuDZ80uBw~cT6hW1fYwBUBIMUc8Xl2BOnENalI1g-sNV5dOSShAKRtIiqdpYiSWjtJaNFN~CK4-7hSidcgCEtzDsv~AlVt7LMpt8XF~rFTvKL59RTYu~PIoDSyvsSBVOp7XfwRkmmr6xiM-2DI-FgVhfnjqGLCB2Bi4zszuRA__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/e7113225-08fc-4bca-a26e-1c8acb4c9e64/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZTcxMTMyMjUtMDhmYy00YmNhLWEyNmUtMWM4YWNiNGM5ZTY0L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=PcWxiPeLTOJvO4Q2mzzlOlvuzdq6h3Ktg7CgL5PVIz1RaqE9TmNmOLE1cKOsHBWr1Q92JD9ZFt2VRK8Vk1X0UlrwKGrEk5Gjpe6zBnUdV2-daFYGup2Dig5mZpINKHZgM8HhzVlvbO6j~0nm~UM0nyN3QXTCbBGTOglTcQlwO5x4Z04z9uUjc-1aQ-NxvUsyM~N0c9FBKm5DEJrCblzP-hb3WiTcnDwJPLEHxrSFsUEsQwARwcfSGahhJrmPf5pR1xZeEXOL3a-Kd4g6LVl-9gmFf0NFxgZmSYCUAsdBuHyka-vnj4QifVeVzo4EGPzrSU7Sv69fBWirgq8RhKo35w__"
+    }
+  }
+}

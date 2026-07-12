@@ -1,0 +1,41 @@
+{
+  "task_id": "725935be-010f-4ab5-8111-32ef6027f001",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single vintage school fair clue card collectible, thick cream index card held by a small brass photo clip, red thread loop and teal sealing pin, subtle blank diagram lines but no readable words, premium miniature mystery prop, strong overhead silhouette, PBR paper brass and thread, centered at origin, isolated single object, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 5000,
+    "geometry_quality": "standard"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/725935be-010f-4ab5-8111-32ef6027f001/tripo_pbr_model_725935be-010f-4ab5-8111-32ef6027f001.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzI1OTM1YmUtMDEwZi00YWI1LTgxMTEtMzJlZjYwMjdmMDAxL3RyaXBvX3Bicl9tb2RlbF83MjU5MzViZS0wMTBmLTRhYjUtODExMS0zMmVmNjAyN2YwMDEuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=N2hqnq3gartBwhk3Xdu2P4mJZyxHkszk8c3fMoGzMoA2DqOK5qTNIEugxY1EBLG~h7CjUXFYFHySkCVqxBSjvdHohyj~T-oHlGQ2Chjl4X5IOLGFtpF0aGumSQlcnrd3VTSchlVxDP1rsPFCIPsHI6uXVPhk2JGPlOEFWlvpWT3-dbqLlxf-OYwKUFJWED2B6lcLKASuym~XYHzpLa7u7Vd9bcGXwjfLHbYiNrGAXnBaoUmKJ8PKRlO-wRd0Rbn6HPvxTumJKy5Tit4YOjRmidwPvCLswrw2P~2B24exDHwaIIRObaVppMPjZ2NPHMGDT7vJKUYfZf2X1pHQHT7xhg__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/725935be-010f-4ab5-8111-32ef6027f001/text2image_725935be-010f-4ab5-8111-32ef6027f001.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzI1OTM1YmUtMDEwZi00YWI1LTgxMTEtMzJlZjYwMjdmMDAxL3RleHQyaW1hZ2VfNzI1OTM1YmUtMDEwZi00YWI1LTgxMTEtMzJlZjYwMjdmMDAxLmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=IM1b41EQOAFcH2bKZpEGL6nYqw8W65xjFAVKY1D8N3sKFNed-dCG1WaIkdIpftNnRAXF30c12Py-5gmXbGOMh9sLgRAYDam954CArlfIHS2WeIFc0AvcBhODjY08SRBUCfOUpXeX300w-6C0ji~JCbPDiK8g8KX7BDUf8v-N4APFMTjtM44xKPzYx1xc3k~GkpidAVPSVIkPhGYbtOKtys840EpPTiIKv~XdmL9iWYi11E8gjzFty0rwazbkxR5DBI-BKw2iTjFq~1R0~TpJBy2Tc3v1LG1JShXFjN~-x6IcRY3ak1fOyBUQoAXzyGmWmzglnxSks787~OuN1yM5Xg__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/725935be-010f-4ab5-8111-32ef6027f001/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzI1OTM1YmUtMDEwZi00YWI1LTgxMTEtMzJlZjYwMjdmMDAxL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=kOZN1xN9av3JCbs7yuZNsA4oqVNWlzkVe41-a7nrkObDnI4cN3val55P82d3AbXmezJmSQ9EUO9YBsQJWIFFn-o9rE7Vg44FGzDVsqpg-MQtSiEjWQYmOWDaDkjyPtPbAbVIgNlXGDSv1L9tXvAxlKbqYLDoxV6f3IZ8ODIbAHiTwkjPBSjoNu~hKiTAnNvDsm-A8Z7U1TraCLRgw~-cokiy-9CkgsxKvXQo-u92XztXYx7k5VmSc1xwP1etjXfYxK6CncjsHlzTnzURbZbMeBQMy9zallpue2zk2FZcAZtV-vrA3NT0M-pqVSTe5ZMO11TKHr2QJfhpDgmenrHTbw__"
+  },
+  "progress": 100,
+  "create_time": 1783858231,
+  "consumed_credit": 40,
+  "prompt": "single vintage school fair clue card collectible, thick cream index card held by a small brass photo clip, red thread loop and teal sealing pin, subtle blank diagram lines but no readable words, premium miniature mystery prop, strong overhead silhouette, PBR paper brass and thread, centered at origin, isolated single object, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/725935be-010f-4ab5-8111-32ef6027f001/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzI1OTM1YmUtMDEwZi00YWI1LTgxMTEtMzJlZjYwMjdmMDAxL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=kOZN1xN9av3JCbs7yuZNsA4oqVNWlzkVe41-a7nrkObDnI4cN3val55P82d3AbXmezJmSQ9EUO9YBsQJWIFFn-o9rE7Vg44FGzDVsqpg-MQtSiEjWQYmOWDaDkjyPtPbAbVIgNlXGDSv1L9tXvAxlKbqYLDoxV6f3IZ8ODIbAHiTwkjPBSjoNu~hKiTAnNvDsm-A8Z7U1TraCLRgw~-cokiy-9CkgsxKvXQo-u92XztXYx7k5VmSc1xwP1etjXfYxK6CncjsHlzTnzURbZbMeBQMy9zallpue2zk2FZcAZtV-vrA3NT0M-pqVSTe5ZMO11TKHr2QJfhpDgmenrHTbw__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/725935be-010f-4ab5-8111-32ef6027f001/tripo_pbr_model_725935be-010f-4ab5-8111-32ef6027f001.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzI1OTM1YmUtMDEwZi00YWI1LTgxMTEtMzJlZjYwMjdmMDAxL3RyaXBvX3Bicl9tb2RlbF83MjU5MzViZS0wMTBmLTRhYjUtODExMS0zMmVmNjAyN2YwMDEuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=N2hqnq3gartBwhk3Xdu2P4mJZyxHkszk8c3fMoGzMoA2DqOK5qTNIEugxY1EBLG~h7CjUXFYFHySkCVqxBSjvdHohyj~T-oHlGQ2Chjl4X5IOLGFtpF0aGumSQlcnrd3VTSchlVxDP1rsPFCIPsHI6uXVPhk2JGPlOEFWlvpWT3-dbqLlxf-OYwKUFJWED2B6lcLKASuym~XYHzpLa7u7Vd9bcGXwjfLHbYiNrGAXnBaoUmKJ8PKRlO-wRd0Rbn6HPvxTumJKy5Tit4YOjRmidwPvCLswrw2P~2B24exDHwaIIRObaVppMPjZ2NPHMGDT7vJKUYfZf2X1pHQHT7xhg__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/725935be-010f-4ab5-8111-32ef6027f001/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNzI1OTM1YmUtMDEwZi00YWI1LTgxMTEtMzJlZjYwMjdmMDAxL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=kOZN1xN9av3JCbs7yuZNsA4oqVNWlzkVe41-a7nrkObDnI4cN3val55P82d3AbXmezJmSQ9EUO9YBsQJWIFFn-o9rE7Vg44FGzDVsqpg-MQtSiEjWQYmOWDaDkjyPtPbAbVIgNlXGDSv1L9tXvAxlKbqYLDoxV6f3IZ8ODIbAHiTwkjPBSjoNu~hKiTAnNvDsm-A8Z7U1TraCLRgw~-cokiy-9CkgsxKvXQo-u92XztXYx7k5VmSc1xwP1etjXfYxK6CncjsHlzTnzURbZbMeBQMy9zallpue2zk2FZcAZtV-vrA3NT0M-pqVSTe5ZMO11TKHr2QJfhpDgmenrHTbw__"
+    }
+  }
+}

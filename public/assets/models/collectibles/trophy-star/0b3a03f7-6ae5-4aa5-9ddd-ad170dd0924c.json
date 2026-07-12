@@ -1,0 +1,41 @@
+{
+  "task_id": "0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single small 1980s fairground champion trophy collectible, five point brass star mounted on compact burgundy bakelite pedestal with cream enamel trim, no text, premium miniature prop, strong overhead silhouette, PBR brass enamel and bakelite, centered at origin, isolated single object, no display stand beyond its own base",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c/tripo_pbr_model_0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMGIzYTAzZjctNmFlNS00YWE1LTlkZGQtYWQxNzBkZDA5MjRjL3RyaXBvX3Bicl9tb2RlbF8wYjNhMDNmNy02YWU1LTRhYTUtOWRkZC1hZDE3MGRkMDkyNGMuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=v3-nGRKQt8uTjaEc7zky~mwf9mweiek30N8toijYSV7xIOB3xvTciIaW1kox4zgFTk7wa8P5Y6WPiXa47p5yteQ9svJqYGFfPpyOnUGwDqoGyg~EUwMyERtyBHfm8deMNlKrxVE23rdAZ~26iehzUjaCBWQQGvCgWj6nLbvGe7rGtAb~TCoFmst~WpCuOPw8ED1jfdGuk3sx2LayenfKfIY43FTy17vF78R9K4W88AcJgddVUTGmhpPUT9osof0COT~qBgJTxAJc7fcUkgGnB9nCCVZBKzIXDBzOivYcTxGq7KZqW~aqeyiJryBQLC88OrHFKXfukbeDTa6bE~c4vQ__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c/text2image_0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMGIzYTAzZjctNmFlNS00YWE1LTlkZGQtYWQxNzBkZDA5MjRjL3RleHQyaW1hZ2VfMGIzYTAzZjctNmFlNS00YWE1LTlkZGQtYWQxNzBkZDA5MjRjLmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=hBzCBL6wN8LMe3D1y53hAMo1cyWFOGIT7CUKfo5POTklXOqVGONqkwoRr4IuHYx5fTf9lN~5iVY-y3LcEq944okS-wDW6e~0SgKyF7r7-~o19V2VZH16k~PJew-cM0VV43KPSC-aWVjn2eLl1yBEW3qJKVDFTYWHDeGOYm8Rye~SbkifCx-93pl64LfJiI0cFpNXLUSG1rUlQNYP3Qe4u~JzbuJmd9jYjnV1BawuvrTcD9KLxVwMfgyflQ1FqA~fbQeZ07AnStiRAUKsCOG7N5mjfEeNPydpc4E1z0lSm280xGOEeloqO-epKK4ZNj84E7db-9-Q~5Swc4yv4njoYA__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMGIzYTAzZjctNmFlNS00YWE1LTlkZGQtYWQxNzBkZDA5MjRjL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Sufnm4xGg9oE6lN1SQtGFGROhWsIAassTc~JQU2pFlMlPju68L6~AOmSs2DSBwwA5WNU037W2VyTwIma880N50q5w9jiw5wbb2pyImPSJctUuZVUSMGJUsbFrG1tA1CVEGUcJyyjGtHqyCf6zneC5B8aiiQEF6H1mFKaFIG1G5GRWiBY5LvnpsoY7xHYsJofNVQKWFvsho86cYzBeFDB6SgWKN~n370Z~56Z3H3bH8jEDJ~hA3JF2TQTCPLhSxdGqN1BFETTYqgJZnCaJgydpLWHQBvkMUSkjPwhIxuHw82ry3-1pEyDLmr95OwBtTkmZVt6hTn0lQZERcDYPnTtbw__"
+  },
+  "progress": 100,
+  "create_time": 1783857694,
+  "consumed_credit": 60,
+  "prompt": "single small 1980s fairground champion trophy collectible, five point brass star mounted on compact burgundy bakelite pedestal with cream enamel trim, no text, premium miniature prop, strong overhead silhouette, PBR brass enamel and bakelite, centered at origin, isolated single object, no display stand beyond its own base",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMGIzYTAzZjctNmFlNS00YWE1LTlkZGQtYWQxNzBkZDA5MjRjL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Sufnm4xGg9oE6lN1SQtGFGROhWsIAassTc~JQU2pFlMlPju68L6~AOmSs2DSBwwA5WNU037W2VyTwIma880N50q5w9jiw5wbb2pyImPSJctUuZVUSMGJUsbFrG1tA1CVEGUcJyyjGtHqyCf6zneC5B8aiiQEF6H1mFKaFIG1G5GRWiBY5LvnpsoY7xHYsJofNVQKWFvsho86cYzBeFDB6SgWKN~n370Z~56Z3H3bH8jEDJ~hA3JF2TQTCPLhSxdGqN1BFETTYqgJZnCaJgydpLWHQBvkMUSkjPwhIxuHw82ry3-1pEyDLmr95OwBtTkmZVt6hTn0lQZERcDYPnTtbw__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c/tripo_pbr_model_0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMGIzYTAzZjctNmFlNS00YWE1LTlkZGQtYWQxNzBkZDA5MjRjL3RyaXBvX3Bicl9tb2RlbF8wYjNhMDNmNy02YWU1LTRhYTUtOWRkZC1hZDE3MGRkMDkyNGMuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=v3-nGRKQt8uTjaEc7zky~mwf9mweiek30N8toijYSV7xIOB3xvTciIaW1kox4zgFTk7wa8P5Y6WPiXa47p5yteQ9svJqYGFfPpyOnUGwDqoGyg~EUwMyERtyBHfm8deMNlKrxVE23rdAZ~26iehzUjaCBWQQGvCgWj6nLbvGe7rGtAb~TCoFmst~WpCuOPw8ED1jfdGuk3sx2LayenfKfIY43FTy17vF78R9K4W88AcJgddVUTGmhpPUT9osof0COT~qBgJTxAJc7fcUkgGnB9nCCVZBKzIXDBzOivYcTxGq7KZqW~aqeyiJryBQLC88OrHFKXfukbeDTa6bE~c4vQ__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMGIzYTAzZjctNmFlNS00YWE1LTlkZGQtYWQxNzBkZDA5MjRjL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Sufnm4xGg9oE6lN1SQtGFGROhWsIAassTc~JQU2pFlMlPju68L6~AOmSs2DSBwwA5WNU037W2VyTwIma880N50q5w9jiw5wbb2pyImPSJctUuZVUSMGJUsbFrG1tA1CVEGUcJyyjGtHqyCf6zneC5B8aiiQEF6H1mFKaFIG1G5GRWiBY5LvnpsoY7xHYsJofNVQKWFvsho86cYzBeFDB6SgWKN~n370Z~56Z3H3bH8jEDJ~hA3JF2TQTCPLhSxdGqN1BFETTYqgJZnCaJgydpLWHQBvkMUSkjPwhIxuHw82ry3-1pEyDLmr95OwBtTkmZVt6hTn0lQZERcDYPnTtbw__"
+    }
+  }
+}

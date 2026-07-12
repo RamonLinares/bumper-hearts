@@ -1,0 +1,41 @@
+{
+  "task_id": "b0e31a3e-8f62-426d-b915-b2acdedf3d3a",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single compact emergency storm lantern collectible for an old fairground, dark navy metal cage, warm amber glass chamber, brass handle and red enamel switch, charming premium miniature diorama prop, strong readable overhead silhouette, PBR metal glass and enamel, centered at origin, isolated single object, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 5000,
+    "geometry_quality": "standard"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/b0e31a3e-8f62-426d-b915-b2acdedf3d3a/tripo_pbr_model_b0e31a3e-8f62-426d-b915-b2acdedf3d3a.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYjBlMzFhM2UtOGY2Mi00MjZkLWI5MTUtYjJhY2RlZGYzZDNhL3RyaXBvX3Bicl9tb2RlbF9iMGUzMWEzZS04ZjYyLTQyNmQtYjkxNS1iMmFjZGVkZjNkM2EuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=qQUSTNGXxIPVcXYHXyJ9wzy2Z6jp8ubnZp7TK7OrxiIkAaQIzPzgGAOdFOl37~Oiy11DM1HJvfeS5J9stHTP5bQN32UgrNapHvqoioPTGRgAyfPDCebUI2O44AlA3wgdvd0Mp98mVZMfb~l9rf-YTAnmCbpiSlmiBy9wQ5SCY~jbdUN3SQQMvjSIautxK7g9ZMwxTcrtpVayrZPQfLaladBBMBM5DPZUg3U~IG2luVRyy71OvsXbrjBOGWrJskfWepPs2N2L9OycKOOVl7SptImPnHL18VrBfiBMKp2pO1W0R3ze1KT-fbr~Cjxqu7zMp6Psh8grGYuHkG92nx2LLQ__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/b0e31a3e-8f62-426d-b915-b2acdedf3d3a/text2image_b0e31a3e-8f62-426d-b915-b2acdedf3d3a.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYjBlMzFhM2UtOGY2Mi00MjZkLWI5MTUtYjJhY2RlZGYzZDNhL3RleHQyaW1hZ2VfYjBlMzFhM2UtOGY2Mi00MjZkLWI5MTUtYjJhY2RlZGYzZDNhLmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=w2HnYHC86cJDOIreLiioDFtTCg~z9yXqEEYhdaKGJkBN-tpSpB4YLvtXiyres~pM1yEfV7CX7s8Iloo~Qm4SO2pYARxOJZcMDbJr8dh1hEED5P3WdId13zlObXddVncsWNo2HpoLNoF9GFQzslLjC0nkn3b7ztAJT0c9zQ38ZOVygpO3PLG7R1~jzkAskvkEfHAqM7Lb7Hxj-pjN-7Wwfe6xXa2qPnHFFuzvx6gILemkpcVU3s3MZIitVWVtvkpTPTwMiTD7Pg6BzmKSD-qzXnHWWOC65o-yIlRWeCjSGpCOwpOeaTdTJ616dFZ8dI6pNoj8TTTsOuB49EVpJhaM0w__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/b0e31a3e-8f62-426d-b915-b2acdedf3d3a/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYjBlMzFhM2UtOGY2Mi00MjZkLWI5MTUtYjJhY2RlZGYzZDNhL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=ZSJ3gCGaWLFXgrBiwzAQ3JZTOhL89w8bXd7~cvQ1NG52iu30U8Po~Ypqc7bmDfOoBm0UhNHKA3BuWm7W6na3K1qXvzH9qWsufo3N0m-y6v9iALmWuVGQQJVnIk9F5QtYXeKAN2RaSNfUj7KZX-6uW5fnuFe83A~cLM6aiMSgU2ebbGNz~XAqBd7OpMzZZ94fHcNDYcWht3avWmkIBNgnkMsWzQsxUPVzdRwo85tkwwfAn~dUojZ8kzpliGuS9EL0~Z4~deUnUpZDuhxhLowho5vuow2FC2rdmcVmrOxsdKbp3Rkf3iY2m-Cb5Os-pr~C3381lGTaEUnfNfNdgpp1wg__"
+  },
+  "progress": 100,
+  "create_time": 1783858230,
+  "consumed_credit": 40,
+  "prompt": "single compact emergency storm lantern collectible for an old fairground, dark navy metal cage, warm amber glass chamber, brass handle and red enamel switch, charming premium miniature diorama prop, strong readable overhead silhouette, PBR metal glass and enamel, centered at origin, isolated single object, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/b0e31a3e-8f62-426d-b915-b2acdedf3d3a/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYjBlMzFhM2UtOGY2Mi00MjZkLWI5MTUtYjJhY2RlZGYzZDNhL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=ZSJ3gCGaWLFXgrBiwzAQ3JZTOhL89w8bXd7~cvQ1NG52iu30U8Po~Ypqc7bmDfOoBm0UhNHKA3BuWm7W6na3K1qXvzH9qWsufo3N0m-y6v9iALmWuVGQQJVnIk9F5QtYXeKAN2RaSNfUj7KZX-6uW5fnuFe83A~cLM6aiMSgU2ebbGNz~XAqBd7OpMzZZ94fHcNDYcWht3avWmkIBNgnkMsWzQsxUPVzdRwo85tkwwfAn~dUojZ8kzpliGuS9EL0~Z4~deUnUpZDuhxhLowho5vuow2FC2rdmcVmrOxsdKbp3Rkf3iY2m-Cb5Os-pr~C3381lGTaEUnfNfNdgpp1wg__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/b0e31a3e-8f62-426d-b915-b2acdedf3d3a/tripo_pbr_model_b0e31a3e-8f62-426d-b915-b2acdedf3d3a.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYjBlMzFhM2UtOGY2Mi00MjZkLWI5MTUtYjJhY2RlZGYzZDNhL3RyaXBvX3Bicl9tb2RlbF9iMGUzMWEzZS04ZjYyLTQyNmQtYjkxNS1iMmFjZGVkZjNkM2EuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=qQUSTNGXxIPVcXYHXyJ9wzy2Z6jp8ubnZp7TK7OrxiIkAaQIzPzgGAOdFOl37~Oiy11DM1HJvfeS5J9stHTP5bQN32UgrNapHvqoioPTGRgAyfPDCebUI2O44AlA3wgdvd0Mp98mVZMfb~l9rf-YTAnmCbpiSlmiBy9wQ5SCY~jbdUN3SQQMvjSIautxK7g9ZMwxTcrtpVayrZPQfLaladBBMBM5DPZUg3U~IG2luVRyy71OvsXbrjBOGWrJskfWepPs2N2L9OycKOOVl7SptImPnHL18VrBfiBMKp2pO1W0R3ze1KT-fbr~Cjxqu7zMp6Psh8grGYuHkG92nx2LLQ__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/b0e31a3e-8f62-426d-b915-b2acdedf3d3a/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYjBlMzFhM2UtOGY2Mi00MjZkLWI5MTUtYjJhY2RlZGYzZDNhL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=ZSJ3gCGaWLFXgrBiwzAQ3JZTOhL89w8bXd7~cvQ1NG52iu30U8Po~Ypqc7bmDfOoBm0UhNHKA3BuWm7W6na3K1qXvzH9qWsufo3N0m-y6v9iALmWuVGQQJVnIk9F5QtYXeKAN2RaSNfUj7KZX-6uW5fnuFe83A~cLM6aiMSgU2ebbGNz~XAqBd7OpMzZZ94fHcNDYcWht3avWmkIBNgnkMsWzQsxUPVzdRwo85tkwwfAn~dUojZ8kzpliGuS9EL0~Z4~deUnUpZDuhxhLowho5vuow2FC2rdmcVmrOxsdKbp3Rkf3iY2m-Cb5Os-pr~C3381lGTaEUnfNfNdgpp1wg__"
+    }
+  }
+}

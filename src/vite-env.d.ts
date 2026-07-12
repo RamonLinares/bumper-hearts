@@ -26,7 +26,7 @@ interface ThreeGameDiagnostics {
     collectibleName: string;
     pickupLayoutSignature: string;
   };
-  world: { floorPattern: string; dressing: string; props: number; meshes: number };
+  world: { floorPattern: string; floorSource: 'authored-texture'; dressing: string; props: number; meshes: number };
   audio: {
     unlocked: boolean;
     muted: boolean;
@@ -39,7 +39,7 @@ interface ThreeGameDiagnostics {
   };
   physics: { engine: string; timestep: number; bodies: number; colliders: number; activeHits: number };
   input: { dash: boolean };
-  entities: { rivals: number; importedCars: number; pickupsActive: number; particles: number };
+  entities: { rivals: number; importedCars: number; pickupsActive: number; importedPickupsReady: number; particles: number };
   player: {
     position: { x: number; y: number; z: number };
     speed: number;

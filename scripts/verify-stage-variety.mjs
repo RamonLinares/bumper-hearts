@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { stat } from 'node:fs/promises';
 
 const { CAMPAIGN_STAGES } = await import('../src/game/Campaign.ts');
 
@@ -38,6 +39,11 @@ requireUnique(collectibleKinds, 'Collectible kinds');
 requireUnique(layoutSignatures, 'Collectible layouts');
 
 for (const stage of CAMPAIGN_STAGES) {
+  const floorFile = new URL(`../public/assets/textures/stage-floors/${stage.theme.floorPattern}.webp`, import.meta.url);
+  const modelFile = new URL(`../public/assets/models/collectibles/${stage.collectibles.kind}/model.glb`, import.meta.url);
+  const [floorStats, modelStats] = await Promise.all([stat(floorFile), stat(modelFile)]);
+  assert(floorStats.size > 100_000, `${stage.id} authored floor texture is missing or suspiciously small`);
+  assert(modelStats.size > 250_000, `${stage.id} Tripo collectible GLB is missing or suspiciously small`);
   const positions = stage.collectibles.positions;
   assert(stage.collectibles.name.trim(), `${stage.id} collectible must have a display name`);
   assert.match(stage.collectibles.color, /^#[\da-f]{6}$/i, `${stage.id} collectible color must be a six-digit hex color`);
@@ -71,5 +77,5 @@ const matrix = CAMPAIGN_STAGES.map((stage, index) => ({
 
 console.table(matrix);
 process.stdout.write(
-  'Stage-variety verification passed: 10 unique floors, dressings, collectible kinds, and playable layouts.\n',
+  'Stage-variety verification passed: 10 authored floor textures, 10 Tripo collectible GLBs, unique dressings, and playable layouts.\n',
 );

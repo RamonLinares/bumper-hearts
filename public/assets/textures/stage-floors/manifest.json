@@ -1,0 +1,17 @@
+{
+  "provider": "Google Gemini image API",
+  "resolution": "1024x1024",
+  "format": "WebP q88 runtime; PNG source masters in assets-source/stage-floors",
+  "assets": [
+    { "id": "ticket-grid", "file": "ticket-grid.webp", "prompt": "Seamless overhead texture of a worn 1980s fairground bumper-car floor, cream and muted mustard painted enamel tiles, ticket-stub borders, brass inlays, scuffs and tire arcs; PBR-friendly, even light, no perspective, center symbol, heart, text or objects." },
+    { "id": "circuit", "file": "circuit.webp", "prompt": "Seamless overhead vintage fairground floor with turquoise enamel circuit paths, coral ceramic nodes, aged brass conduits and rubber scuffs; PBR-friendly, even light, no perspective, center symbol, heart, text or objects." },
+    { "id": "radio-waves", "file": "radio-waves.webp", "prompt": "Seamless overhead navy and cobalt painted-steel fairground floor with concentric copper radio-wave inlays, bakelite seams and tire wear; PBR-friendly, even light, no perspective, center emblem, heart, text or objects." },
+    { "id": "cafe-checker", "file": "cafe-checker.webp", "prompt": "Seamless overhead cream and oxblood cafe checkerboard floor for a vintage bumper-car pavilion, terrazzo chips, brass dividers, age and rubber scuffs; PBR-friendly, no perspective, center emblem, heart, text or objects." },
+    { "id": "champion-sunburst", "file": "champion-sunburst.webp", "prompt": "Seamless overhead burgundy and antique-gold championship pavilion floor with ribbon segments, trophy-laurel corner inlays and worn lacquered enamel; PBR-friendly, no perspective, center emblem, heart, text or objects." },
+    { "id": "midnight-grid", "file": "midnight-grid.webp", "prompt": "Seamless overhead midnight-blue maintenance floor with rubber service mats, riveted access panels, amber utility grid, oil-softened wear and tire arcs; PBR-friendly, no perspective, center emblem, heart, text or objects." },
+    { "id": "storm-coils", "file": "storm-coils.webp", "prompt": "Seamless overhead storm-grey fairground steel floor with pale-blue coil traces, insulated brass grounding strips, rain patina and rubber scuffs; PBR-friendly, no perspective, center emblem, heart, text or objects." },
+    { "id": "case-files", "file": "case-files.webp", "prompt": "Seamless overhead faded-sage school-fair linoleum with cream paper-card rectangles, red route threads, brass seams and restrained wear; PBR-friendly, no perspective, center emblem, heart, readable text or objects." },
+    { "id": "sunset-ribbons", "file": "sunset-ribbons.webp", "prompt": "Seamless overhead rose, peach and deep-teal lacquered fairground floor with flowing ribbon inlays, warm wood grain, tire scuffs and brass seams; PBR-friendly, no perspective, center emblem, heart, text or objects." },
+    { "id": "marquee-rays", "file": "marquee-rays.webp", "prompt": "Seamless overhead grand-finale floor with midnight-teal lacquer, ivory and antique-gold marquee ray edge motifs, red trim and worn fairground craftsmanship; PBR-friendly, no perspective, center emblem, heart, text or objects." }
+  ]
+}

@@ -168,6 +168,10 @@ test('stage clear advances the story and loss retries the same chapter', async (
   await page.getByRole('button', { name: 'Continue to stage 2' }).click();
   await expect(page.locator('#chapter-label')).toContainText('Neon Homework');
   await page.getByRole('button', { name: 'Start stage 2' }).click();
+  if (await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state === 'story')) {
+    await page.locator('#modal-primary').dispatchEvent('click');
+  }
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('playing');
   const stageTwo = await page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__);
   expect(stageTwo?.campaign.stageNumber).toBe(2);
   expect(stageTwo?.targetScore).toBe(900);

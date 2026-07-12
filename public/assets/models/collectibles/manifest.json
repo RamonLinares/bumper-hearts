@@ -1,0 +1,18 @@
+{
+  "provider": "Tripo",
+  "modelVersion": "v3.1-20260211",
+  "textureQuality": "detailed",
+  "smartLowPoly": true,
+  "assets": [
+    { "kind": "ticket", "taskId": "afca110f-7a62-4fc5-83bf-54c588d531e8", "file": "ticket/model.glb", "faceLimit": 6000 },
+    { "kind": "bulb", "taskId": "2a1b8157-5bc1-43d8-bfbd-e90374639522", "file": "bulb/model.glb", "faceLimit": 6000 },
+    { "kind": "radio-coil", "taskId": "6a1cb800-f1d5-47d8-9872-fd6e58be7dd8", "file": "radio-coil/model.glb", "faceLimit": 6000 },
+    { "kind": "cafe-token", "taskId": "a09211ab-474a-4dc9-a701-7cc5f87c0e67", "file": "cafe-token/model.glb", "faceLimit": 6000 },
+    { "kind": "trophy-star", "taskId": "0b3a03f7-6ae5-4aa5-9ddd-ad170dd0924c", "file": "trophy-star/model.glb", "faceLimit": 6000 },
+    { "kind": "fuse", "taskId": "f347a0d5-1541-4a21-8ef9-95533edcca81", "file": "fuse/model.glb", "faceLimit": 6000 },
+    { "kind": "storm-lantern", "taskId": "b0e31a3e-8f62-426d-b915-b2acdedf3d3a", "file": "storm-lantern/model.glb", "faceLimit": 5000 },
+    { "kind": "evidence-card", "taskId": "725935be-010f-4ab5-8111-32ef6027f001", "file": "evidence-card/model.glb", "faceLimit": 5000 },
+    { "kind": "love-letter", "taskId": "e7113225-08fc-4bca-a26e-1c8acb4c9e64", "file": "love-letter/model.glb", "faceLimit": 6000 },
+    { "kind": "marquee-heart", "taskId": "7bb047ef-90db-4d73-9eb0-e964dc3549e0", "file": "marquee-heart/model.glb", "faceLimit": 6000 }
+  ]
+}

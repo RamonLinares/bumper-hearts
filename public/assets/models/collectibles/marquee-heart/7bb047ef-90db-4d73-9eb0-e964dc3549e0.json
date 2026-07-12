@@ -1,0 +1,41 @@
+{
+  "task_id": "7bb047ef-90db-4d73-9eb0-e964dc3549e0",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single grand-finale carnival marquee badge collectible, elegant rounded diamond badge with a small abstract glowing red gem at center, antique brass frame, cream enamel rays and tiny warm bulbs, sophisticated vintage fairground craftsmanship, no heart shape, no text, premium miniature prop, strong overhead silhouette, PBR brass enamel glass, centered at origin, isolated single object, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7bb047ef-90db-4d73-9eb0-e964dc3549e0/tripo_pbr_model_7bb047ef-90db-4d73-9eb0-e964dc3549e0.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvN2JiMDQ3ZWYtOTBkYi00ZDczLTllYjAtZTk2NGRjMzU0OWUwL3RyaXBvX3Bicl9tb2RlbF83YmIwNDdlZi05MGRiLTRkNzMtOWViMC1lOTY0ZGMzNTQ5ZTAuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=NfIo9Ciunue0MxMd-j4FvcO0GpH4RBm0KCR8kDBoyy5xUYx5o597XDN8~xBFGpHxFOY2hDody6v2nYm9wcEOlzbvNx2gz-gI2C3~oaP3o5rS65zLP4BEcpzk6IDJvk7xXNeFL7aJYupOIILPWif4v2aNtlcJjNtZEqm4dhdLepe0~9MYBOXngsS7CZYFSk5afbNgS76t6XtxYwzz4ZfxSd8yW1eHWH4ZjciScmyg3Dyz4rbupRHFIi1iZvMVUAS9hqRAQRU-O01Dg9Z2GYf-mRH5TbFpD-Gp-APahisEEUfttGlzoFl~8xHis2-Z7fw1cRxvoYT0FAwSohPGGfsR1Q__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7bb047ef-90db-4d73-9eb0-e964dc3549e0/text2image_7bb047ef-90db-4d73-9eb0-e964dc3549e0.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvN2JiMDQ3ZWYtOTBkYi00ZDczLTllYjAtZTk2NGRjMzU0OWUwL3RleHQyaW1hZ2VfN2JiMDQ3ZWYtOTBkYi00ZDczLTllYjAtZTk2NGRjMzU0OWUwLmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=cy~LfSdGQZN0TgF0O-AqJi~iRAUEJFUVq9i9y9gJRkWDbCMh7iw-~JNclP-8vxPqc2J579PzPWdaP6hSbbGyI2zb7B2Z0aEp6YtsTK-bqrq-eQ7~FX-wQjbPiFWqlLJl9ygD4HhjOI-No1gu81Oe2LRVNWGQI8WfFvy7kIigzycn9jLHV7ij6k6Z0q8SJR5~yLFIvWlyA0v8ifK9QiC4C1SVWzlSJ1FpaJ7pOxYPEKq5EDi6QyCRQZLGh6GM3HZCEOUhGNGRtx4C4cgxDuCwK0lMOdze9Tdd83vpCFCbVKyXEj5WH1R~Mg9Dro0tRQo7uaOrfEqTqmQV6kC0Q9c-tw__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7bb047ef-90db-4d73-9eb0-e964dc3549e0/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvN2JiMDQ3ZWYtOTBkYi00ZDczLTllYjAtZTk2NGRjMzU0OWUwL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=A9zf~Hjt4VFjuVfcs9VOqp60m8ixa~Q6BJ89gMwVhdIiqllC7sTs~hyF~8sQkuWRoVP5UQpSYE8S1rEuK5M2jkeHDNHh9u5hMJHQamrZJnoLzyqiHe8csdjoVc60XO1wnzsvKD~DB0nyRzvY5lyXie~IFyXvpVyVIP4-nSOLJA4IMWe-oAKk8lMEtXjtuA6Jce~MjH16v-r7lW-MfDezr0twMg-NnDV40rYAS50ni9IL9yKW4MCX5kX4aCHf~OlhiFw4jOkqnLWG6O10-AUksqIjX907Fs2CvCLPIzlNfCvAo8CEUlvVJyPQ3RlAzOVCEjjQrMrNULQw1HAKTzTgIw__"
+  },
+  "progress": 100,
+  "create_time": 1783857868,
+  "consumed_credit": 60,
+  "prompt": "single grand-finale carnival marquee badge collectible, elegant rounded diamond badge with a small abstract glowing red gem at center, antique brass frame, cream enamel rays and tiny warm bulbs, sophisticated vintage fairground craftsmanship, no heart shape, no text, premium miniature prop, strong overhead silhouette, PBR brass enamel glass, centered at origin, isolated single object, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7bb047ef-90db-4d73-9eb0-e964dc3549e0/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvN2JiMDQ3ZWYtOTBkYi00ZDczLTllYjAtZTk2NGRjMzU0OWUwL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=A9zf~Hjt4VFjuVfcs9VOqp60m8ixa~Q6BJ89gMwVhdIiqllC7sTs~hyF~8sQkuWRoVP5UQpSYE8S1rEuK5M2jkeHDNHh9u5hMJHQamrZJnoLzyqiHe8csdjoVc60XO1wnzsvKD~DB0nyRzvY5lyXie~IFyXvpVyVIP4-nSOLJA4IMWe-oAKk8lMEtXjtuA6Jce~MjH16v-r7lW-MfDezr0twMg-NnDV40rYAS50ni9IL9yKW4MCX5kX4aCHf~OlhiFw4jOkqnLWG6O10-AUksqIjX907Fs2CvCLPIzlNfCvAo8CEUlvVJyPQ3RlAzOVCEjjQrMrNULQw1HAKTzTgIw__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7bb047ef-90db-4d73-9eb0-e964dc3549e0/tripo_pbr_model_7bb047ef-90db-4d73-9eb0-e964dc3549e0.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvN2JiMDQ3ZWYtOTBkYi00ZDczLTllYjAtZTk2NGRjMzU0OWUwL3RyaXBvX3Bicl9tb2RlbF83YmIwNDdlZi05MGRiLTRkNzMtOWViMC1lOTY0ZGMzNTQ5ZTAuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=NfIo9Ciunue0MxMd-j4FvcO0GpH4RBm0KCR8kDBoyy5xUYx5o597XDN8~xBFGpHxFOY2hDody6v2nYm9wcEOlzbvNx2gz-gI2C3~oaP3o5rS65zLP4BEcpzk6IDJvk7xXNeFL7aJYupOIILPWif4v2aNtlcJjNtZEqm4dhdLepe0~9MYBOXngsS7CZYFSk5afbNgS76t6XtxYwzz4ZfxSd8yW1eHWH4ZjciScmyg3Dyz4rbupRHFIi1iZvMVUAS9hqRAQRU-O01Dg9Z2GYf-mRH5TbFpD-Gp-APahisEEUfttGlzoFl~8xHis2-Z7fw1cRxvoYT0FAwSohPGGfsR1Q__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/7bb047ef-90db-4d73-9eb0-e964dc3549e0/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvN2JiMDQ3ZWYtOTBkYi00ZDczLTllYjAtZTk2NGRjMzU0OWUwL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=A9zf~Hjt4VFjuVfcs9VOqp60m8ixa~Q6BJ89gMwVhdIiqllC7sTs~hyF~8sQkuWRoVP5UQpSYE8S1rEuK5M2jkeHDNHh9u5hMJHQamrZJnoLzyqiHe8csdjoVc60XO1wnzsvKD~DB0nyRzvY5lyXie~IFyXvpVyVIP4-nSOLJA4IMWe-oAKk8lMEtXjtuA6Jce~MjH16v-r7lW-MfDezr0twMg-NnDV40rYAS50ni9IL9yKW4MCX5kX4aCHf~OlhiFw4jOkqnLWG6O10-AUksqIjX907Fs2CvCLPIzlNfCvAo8CEUlvVJyPQ3RlAzOVCEjjQrMrNULQw1HAKTzTgIw__"
+    }
+  }
+}

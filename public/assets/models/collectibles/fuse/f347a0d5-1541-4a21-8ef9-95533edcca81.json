@@ -1,0 +1,41 @@
+{
+  "task_id": "f347a0d5-1541-4a21-8ef9-95533edcca81",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single vintage glass cartridge fuse collectible from a 1980s bumper-car control cabinet, transparent cylindrical glass body with visible curled copper filament, aged brass end caps and tiny teal ceramic bands, premium miniature repair prop, strong readable overhead silhouette, PBR glass copper brass and ceramic, centered at origin, isolated single object, no text, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/f347a0d5-1541-4a21-8ef9-95533edcca81/tripo_pbr_model_f347a0d5-1541-4a21-8ef9-95533edcca81.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZjM0N2EwZDUtMTU0MS00YTIxLThlZjktOTU1MzNlZGNjYTgxL3RyaXBvX3Bicl9tb2RlbF9mMzQ3YTBkNS0xNTQxLTRhMjEtOGVmOS05NTUzM2VkY2NhODEuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=wie0CDvOThGChuWnTYh3wtVQBOTLF-ga5G5oaKhonBJZOjgVMYdpI6uZjuaCag5-1vYxKSqjzjvPS7y-M6YzeHi7tLFYylictfXWQ7cj~rqriV6QdIkdecFGHJM1evLMmZ4jUQtRuwGwnxJNs8N9UKHj5AspjJ5sLreQiDPfWmnR~Kt~fZebgkYGgWi3fDyEvpgkSBN0B5OXKpQyb~rC-KdCy12W3x0xs2VSQqERRgaKeCYBdXgsvLdSeQ02tyS~7RsHn~Um3qcuIyrAnhJSsCQblrBDkg4699su9ciLeP78scH~2Ovi8PCfZ2o0T3XMeT2P~J9ElLZuS81rqK6TuA__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/f347a0d5-1541-4a21-8ef9-95533edcca81/text2image_f347a0d5-1541-4a21-8ef9-95533edcca81.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZjM0N2EwZDUtMTU0MS00YTIxLThlZjktOTU1MzNlZGNjYTgxL3RleHQyaW1hZ2VfZjM0N2EwZDUtMTU0MS00YTIxLThlZjktOTU1MzNlZGNjYTgxLmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=gnhxYXlItvSXHBklCtTr~dJkK2xtqehUwXViS89Gje4jwdqeHeRU~CgO17pLz8b95te2btuFMeayGG8MmQwdlpwigY~uEwHlE8vRCIcU~mmhvM~SawBHKTzaWde27Tx7TIHtieWmiIkhm9DFxnpIiBqOrTpIqNQPCNmmhYH9~c2YLrvbHTYmHYOhi8W72Y2VdY54nWgelSJsDlWOjQ3nd67~CHTjqWGBOpAllcnSs7RmzRk8zlUVZHDPy-JoHUzv5NAhSdm5b50ML5EkFTuyfdi73RfudpCzMZETvjDIWMto1bBqMKXjeyx2akbHsOrwJ8gssXCvzlBZJGwrM35CMA__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/f347a0d5-1541-4a21-8ef9-95533edcca81/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZjM0N2EwZDUtMTU0MS00YTIxLThlZjktOTU1MzNlZGNjYTgxL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Q6YpWOqn0PEaHcX3rvEMMlgjMwrZ4SjlM~4aju5JTAKtEQzwaGOUZknJulwZTRRKB-Ls53P0C~EYVA7efsY2OuV46Uc85YNuzg1OGpN2xEnRUtsfdoEyvRdaNwovaJC7KbgoYyay24AGoz7Y5oIDoq08b9paD09-acuD3tkPWy4Uie~F95donjwVg1uIoAbynIoa99BqZLZNnz8do6SbloxccedBohYa7Sm2LAOpf2Xo341I6XmkcbIH-RKw0ObUl3VmKl5wkfEF~Drm~U~FlQ~rUvs-wVlll20dIpkTTBohbTI~SrmCh86PRmpqCSyH1j1W6gCIGJ8l1JvRDJ7VmQ__"
+  },
+  "progress": 100,
+  "create_time": 1783857868,
+  "consumed_credit": 60,
+  "prompt": "single vintage glass cartridge fuse collectible from a 1980s bumper-car control cabinet, transparent cylindrical glass body with visible curled copper filament, aged brass end caps and tiny teal ceramic bands, premium miniature repair prop, strong readable overhead silhouette, PBR glass copper brass and ceramic, centered at origin, isolated single object, no text, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/f347a0d5-1541-4a21-8ef9-95533edcca81/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZjM0N2EwZDUtMTU0MS00YTIxLThlZjktOTU1MzNlZGNjYTgxL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Q6YpWOqn0PEaHcX3rvEMMlgjMwrZ4SjlM~4aju5JTAKtEQzwaGOUZknJulwZTRRKB-Ls53P0C~EYVA7efsY2OuV46Uc85YNuzg1OGpN2xEnRUtsfdoEyvRdaNwovaJC7KbgoYyay24AGoz7Y5oIDoq08b9paD09-acuD3tkPWy4Uie~F95donjwVg1uIoAbynIoa99BqZLZNnz8do6SbloxccedBohYa7Sm2LAOpf2Xo341I6XmkcbIH-RKw0ObUl3VmKl5wkfEF~Drm~U~FlQ~rUvs-wVlll20dIpkTTBohbTI~SrmCh86PRmpqCSyH1j1W6gCIGJ8l1JvRDJ7VmQ__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/f347a0d5-1541-4a21-8ef9-95533edcca81/tripo_pbr_model_f347a0d5-1541-4a21-8ef9-95533edcca81.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZjM0N2EwZDUtMTU0MS00YTIxLThlZjktOTU1MzNlZGNjYTgxL3RyaXBvX3Bicl9tb2RlbF9mMzQ3YTBkNS0xNTQxLTRhMjEtOGVmOS05NTUzM2VkY2NhODEuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=wie0CDvOThGChuWnTYh3wtVQBOTLF-ga5G5oaKhonBJZOjgVMYdpI6uZjuaCag5-1vYxKSqjzjvPS7y-M6YzeHi7tLFYylictfXWQ7cj~rqriV6QdIkdecFGHJM1evLMmZ4jUQtRuwGwnxJNs8N9UKHj5AspjJ5sLreQiDPfWmnR~Kt~fZebgkYGgWi3fDyEvpgkSBN0B5OXKpQyb~rC-KdCy12W3x0xs2VSQqERRgaKeCYBdXgsvLdSeQ02tyS~7RsHn~Um3qcuIyrAnhJSsCQblrBDkg4699su9ciLeP78scH~2Ovi8PCfZ2o0T3XMeT2P~J9ElLZuS81rqK6TuA__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/f347a0d5-1541-4a21-8ef9-95533edcca81/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvZjM0N2EwZDUtMTU0MS00YTIxLThlZjktOTU1MzNlZGNjYTgxL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Q6YpWOqn0PEaHcX3rvEMMlgjMwrZ4SjlM~4aju5JTAKtEQzwaGOUZknJulwZTRRKB-Ls53P0C~EYVA7efsY2OuV46Uc85YNuzg1OGpN2xEnRUtsfdoEyvRdaNwovaJC7KbgoYyay24AGoz7Y5oIDoq08b9paD09-acuD3tkPWy4Uie~F95donjwVg1uIoAbynIoa99BqZLZNnz8do6SbloxccedBohYa7Sm2LAOpf2Xo341I6XmkcbIH-RKw0ObUl3VmKl5wkfEF~Drm~U~FlQ~rUvs-wVlll20dIpkTTBohbTI~SrmCh86PRmpqCSyH1j1W6gCIGJ8l1JvRDJ7VmQ__"
+    }
+  }
+}

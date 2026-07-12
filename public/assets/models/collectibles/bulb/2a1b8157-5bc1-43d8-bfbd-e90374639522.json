@@ -1,0 +1,41 @@
+{
+  "task_id": "2a1b8157-5bc1-43d8-bfbd-e90374639522",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single vintage carnival marquee light bulb collectible, faceted warm glass globe, visible tungsten filament, ribbed aged brass screw base, teal enamel collar, game-ready miniature diorama prop, strong silhouette from overhead camera, PBR glass metal and enamel materials, centered at origin, isolated single object, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/2a1b8157-5bc1-43d8-bfbd-e90374639522/tripo_pbr_model_2a1b8157-5bc1-43d8-bfbd-e90374639522.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMmExYjgxNTctNWJjMS00M2Q4LWJmYmQtZTkwMzc0NjM5NTIyL3RyaXBvX3Bicl9tb2RlbF8yYTFiODE1Ny01YmMxLTQzZDgtYmZiZC1lOTAzNzQ2Mzk1MjIuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=gNL8fwxgOxuxsiS5jbHQuQb31SM3TzFHzrnsW3AyVWTesQ47g47xdcvSNocQq2j5w4ACl06FsGvzvmMM3TOV4b3GqEh4NOaXQvOdH7EohCIpbNyW4NPE65qN-4S8YMxz3IO8FyoTA6bsrg855-yQXJu5owYd6CapI9NRGXxs6FZDh2fW9z1q2If9mRpVYKWNWSIrZyXxv2pPUmddQg22tZIGw2ABthhOPi20bNCGjVDuUiQRTV6uS~TwFWv6dh17R90rtzvb31irmBWrp3kCN--2vfi7ff7AaRvdMb8OyDXVGglcsW3PwPIsvs7foJzbktR2Q5n6QYIA1vIWseCGpQ__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/2a1b8157-5bc1-43d8-bfbd-e90374639522/text2image_2a1b8157-5bc1-43d8-bfbd-e90374639522.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMmExYjgxNTctNWJjMS00M2Q4LWJmYmQtZTkwMzc0NjM5NTIyL3RleHQyaW1hZ2VfMmExYjgxNTctNWJjMS00M2Q4LWJmYmQtZTkwMzc0NjM5NTIyLmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=XK4iTDM2EjPspzn4nyXtqT9YhArLeQ6lNJQld-iu7CEv~HdxFq2FubNpgKR4BKopb~i3kobg~BuLF4ZJ1rfbpKVVggPHPJq9uIOAkdw0kDaS3rsAfoSB9YBPDaDBvM0xUNJ0RWRrgFtH3sGNRObBR4Ien6MI0AgyvuZnArkDbnXpULhICn~2WnRX99wABp350yzDJia4Z1ZLpqEyxuQe7E1yjVi5UO5gGhE6umv~s~INw8ekmgJqgctkwuIbilMuxx8malIMuI~KPoU63d2T~BEKTsJYERaRU2VuR2V1haLCaLr38jDW-~Z99DL2tQZTPQZ4UzkLtWjjj6EfIO~tnA__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/2a1b8157-5bc1-43d8-bfbd-e90374639522/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMmExYjgxNTctNWJjMS00M2Q4LWJmYmQtZTkwMzc0NjM5NTIyL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Zq7vbCzpYYD6v-FG310bTdXjq~kJKnoBpmtV9gDtlg1FDYpsKSURyx9HcHGDuEv~RQ2I3mKn2H~mQoBcQA2YM7llhg3r~oIduY~PI3V9G2NkSk8GNIc4Iqwjcbf8tHgWhXb9V0iTq0r5a28VYfzQ7nrnGVsgOK3cvCCL7VSEVmXflwvsjzBK8Hy-0m5k~I3rlyBpoL2yWOzrvcxjqJWvB5b0K1xlXtgJYLet7UQdeC2FSs7VrKmyeC804FogSxCzkzKuc1eckp-JALu0wAurjWkEpW1YvP~HRKr0u-hDAjTZ2hCFSu4bYkSjS4iZ-x4jFY7rUK~unWErCFRLg6wxNg__"
+  },
+  "progress": 100,
+  "create_time": 1783857694,
+  "consumed_credit": 60,
+  "prompt": "single vintage carnival marquee light bulb collectible, faceted warm glass globe, visible tungsten filament, ribbed aged brass screw base, teal enamel collar, game-ready miniature diorama prop, strong silhouette from overhead camera, PBR glass metal and enamel materials, centered at origin, isolated single object, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/2a1b8157-5bc1-43d8-bfbd-e90374639522/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMmExYjgxNTctNWJjMS00M2Q4LWJmYmQtZTkwMzc0NjM5NTIyL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Zq7vbCzpYYD6v-FG310bTdXjq~kJKnoBpmtV9gDtlg1FDYpsKSURyx9HcHGDuEv~RQ2I3mKn2H~mQoBcQA2YM7llhg3r~oIduY~PI3V9G2NkSk8GNIc4Iqwjcbf8tHgWhXb9V0iTq0r5a28VYfzQ7nrnGVsgOK3cvCCL7VSEVmXflwvsjzBK8Hy-0m5k~I3rlyBpoL2yWOzrvcxjqJWvB5b0K1xlXtgJYLet7UQdeC2FSs7VrKmyeC804FogSxCzkzKuc1eckp-JALu0wAurjWkEpW1YvP~HRKr0u-hDAjTZ2hCFSu4bYkSjS4iZ-x4jFY7rUK~unWErCFRLg6wxNg__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/2a1b8157-5bc1-43d8-bfbd-e90374639522/tripo_pbr_model_2a1b8157-5bc1-43d8-bfbd-e90374639522.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMmExYjgxNTctNWJjMS00M2Q4LWJmYmQtZTkwMzc0NjM5NTIyL3RyaXBvX3Bicl9tb2RlbF8yYTFiODE1Ny01YmMxLTQzZDgtYmZiZC1lOTAzNzQ2Mzk1MjIuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=gNL8fwxgOxuxsiS5jbHQuQb31SM3TzFHzrnsW3AyVWTesQ47g47xdcvSNocQq2j5w4ACl06FsGvzvmMM3TOV4b3GqEh4NOaXQvOdH7EohCIpbNyW4NPE65qN-4S8YMxz3IO8FyoTA6bsrg855-yQXJu5owYd6CapI9NRGXxs6FZDh2fW9z1q2If9mRpVYKWNWSIrZyXxv2pPUmddQg22tZIGw2ABthhOPi20bNCGjVDuUiQRTV6uS~TwFWv6dh17R90rtzvb31irmBWrp3kCN--2vfi7ff7AaRvdMb8OyDXVGglcsW3PwPIsvs7foJzbktR2Q5n6QYIA1vIWseCGpQ__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/2a1b8157-5bc1-43d8-bfbd-e90374639522/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvMmExYjgxNTctNWJjMS00M2Q4LWJmYmQtZTkwMzc0NjM5NTIyL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=Zq7vbCzpYYD6v-FG310bTdXjq~kJKnoBpmtV9gDtlg1FDYpsKSURyx9HcHGDuEv~RQ2I3mKn2H~mQoBcQA2YM7llhg3r~oIduY~PI3V9G2NkSk8GNIc4Iqwjcbf8tHgWhXb9V0iTq0r5a28VYfzQ7nrnGVsgOK3cvCCL7VSEVmXflwvsjzBK8Hy-0m5k~I3rlyBpoL2yWOzrvcxjqJWvB5b0K1xlXtgJYLet7UQdeC2FSs7VrKmyeC804FogSxCzkzKuc1eckp-JALu0wAurjWkEpW1YvP~HRKr0u-hDAjTZ2hCFSu4bYkSjS4iZ-x4jFY7rUK~unWErCFRLg6wxNg__"
+    }
+  }
+}

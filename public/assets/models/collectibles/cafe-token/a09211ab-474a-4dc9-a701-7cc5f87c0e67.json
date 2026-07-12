@@ -1,0 +1,41 @@
+{
+  "task_id": "a09211ab-474a-4dc9-a701-7cc5f87c0e67",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single vintage cafe ride token collectible, thick octagonal brass coin with raised steaming cup symbol but no letters, inset dark red enamel, worn edges, premium miniature fairground prop, strong silhouette from overhead camera, PBR metal and enamel, centered at origin, isolated single object, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/a09211ab-474a-4dc9-a701-7cc5f87c0e67/tripo_pbr_model_a09211ab-474a-4dc9-a701-7cc5f87c0e67.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYTA5MjExYWItNDc0YS00ZGM5LWE3MDEtN2NjNWY4N2MwZTY3L3RyaXBvX3Bicl9tb2RlbF9hMDkyMTFhYi00NzRhLTRkYzktYTcwMS03Y2M1Zjg3YzBlNjcuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=f0G7b9X2Q-wGRyejilFhJsm4kSoE1YfdnCxtfAzhmYRhcE6e7gfYj8cHE7aYaHi1SKfSC-YTritWg7fu1wrdTR4Dsbe3EH6uFGjojMXSoyIdNZjab-P5kUS6Ys7-86jIn-tRzLxpZWhlYTbfgoI4f3QkTmbVOjFdbbzwwM7XdmKWkKdfqm4Qih7nV9OKlLig~3GvRBuiA2xN0ul4~eaL~R0GlcUMX-Ka3302aiROVbbwLqunPz-OIeq-AfcgNDNlAy4GG41IATiqReVD755pPRXWaJEqYAoxqtaA4J6xXWK7woB8L6ZlR4pDoYQkleUp5ajR4JNZ0tJPjqg7rEXqHw__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/a09211ab-474a-4dc9-a701-7cc5f87c0e67/text2image_a09211ab-474a-4dc9-a701-7cc5f87c0e67.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYTA5MjExYWItNDc0YS00ZGM5LWE3MDEtN2NjNWY4N2MwZTY3L3RleHQyaW1hZ2VfYTA5MjExYWItNDc0YS00ZGM5LWE3MDEtN2NjNWY4N2MwZTY3LmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=hnjbgnnVzkZBF~U68eyYMi-YjaBvGkh-M8V0A2axBKSLQDcbYskQ3GMtDN36qbNCqVzrQVI20GOMR24d4kVlhS9C~SWZ6qV0fswUtoqHjqUf4ugaZyYT7EmoI2~Q4ACTrnBOjuyTwxPo6lVs3SluchrRQJurUvsz8XdsS5xNZ0n8tAE-VlrgKYZVf4ZAT6eyW6RNk-vTv1BblI2GXNIbqF63e8Ktkp3GyLEocLgzBKQTqpKYxNkGXcxo2EGtbjEtmX4BqD7s-d~U2zM1Pq3b78g7xeDr3V-OaUzsTwJzvrPFB1jynsoDMV7Gh48rnZBQ~UxsaHM-B5N4WBvC4AnRMw__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/a09211ab-474a-4dc9-a701-7cc5f87c0e67/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYTA5MjExYWItNDc0YS00ZGM5LWE3MDEtN2NjNWY4N2MwZTY3L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=f5P5JnEqiAwc85Cl7VSYnEu3s~GJImob~g4gLBrJeaXyJHaX3XXbwnf4QoH6Upi-SDWXOcE804iLVYUYSbgYO8W1lfT4tvTD-B5vN4EW0ysEjka8l01fdmtirreULIOHDiaFPK6GGjazikHiIEl4hJWejGtahuDmvnaoBHKqmYdtDGtoQVBGMln32EG07b-gCpACQiBuYYWygfGKvGVmHc6YtOFmHfWVhERxpc21QzCrGm5O4NQ0apCDs~MWiA9co-BodTc~sEkbH7o1HudYwT0K~nJcmR7atVzwkC~tKJcS7gCyJDiIOEb0RP~rcKD2IwNya1K6kXQHcQzNWjw~wQ__"
+  },
+  "progress": 100,
+  "create_time": 1783857694,
+  "consumed_credit": 60,
+  "prompt": "single vintage cafe ride token collectible, thick octagonal brass coin with raised steaming cup symbol but no letters, inset dark red enamel, worn edges, premium miniature fairground prop, strong silhouette from overhead camera, PBR metal and enamel, centered at origin, isolated single object, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/a09211ab-474a-4dc9-a701-7cc5f87c0e67/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYTA5MjExYWItNDc0YS00ZGM5LWE3MDEtN2NjNWY4N2MwZTY3L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=f5P5JnEqiAwc85Cl7VSYnEu3s~GJImob~g4gLBrJeaXyJHaX3XXbwnf4QoH6Upi-SDWXOcE804iLVYUYSbgYO8W1lfT4tvTD-B5vN4EW0ysEjka8l01fdmtirreULIOHDiaFPK6GGjazikHiIEl4hJWejGtahuDmvnaoBHKqmYdtDGtoQVBGMln32EG07b-gCpACQiBuYYWygfGKvGVmHc6YtOFmHfWVhERxpc21QzCrGm5O4NQ0apCDs~MWiA9co-BodTc~sEkbH7o1HudYwT0K~nJcmR7atVzwkC~tKJcS7gCyJDiIOEb0RP~rcKD2IwNya1K6kXQHcQzNWjw~wQ__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/a09211ab-474a-4dc9-a701-7cc5f87c0e67/tripo_pbr_model_a09211ab-474a-4dc9-a701-7cc5f87c0e67.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYTA5MjExYWItNDc0YS00ZGM5LWE3MDEtN2NjNWY4N2MwZTY3L3RyaXBvX3Bicl9tb2RlbF9hMDkyMTFhYi00NzRhLTRkYzktYTcwMS03Y2M1Zjg3YzBlNjcuZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=f0G7b9X2Q-wGRyejilFhJsm4kSoE1YfdnCxtfAzhmYRhcE6e7gfYj8cHE7aYaHi1SKfSC-YTritWg7fu1wrdTR4Dsbe3EH6uFGjojMXSoyIdNZjab-P5kUS6Ys7-86jIn-tRzLxpZWhlYTbfgoI4f3QkTmbVOjFdbbzwwM7XdmKWkKdfqm4Qih7nV9OKlLig~3GvRBuiA2xN0ul4~eaL~R0GlcUMX-Ka3302aiROVbbwLqunPz-OIeq-AfcgNDNlAy4GG41IATiqReVD755pPRXWaJEqYAoxqtaA4J6xXWK7woB8L6ZlR4pDoYQkleUp5ajR4JNZ0tJPjqg7rEXqHw__"
+    },
+    "rendered_image": {
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/a09211ab-474a-4dc9-a701-7cc5f87c0e67/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYTA5MjExYWItNDc0YS00ZGM5LWE3MDEtN2NjNWY4N2MwZTY3L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=f5P5JnEqiAwc85Cl7VSYnEu3s~GJImob~g4gLBrJeaXyJHaX3XXbwnf4QoH6Upi-SDWXOcE804iLVYUYSbgYO8W1lfT4tvTD-B5vN4EW0ysEjka8l01fdmtirreULIOHDiaFPK6GGjazikHiIEl4hJWejGtahuDmvnaoBHKqmYdtDGtoQVBGMln32EG07b-gCpACQiBuYYWygfGKvGVmHc6YtOFmHfWVhERxpc21QzCrGm5O4NQ0apCDs~MWiA9co-BodTc~sEkbH7o1HudYwT0K~nJcmR7atVzwkC~tKJcS7gCyJDiIOEb0RP~rcKD2IwNya1K6kXQHcQzNWjw~wQ__",
+      "type": "webp"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "task_id": "6a1cb800-f1d5-47d8-9872-fd6e58be7dd8",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single 1980s portable radio tuning coil collectible, compact copper toroidal coil around dark bakelite core with tiny ceramic insulators, premium miniature fairground repair prop, strong readable silhouette from overhead camera, PBR copper ceramic and bakelite, centered at origin, isolated single object, no wires extending far, no display stand",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/6a1cb800-f1d5-47d8-9872-fd6e58be7dd8/tripo_pbr_model_6a1cb800-f1d5-47d8-9872-fd6e58be7dd8.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNmExY2I4MDAtZjFkNS00N2Q4LTk4NzItZmQ2ZTU4YmU3ZGQ4L3RyaXBvX3Bicl9tb2RlbF82YTFjYjgwMC1mMWQ1LTQ3ZDgtOTg3Mi1mZDZlNThiZTdkZDguZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=c-mBEWlCnz5HCnPvFA1k3vNwiXU0ItipbitegmvdDtDQZ8smzN5l54Sa0SiwRTNjXqYdkMChZqg8aK1scsQ4Kvp3jMIGwwSCQV1~jWTdUZJrMG4YGDgF6qAm4Do4ikDH8WyZsJji8QjJiHPr55v-IuxE03AoaZ7dn9DBw3NF6-LcEm~6n6jfQ0ejYcJcutEzltBDh~9oFF2~J3t-eIs1o1ZVgyThVf~qDFMNryreo0qHlIuy0ESDJw6yooT6y8nDoRhhUYpgOVNVj0aNrOMeFDzG2mnBbCcoB-0-NGAZnGhyAMpnFBP7OM6w5kAfX5fdH~CGkHdRN0anYkydUW3FBQ__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/6a1cb800-f1d5-47d8-9872-fd6e58be7dd8/text2image_6a1cb800-f1d5-47d8-9872-fd6e58be7dd8.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNmExY2I4MDAtZjFkNS00N2Q4LTk4NzItZmQ2ZTU4YmU3ZGQ4L3RleHQyaW1hZ2VfNmExY2I4MDAtZjFkNS00N2Q4LTk4NzItZmQ2ZTU4YmU3ZGQ4LmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=ZhZL9k0EVZDMGSAbqQcANxQcgSa0SNesiYc5pZc2ZEIiMRYy~n4TkWYtqBVjRZnHkdpM8DtaV2J6kj5FRR~g5D15HZTaAqlsTIsdMTE4dhaUNRud7uDOIZ0WRLs7dFiG-ytWx12obIUXozrCrpb9HjAAhDY2Vv-zePP3BFWkz72FQidRhIAusoG6Ccu-MgI2MSfwu5PGALaN8ezUTrY6zu3yYJ4cDhxLFj04Ekxyo0m~SCqIC5ks8D-eY16yzgg5JwKdFj27JtlqndqtkptzSCIFpirXk36xXTXpAtK1r~PrGzRboYPEXOD2qT852awH4OEVhhzKtOn~tBBJxstktA__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/6a1cb800-f1d5-47d8-9872-fd6e58be7dd8/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNmExY2I4MDAtZjFkNS00N2Q4LTk4NzItZmQ2ZTU4YmU3ZGQ4L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=L9uU5PlLTw5m51fg8CkO4gBVqmJEyDSx1BwVGc-5TIQScre~LBR7eeFctTWU1HdIqSQQbRCFfVQJ5eVBWq9phSNUXJL3UmlItKeIm5ABqEb~rLoZQZPGzXyWIB1olnIHpfguO44AFdZor952eCxgM-4~bvGbV09RXSq8eUsk89tI5dtdDKU1rEL8ECSxF6e0DV6tevjwq5urND6uraBwnDHcNEfLVG6PGmNJo2POgD3YHWvmPqRrdUHp-PY6JXsLtc3BJN6r1Hqmj9hM6VF01vfigEuhcSIlpQI2-wA~SL9~kFWllmQPZT0RCTGSoVgbftLzVCOjdkOQSs8p9zBKkA__"
+  },
+  "progress": 100,
+  "create_time": 1783857694,
+  "consumed_credit": 60,
+  "prompt": "single 1980s portable radio tuning coil collectible, compact copper toroidal coil around dark bakelite core with tiny ceramic insulators, premium miniature fairground repair prop, strong readable silhouette from overhead camera, PBR copper ceramic and bakelite, centered at origin, isolated single object, no wires extending far, no display stand",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/6a1cb800-f1d5-47d8-9872-fd6e58be7dd8/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNmExY2I4MDAtZjFkNS00N2Q4LTk4NzItZmQ2ZTU4YmU3ZGQ4L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=L9uU5PlLTw5m51fg8CkO4gBVqmJEyDSx1BwVGc-5TIQScre~LBR7eeFctTWU1HdIqSQQbRCFfVQJ5eVBWq9phSNUXJL3UmlItKeIm5ABqEb~rLoZQZPGzXyWIB1olnIHpfguO44AFdZor952eCxgM-4~bvGbV09RXSq8eUsk89tI5dtdDKU1rEL8ECSxF6e0DV6tevjwq5urND6uraBwnDHcNEfLVG6PGmNJo2POgD3YHWvmPqRrdUHp-PY6JXsLtc3BJN6r1Hqmj9hM6VF01vfigEuhcSIlpQI2-wA~SL9~kFWllmQPZT0RCTGSoVgbftLzVCOjdkOQSs8p9zBKkA__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "type": "glb",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/6a1cb800-f1d5-47d8-9872-fd6e58be7dd8/tripo_pbr_model_6a1cb800-f1d5-47d8-9872-fd6e58be7dd8.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNmExY2I4MDAtZjFkNS00N2Q4LTk4NzItZmQ2ZTU4YmU3ZGQ4L3RyaXBvX3Bicl9tb2RlbF82YTFjYjgwMC1mMWQ1LTQ3ZDgtOTg3Mi1mZDZlNThiZTdkZDguZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=c-mBEWlCnz5HCnPvFA1k3vNwiXU0ItipbitegmvdDtDQZ8smzN5l54Sa0SiwRTNjXqYdkMChZqg8aK1scsQ4Kvp3jMIGwwSCQV1~jWTdUZJrMG4YGDgF6qAm4Do4ikDH8WyZsJji8QjJiHPr55v-IuxE03AoaZ7dn9DBw3NF6-LcEm~6n6jfQ0ejYcJcutEzltBDh~9oFF2~J3t-eIs1o1ZVgyThVf~qDFMNryreo0qHlIuy0ESDJw6yooT6y8nDoRhhUYpgOVNVj0aNrOMeFDzG2mnBbCcoB-0-NGAZnGhyAMpnFBP7OM6w5kAfX5fdH~CGkHdRN0anYkydUW3FBQ__"
+    },
+    "rendered_image": {
+      "type": "webp",
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/6a1cb800-f1d5-47d8-9872-fd6e58be7dd8/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvNmExY2I4MDAtZjFkNS00N2Q4LTk4NzItZmQ2ZTU4YmU3ZGQ4L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=L9uU5PlLTw5m51fg8CkO4gBVqmJEyDSx1BwVGc-5TIQScre~LBR7eeFctTWU1HdIqSQQbRCFfVQJ5eVBWq9phSNUXJL3UmlItKeIm5ABqEb~rLoZQZPGzXyWIB1olnIHpfguO44AFdZor952eCxgM-4~bvGbV09RXSq8eUsk89tI5dtdDKU1rEL8ECSxF6e0DV6tevjwq5urND6uraBwnDHcNEfLVG6PGmNJo2POgD3YHWvmPqRrdUHp-PY6JXsLtc3BJN6r1Hqmj9hM6VF01vfigEuhcSIlpQI2-wA~SL9~kFWllmQPZT0RCTGSoVgbftLzVCOjdkOQSs8p9zBKkA__"
+    }
+  }
+}

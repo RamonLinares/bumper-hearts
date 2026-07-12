@@ -1,0 +1,41 @@
+{
+  "task_id": "afca110f-7a62-4fc5-83bf-54c588d531e8",
+  "type": "text_to_model",
+  "status": "success",
+  "input": {
+    "prompt": "single vintage fairground admission ticket collectible, thick die-cut cream card with scalloped corners, embossed brass edging and three punched holes, no readable text, game-ready miniature diorama prop, strong silhouette from overhead camera, physically based worn paper and metal materials, centered at origin, isolated single object, no display stand, browser game asset",
+    "negative_prompt": "multiple objects, scene, floor, human, hands, letters, watermark, floating fragments",
+    "model_version": "v3.1-20260211",
+    "texture": true,
+    "pbr": true,
+    "texture_quality": "detailed",
+    "texture_alignment": "geometry",
+    "auto_size": true,
+    "smart_low_poly": true,
+    "export_uv": true,
+    "face_limit": 6000,
+    "geometry_quality": "detailed"
+  },
+  "output": {
+    "pbr_model": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/afca110f-7a62-4fc5-83bf-54c588d531e8/tripo_pbr_model_afca110f-7a62-4fc5-83bf-54c588d531e8.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYWZjYTExMGYtN2E2Mi00ZmM1LTgzYmYtNTRjNTg4ZDUzMWU4L3RyaXBvX3Bicl9tb2RlbF9hZmNhMTEwZi03YTYyLTRmYzUtODNiZi01NGM1ODhkNTMxZTguZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=u6lfygSeOsIE-ppDA3m6ulVE1w0keNVaBEQrcBE1t4gQjb4d3UrVHhfm0ArPv7vgjX6j6mmKw91Eg5V~zyytlkYEMoKbB-UjxHCqayKONnrmBmv7s05MB~toMiYf3SQeDlIYTzN18cLJKR57ak8zfRG7-RSj72kxsbER~XBWtOWTZX-UgmGt9gIORNu31qIQPbuwafb5670nzV1o7sTzANqODkdWSf0N~MICMJyF0GGPfxU4bAHFujDExKedJEDfF05c9ownaMFGyHmnawsejG1Pf6UdUOQRYg2Dq2jIOCkUOekg2Im~p81oHdcbVb4Y9CsyyilzAe4DyomxTwplCA__",
+    "generated_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/afca110f-7a62-4fc5-83bf-54c588d531e8/text2image_afca110f-7a62-4fc5-83bf-54c588d531e8.jpeg?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYWZjYTExMGYtN2E2Mi00ZmM1LTgzYmYtNTRjNTg4ZDUzMWU4L3RleHQyaW1hZ2VfYWZjYTExMGYtN2E2Mi00ZmM1LTgzYmYtNTRjNTg4ZDUzMWU4LmpwZWciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=T9OVhp9P8N8K3knJj5yScSemMgHLNH9mNrS-5bcCJWoLC9w8bpw~nlJtb2vP~I~Ql1pJxWzSW94Y7JgqSZ7gMx7zuD5Ay33RFrBdYaw3IQBZN15S2VvVGs6s7BngUNOb506oAdElmLeqHMHhH1VjhPgb6LqywztrASDVitNAa4fr2aAGawg1j2URX5xz5Uop~6noMpfd4AAbmSfiAu0m7ESOQT~ABWfw2bBrEvc7ZC1hs8IScbO891FjMtC5ES9mDa3wmxoQW6ak-wRu31y88wjwC7K1aoJ8sl65tRe0~-cwhgOzW0HhxlczfCy67SiYRXRGTQgYQHhak~3Ml~i58A__",
+    "rendered_image": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/afca110f-7a62-4fc5-83bf-54c588d531e8/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYWZjYTExMGYtN2E2Mi00ZmM1LTgzYmYtNTRjNTg4ZDUzMWU4L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=XpTvReQmfdN2r8GvmJxeKZ6-4d9f~13Rrh4iVLsQHuo4ngFiBuTNBLu-C8cj9fU8mA9KC0Gvd5H3bu-XrkMAJkgOwNsIZiwPqJfGU77rShMbheAPVJTtkt1DtYSrtQGu71eOUkMnaBALj~ZBGMMtzve0udIU-pW9vT6Wc2DaI2N8k4QmoKBk~7J6vqUQXeiMWOIGdsGFFmVdcW9H~siR8AhAdPMl8syGDL9zga7V2tuWR3tPceeOxqjtFZ~nW6gRA1OndbPShlZo7IyZb2JL3gZ8EKcWQe-BkcChfH8cTukoolpSQyl-axVf3V77gjxuCwDSFfqzih8cvJXhKib-kA__"
+  },
+  "progress": 100,
+  "create_time": 1783857694,
+  "consumed_credit": 60,
+  "prompt": "single vintage fairground admission ticket collectible, thick die-cut cream card with scalloped corners, embossed brass edging and three punched holes, no readable text, game-ready miniature diorama prop, strong silhouette from overhead camera, physically based worn paper and metal materials, centered at origin, isolated single object, no display stand, browser game asset",
+  "thumbnail": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/afca110f-7a62-4fc5-83bf-54c588d531e8/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYWZjYTExMGYtN2E2Mi00ZmM1LTgzYmYtNTRjNTg4ZDUzMWU4L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=XpTvReQmfdN2r8GvmJxeKZ6-4d9f~13Rrh4iVLsQHuo4ngFiBuTNBLu-C8cj9fU8mA9KC0Gvd5H3bu-XrkMAJkgOwNsIZiwPqJfGU77rShMbheAPVJTtkt1DtYSrtQGu71eOUkMnaBALj~ZBGMMtzve0udIU-pW9vT6Wc2DaI2N8k4QmoKBk~7J6vqUQXeiMWOIGdsGFFmVdcW9H~siR8AhAdPMl8syGDL9zga7V2tuWR3tPceeOxqjtFZ~nW6gRA1OndbPShlZo7IyZb2JL3gZ8EKcWQe-BkcChfH8cTukoolpSQyl-axVf3V77gjxuCwDSFfqzih8cvJXhKib-kA__",
+  "queuing_num": -1,
+  "running_left_time": -1,
+  "result": {
+    "pbr_model": {
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/afca110f-7a62-4fc5-83bf-54c588d531e8/tripo_pbr_model_afca110f-7a62-4fc5-83bf-54c588d531e8.glb?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYWZjYTExMGYtN2E2Mi00ZmM1LTgzYmYtNTRjNTg4ZDUzMWU4L3RyaXBvX3Bicl9tb2RlbF9hZmNhMTEwZi03YTYyLTRmYzUtODNiZi01NGM1ODhkNTMxZTguZ2xiIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzgzOTAwODAwfX19XX0_&Signature=u6lfygSeOsIE-ppDA3m6ulVE1w0keNVaBEQrcBE1t4gQjb4d3UrVHhfm0ArPv7vgjX6j6mmKw91Eg5V~zyytlkYEMoKbB-UjxHCqayKONnrmBmv7s05MB~toMiYf3SQeDlIYTzN18cLJKR57ak8zfRG7-RSj72kxsbER~XBWtOWTZX-UgmGt9gIORNu31qIQPbuwafb5670nzV1o7sTzANqODkdWSf0N~MICMJyF0GGPfxU4bAHFujDExKedJEDfF05c9ownaMFGyHmnawsejG1Pf6UdUOQRYg2Dq2jIOCkUOekg2Im~p81oHdcbVb4Y9CsyyilzAe4DyomxTwplCA__",
+      "type": "glb"
+    },
+    "rendered_image": {
+      "url": "https://tripo-data.rg1.data.tripo3d.com/tcli_378575a3e29046b18e0ecbc4db519851/20260712/afca110f-7a62-4fc5-83bf-54c588d531e8/legacy_mesh.webp?Key-Pair-Id=K1676C64NMVM2J&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfMzc4NTc1YTNlMjkwNDZiMThlMGVjYmM0ZGI1MTk4NTEvMjAyNjA3MTIvYWZjYTExMGYtN2E2Mi00ZmM1LTgzYmYtNTRjNTg4ZDUzMWU4L2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODM5MDA4MDB9fX1dfQ__&Signature=XpTvReQmfdN2r8GvmJxeKZ6-4d9f~13Rrh4iVLsQHuo4ngFiBuTNBLu-C8cj9fU8mA9KC0Gvd5H3bu-XrkMAJkgOwNsIZiwPqJfGU77rShMbheAPVJTtkt1DtYSrtQGu71eOUkMnaBALj~ZBGMMtzve0udIU-pW9vT6Wc2DaI2N8k4QmoKBk~7J6vqUQXeiMWOIGdsGFFmVdcW9H~siR8AhAdPMl8syGDL9zga7V2tuWR3tPceeOxqjtFZ~nW6gRA1OndbPShlZo7IyZb2JL3gZ8EKcWQe-BkcChfH8cTukoolpSQyl-axVf3V77gjxuCwDSFfqzih8cvJXhKib-kA__",
+      "type": "webp"
+    }
+  }
+}

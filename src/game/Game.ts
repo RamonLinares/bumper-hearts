@@ -68,8 +68,7 @@ export class Game {
   private readonly carForward = new THREE.Vector3();
   private readonly campaign = loadCampaignProgress();
   private floorMaterial?: THREE.MeshStandardMaterial;
-  private floorTexture?: THREE.CanvasTexture;
-  private centerMaterial?: THREE.MeshStandardMaterial;
+  private floorTexture?: THREE.Texture;
   private stageDressing?: StageDressing;
   private keyLight?: THREE.DirectionalLight;
   private fillLight?: THREE.DirectionalLight;
@@ -430,10 +429,9 @@ export class Game {
       this.floorTexture?.dispose();
       this.floorTexture = nextFloorTexture;
       this.floorMaterial.map = nextFloorTexture;
-      this.floorMaterial.color.set(this.currentStage.theme.floorTint);
+      this.floorMaterial.color.set('#ffffff');
       this.floorMaterial.needsUpdate = true;
     }
-    this.centerMaterial?.color.set(this.currentStage.theme.accent);
     if (this.scene.fog instanceof THREE.Fog) this.scene.fog.color.set(this.currentStage.theme.fog);
     this.stageDressing?.configure(this.currentStage);
     this.keyLight?.color.set(this.currentStage.theme.lightColor);
@@ -491,10 +489,11 @@ export class Game {
   private createArena(): THREE.Group {
     const arena = new THREE.Group();
     arena.name = 'LayeredPocketArena';
-    this.floorTexture = createStageFloorTexture(this.currentStage);
-    this.floorTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    const floorTexture = createStageFloorTexture(this.currentStage);
+    floorTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    this.floorTexture = floorTexture;
     this.floorMaterial = new THREE.MeshStandardMaterial({
-      color: this.currentStage.theme.floorTint,
+      color: '#ffffff',
       map: this.floorTexture,
       roughness: 0.62,
       metalness: 0.16,
@@ -521,27 +520,6 @@ export class Game {
     cushion.position.y = 0.25;
     arena.add(cushion);
 
-    const heartShape = new THREE.Shape();
-    heartShape.moveTo(0, -1.05);
-    heartShape.bezierCurveTo(-0.2, -0.75, -1.15, -0.2, -1.15, 0.48);
-    heartShape.bezierCurveTo(-1.15, 1.25, -0.2, 1.34, 0, 0.72);
-    heartShape.bezierCurveTo(0.2, 1.34, 1.15, 1.25, 1.15, 0.48);
-    heartShape.bezierCurveTo(1.15, -0.2, 0.2, -0.75, 0, -1.05);
-    this.centerMaterial = new THREE.MeshStandardMaterial({ color: this.currentStage.theme.accent, roughness: 0.42, metalness: 0.28 });
-    const center = new THREE.Mesh(new THREE.ShapeGeometry(heartShape, 16), this.centerMaterial);
-    center.rotation.x = -Math.PI / 2;
-    center.position.y = 0.022;
-    center.scale.setScalar(0.8);
-    arena.add(center);
-
-    const seamMaterial = new THREE.MeshBasicMaterial({ color: '#fff0c2', transparent: true, opacity: 0.22 });
-    for (let i = 1; i <= 3; i += 1) {
-      const seam = new THREE.Mesh(new THREE.RingGeometry(i * 2.35, i * 2.35 + 0.035, 64), seamMaterial);
-      seam.rotation.x = -Math.PI / 2;
-      seam.position.y = 0.024;
-      seam.scale.z = 0.62;
-      arena.add(seam);
-    }
     return arena;
   }
 
@@ -709,6 +687,7 @@ export class Game {
       },
       world: {
         floorPattern: this.currentStage.theme.floorPattern,
+        floorSource: 'authored-texture',
         dressing: this.currentStage.theme.dressing,
         props: this.stageDressing?.diagnostics.props ?? 0,
         meshes: this.stageDressing?.diagnostics.meshes ?? 0,
@@ -726,6 +705,7 @@ export class Game {
           return count + imported;
         }, 0),
         pickupsActive: this.pickups.filter((pickup) => pickup.active).length,
+        importedPickupsReady: this.pickups.filter((pickup) => pickup.isImportedReady).length,
         particles: this.burstParticles.length,
       },
       player: {

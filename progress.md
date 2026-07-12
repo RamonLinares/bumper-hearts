@@ -46,3 +46,10 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 - Gave every campaign stage its own procedural floor motif, palette, lighting, outside-rail prop kit, collectible model, and safe eight-item layout. A dedicated verifier confirms all ten floors, dressings, collectible kinds, and layouts are unique and playable.
 - Fixed the radio-stage empty-group console warning and avoided rebuilding unchanged stage art on restart.
 - Production build, TypeScript, campaign verification, stage-variety verification, and a scripted browser traversal through Stage 7 pass with all 12 audio assets decoded, ambience playing, and zero console errors. Stage 1 and Stage 7 screenshots were visually inspected.
+
+## Authored floors and Tripo collectible pass
+
+- Replaced every canvas-generated arena motif with a stage-specific 1024px authored material texture and removed the center heart plus all procedural center-ring overlays.
+- Replaced the ten procedural collectible factories with ten downloaded Tripo H3 PBR GLBs, cached per collectible kind and cloned for the eight runtime instances. Flat badge/card models are normalized and presentation-tilted for overhead readability.
+- Added asset provenance and face limits in `public/assets/models/collectibles/manifest.json`; runtime diagnostics now distinguish authored floor textures and report all imported pickups ready.
+- Scripted all-stage browser traversal confirmed 8/8 imported pickups in every chapter, no console errors, and a measured worst sampled scene of 79 calls / ~204k triangles / 123 geometries / 37 resident textures after traversing all ten cached model families.
