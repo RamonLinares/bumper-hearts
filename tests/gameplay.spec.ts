@@ -280,6 +280,26 @@ test('stage clear advances the story and loss retries the same chapter', async (
   expect(retried?.timeLeft ?? 0).toBeGreaterThan(74.4);
 });
 
+test('a completed stage never flashes the previous cutscene while the next image loads', async ({ page }) => {
+  await page.route('**/assets/story-anime/scene-01.webp', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    await route.continue();
+  });
+  await page.goto('/');
+  await startRide(page);
+  await page.evaluate(() => window.__BUMPER_HEARTS_TEST_HOOKS__?.completeStage());
+  await expect.poll(() => page.evaluate(() => window.__THREE_GAME_DIAGNOSTICS__?.state)).toBe('story');
+
+  const loadingFrame = page.locator('#cutscene-frame');
+  await expect(loadingFrame).toHaveAttribute('data-sequence', '1');
+  await expect(loadingFrame).toHaveClass(/is-loading/);
+  await expect(page.locator('#cutscene-art')).toHaveCSS('opacity', '0');
+
+  await expect(loadingFrame).not.toHaveClass(/is-loading/);
+  await expect(page.locator('#cutscene-art')).toHaveAttribute('src', '/assets/story-anime/scene-01.webp');
+  await expect(page.locator('#cutscene-art')).toHaveCSS('opacity', '1');
+});
+
 test('the final stage outro is shown before the campaign epilogue', async ({ page }) => {
   test.setTimeout(180_000);
   await page.goto('/');

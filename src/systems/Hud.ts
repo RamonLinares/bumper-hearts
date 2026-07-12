@@ -107,15 +107,8 @@ export class Hud {
       const beat = epilogue ? CAMPAIGN_EPILOGUE : stage[view.storyPhase];
       const cutscene = getCutsceneFrame(stageNumber - 1, view.storyPhase, epilogue);
       const sequenceChanged = this.cutsceneFrame.dataset.sequence !== String(cutscene.sequence);
-      this.cutsceneArt.src = assetUrl(cutscene.image);
-      this.cutsceneFrame.dataset.sequence = String(cutscene.sequence);
+      if (sequenceChanged) this.loadCutscene(cutscene.sequence, assetUrl(cutscene.image));
       this.storyLocation.textContent = epilogue ? 'Festival Night · Grand Marquee' : stage.location;
-      if (sequenceChanged && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && this.cutsceneArt.animate) {
-        this.cutsceneArt.animate(
-          [{ opacity: 0, transform: 'scale(1.025)' }, { opacity: 1, transform: 'scale(1)' }],
-          { duration: 420, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
-        );
-      }
       this.chapterLabel.textContent = epilogue ? 'Epilogue · Last Ride' : `${stage.chapter} · ${stage.title}`;
       this.stageLabel.textContent = epilogue ? 'Story complete' : `${stage.location} · Stage ${stageNumber}/${stageCount}`;
       this.modalTitle.textContent = beat.headline;
@@ -184,6 +177,28 @@ export class Hud {
       ],
       { duration: 220, easing: 'ease-out' },
     );
+  }
+
+  private loadCutscene(sequence: number, source: string): void {
+    const sequenceKey = String(sequence);
+    this.cutsceneFrame.dataset.sequence = sequenceKey;
+    this.cutsceneFrame.classList.add('is-loading');
+
+    const reveal = () => {
+      if (this.cutsceneFrame.dataset.sequence !== sequenceKey) return;
+      this.cutsceneFrame.classList.remove('is-loading');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && this.cutsceneArt.animate) {
+        this.cutsceneArt.animate(
+          [{ opacity: 0, transform: 'scale(1.025)' }, { opacity: 1, transform: 'scale(1)' }],
+          { duration: 420, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+        );
+      }
+    };
+
+    this.cutsceneArt.onload = reveal;
+    this.cutsceneArt.onerror = reveal;
+    this.cutsceneArt.src = source;
+    if (this.cutsceneArt.complete) void this.cutsceneArt.decode().then(reveal).catch(reveal);
   }
 
   private getElement<T extends HTMLElement = HTMLElement>(selector: string): T {

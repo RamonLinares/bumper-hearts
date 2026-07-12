@@ -67,3 +67,9 @@ Original prompt: Use set_goal and multiple agents to build and deploy a cute bum
 - Removed all power-ups from the opening layout. Each round now waits 3.5–6 seconds, spawns exactly one random power-up at a safe random arena position, keeps it available for ten seconds, and schedules the next one 5–9 seconds after collection or expiry.
 - Added concise diagnostics for active type, position, spawn countdown, and expiry countdown. Deterministic Playwright coverage verifies zero initial pickups, a single later spawn inside safe bounds, and rescheduling after collection.
 - The required web-game client and an active-spawn screenshot confirm the empty opening arena and a clearly visible single Tripo repair power-up, with no console errors.
+
+## Cutscene transition flash fix
+
+- Story artwork now enters a loading state before its `src` changes, making the previous frame immediately transparent. The new frame is revealed and animated only after its load/decode completes; failed images also release the loading state safely.
+- Added a browser regression test that deliberately delays the next stage-outro image and proves the old image remains at zero opacity throughout the delay, then confirms the new frame appears.
+- TypeScript, the focused transition test, and the required web-game action loop pass; the active gameplay screenshot and diagnostics contain no new console errors.

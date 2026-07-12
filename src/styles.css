@@ -385,6 +385,11 @@ body[data-overlay-kind="story"] .modal-brand { display: none; }
   filter: brightness(1.08) saturate(1.04) contrast(1.02);
 }
 
+.cutscene-frame.is-loading .cutscene-art {
+  opacity: 0;
+  transition: none;
+}
+
 .cutscene-scanlines {
   position: absolute;
   inset: 0;
